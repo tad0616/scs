@@ -81,10 +81,11 @@ class Tools
 
     public static function get_school_teachers()
     {
-        global $xoopsUser, $xoopsDB, $xoopsModuleConfig;
+        global $xoopsUser, $xoopsDB, $xoopsModuleConfig, $xoopsModule;
 
         if (empty($xoopsModuleConfig['school_code'])) {
-            redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
+            $mid = $xoopsModule->mid();
+            redirect_header(XOOPS_URL . '/modules/system/admin.php?fct=preferences&op=showmod&mod=' . $mid, 3, '請先至偏好設定，設定「教育部學校代碼」');
         }
         $sql = "select `uid`,`name`,`uname` from `" . $xoopsDB->prefix("users") . "`
         where `user_intrest`='{$xoopsModuleConfig['school_code']}' and `user_icq`='teacher'";
@@ -111,6 +112,15 @@ class Tools
         $sql = "select max(school_year) from `" . $xoopsDB->prefix("scs_general") . "`";
         $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         list($school_year) = $xoopsDB->fetchRow($result);
+        if (empty($school_year)) {
+            $y = date('Y');
+            $m = date('n');
+            if ($m >= 8) {
+                $school_year = $y - 1911;
+            } else {
+                $school_year = $y - 1912;
+            }
+        }
         return $school_year;
     }
 

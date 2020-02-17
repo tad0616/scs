@@ -128,7 +128,7 @@ $pdf->Cell($w['班級寬'], $cell_6, $stu_grade_class, 1, 0, "C");
 $pdf->Cell($w['座號寬'], $cell_6, $general[1]['stu_seat_no'], 1, 0, "C");
 $pdf->Cell($w['班級寬'], $cell_6, $stu_grade_class, 1, 0, "C");
 $pdf->Cell($w['座號寬'], $cell_6, $general[1]['stu_seat_no'], 1, 0, "C");
-$pdf->Cell($w['導師寬'], $cell_6, $general[1]['tea_name'], 1, 1, "C");
+$pdf->Cell($w['導師寬'], $cell_6, $general[1]['class_tea'], 1, 1, "C");
 
 $pdf->setX(85);
 $stu_grade_class = !empty($general[2]['stu_class']) ? "{$general[2]['stu_grade']}-{$general[2]['stu_class']}" : '';
@@ -136,7 +136,7 @@ $pdf->Cell($w['班級寬'], $cell_6, $stu_grade_class, 1, 0, "C");
 $pdf->Cell($w['座號寬'], $cell_6, $general[2]['stu_seat_no'], 1, 0, "C");
 $pdf->Cell($w['班級寬'], $cell_6, $stu_grade_class, 1, 0, "C");
 $pdf->Cell($w['座號寬'], $cell_6, $general[2]['stu_seat_no'], 1, 0, "C");
-$pdf->Cell($w['導師寬'], $cell_6, $general[2]['tea_name'], 1, 1, "C");
+$pdf->Cell($w['導師寬'], $cell_6, $general[2]['class_tea'], 1, 1, "C");
 
 $pdf->setX(85);
 $stu_grade_class = !empty($general[3]['stu_class']) ? "{$general[3]['stu_grade']}-{$general[3]['stu_class']}" : '';
@@ -144,7 +144,7 @@ $pdf->Cell($w['班級寬'], $cell_6, $stu_grade_class, 1, 0, "C");
 $pdf->Cell($w['座號寬'], $cell_6, $general[3]['stu_seat_no'], 1, 0, "C");
 $pdf->Cell($w['班級寬'], $cell_6, $stu_grade_class, 1, 0, "C");
 $pdf->Cell($w['座號寬'], $cell_6, $general[3]['stu_seat_no'], 1, 0, "C");
-$pdf->Cell($w['導師寬'], $cell_6, $general[3]['tea_name'], 1, 1, "C");
+$pdf->Cell($w['導師寬'], $cell_6, $general[3]['class_tea'], 1, 1, "C");
 
 $pdf->setX(85);
 $stu_grade_class = !empty($general[4]['stu_class']) ? "{$general[4]['stu_grade']}-{$general[4]['stu_class']}" : '';
@@ -152,7 +152,7 @@ $pdf->Cell($w['班級寬'], $cell_6, $stu_grade_class, 1, 0, "C");
 $pdf->Cell($w['座號寬'], $cell_6, $general[4]['stu_seat_no'], 1, 0, "C");
 $pdf->Cell($w['班級寬'], $cell_6, $stu_grade_class, 1, 0, "C");
 $pdf->Cell($w['座號寬'], $cell_6, $general[4]['stu_seat_no'], 1, 0, "C");
-$pdf->Cell($w['導師寬'], $cell_6, $general[4]['tea_name'], 1, 1, "C");
+$pdf->Cell($w['導師寬'], $cell_6, $general[4]['class_tea'], 1, 1, "C");
 
 $y['概況列'] = $pdf->getY();
 
@@ -317,29 +317,35 @@ $pdf->Cell($w['身高寬'], $cell_6, '身高', 1, 0, "C");
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($w['年級寬'], $cell_6, '一', 'TB', 0, "C");
 $pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($w['剩餘寬'], $cell_6, $general[1]['stu_height'], 'TB', 0, "C");
+$stu_height = $general[1]['stu_height'] ? "{$general[1]['stu_height']}公分" : '';
+$pdf->Cell($w['剩餘寬'], $cell_6, $stu_height, 'TB', 0, "C");
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($w['年級寬'], $cell_6, '二', 'TB', 0, "C");
 $pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($w['剩餘寬'], $cell_6, $general[2]['stu_height'], 'TB', 0, "C");
+$stu_height = $general[2]['stu_height'] ? "{$general[2]['stu_height']}公分" : '';
+$pdf->Cell($w['剩餘寬'], $cell_6, $stu_height, 'TB', 0, "C");
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($w['年級寬'], $cell_6, '三', 'TB', 0, "C");
 $pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($w['剩餘寬'], $cell_6, $general[3]['stu_height'], 'TB', 0, "C");
+$stu_height = $general[3]['stu_height'] ? "{$general[3]['stu_height']}公分" : '';
+$pdf->Cell($w['剩餘寬'], $cell_6, $stu_height, 'TB', 0, "C");
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($w['身高寬'], $cell_6, '體重', 1, 0, "C");
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($w['年級寬'], $cell_6, '一', 'TB', 0, "C");
 $pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($w['剩餘寬'], $cell_6, $general[1]['stu_weight'], 'TB', 0, "C");
+$stu_weight = $general[1]['stu_weight'] ? "{$general[1]['stu_weight']}公斤" : '';
+$pdf->Cell($w['剩餘寬'], $cell_6, $stu_weight, 'TB', 0, "C");
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($w['年級寬'], $cell_6, '二', 'TB', 0, "C");
 $pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($w['剩餘寬'], $cell_6, $general[2]['stu_weight'], 'TB', 0, "C");
+$stu_weight = $general[2]['stu_weight'] ? "{$general[2]['stu_weight']}公斤" : '';
+$pdf->Cell($w['剩餘寬'], $cell_6, $stu_weight, 'TB', 0, "C");
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($w['年級寬'], $cell_6, '三', 'TB', 0, "C");
 $pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($w['剩餘寬'], $cell_6, $general[3]['stu_weight'], 'TBR', 1, "C");
+$stu_weight = $general[3]['stu_weight'] ? "{$general[3]['stu_weight']}公斤" : '';
+$pdf->Cell($w['剩餘寬'], $cell_6, $stu_weight, 'TBR', 1, "C");
 
 // 8.生理缺陷
 $pdf->SetLineWidth(0.2);

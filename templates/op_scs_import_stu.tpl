@@ -1,5 +1,12 @@
 <h2>匯入臺南市學籍系統 Excel</h2>
-
+<div class="alert alert-info">
+<ol>
+<li>1.格式一律為xlsx</li>
+<li>2.欄位需和範例檔一致：<a href="../demo.xlsx">範例檔</a></li>
+<li>3.每學年都要匯入一次</li>
+<li>4.可匯入多次，同一個學年的話會以後面匯入的資料蓋掉前面的資料</li>
+</ol>
+</div>
 <form action="main.php" method="post" enctype="multipart/form-data">
     <div class="form-group row custom-gutter">
         <label class="col-sm-2 col-form-label">

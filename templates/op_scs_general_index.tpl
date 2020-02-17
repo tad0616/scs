@@ -135,13 +135,13 @@
 
     <{$bar}>
 <{else}>
+    <h2>無任何資料</h2>
     <div class="jumbotron text-center">
+        請先至臺南市學籍系統匯出所有學生資料，並於<a href="admin/main.php">後台進行匯入</a>。
         <{if $smarty.session.scs_adm or $smarty.session.tea_class_arr}>
             <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit" class="btn btn-info">
-            <i class="fa fa-plus"></i><{$smarty.const._TAD_ADD}>
+            <i class="fa fa-plus"></i> 手動新增
             </a>
-        <{else}>
-            <h4><{$smarty.const._TAD_EMPTY}></h4>
         <{/if}>
     </div>
 <{/if}>

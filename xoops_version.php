@@ -32,7 +32,7 @@ $modversion['dirname'] = basename(__DIR__);
 
 //---模組狀態資訊---//
 $modversion['status_version'] = '1.0';
-$modversion['release_date'] = '2020-01-21';
+$modversion['release_date'] = '2020-02-17';
 $modversion['module_website_url'] = 'https://www.tad0616.net';
 $modversion['module_website_name'] = _MI_SCS_AUTHOR_WEB;
 $modversion['module_status'] = 'release';
@@ -69,7 +69,7 @@ $modversion['system_menu'] = 1;
 
 //---後台管理介面設定---//
 $modversion['hasAdmin'] = 1;
-$modversion['adminindex'] = 'admin/power.php';
+$modversion['adminindex'] = 'admin/main.php';
 $modversion['adminmenu'] = 'admin/menu.php';
 
 //---前台主選單設定---//

@@ -7,20 +7,27 @@
         <td class="c"><span class="my_value"><{$general.1.stu_seat_no}></span></td>
         <td class="c"><span class="my_value"><{$general.1.stu_grade}>-<{$general.1.stu_class}></span></td>
         <td class="c"><span class="my_value"><{$general.1.stu_seat_no}></span></td>
-        <td class="c"></td>
+        <td class="c"><span class="my_value"><{$general.1.class_tea}></span></td>
     </tr>
     <tr>
         <td class="c"><span class="my_value"><{$general.2.stu_grade}>-<{$general.2.stu_class}></span></td>
         <td class="c"><span class="my_value"><{$general.2.stu_seat_no}></span></td>
         <td class="c"><span class="my_value"><{$general.2.stu_grade}>-<{$general.2.stu_class}></span></td>
         <td class="c"><span class="my_value"><{$general.2.stu_seat_no}></span></td>
-        <td class="c"></td>
+        <td class="c"><span class="my_value"><{$general.2.class_tea}></span></td>
     </tr>
     <tr>
         <td class="c"><span class="my_value"><{$general.3.stu_grade}>-<{$general.3.stu_class}></span></td>
         <td class="c"><span class="my_value"><{$general.3.stu_seat_no}></span></td>
         <td class="c"><span class="my_value"><{$general.3.stu_grade}>-<{$general.3.stu_class}></span></td>
         <td class="c"><span class="my_value"><{$general.3.stu_seat_no}></span></td>
-        <td class="c"></td>
+        <td class="c"><span class="my_value"><{$general.3.class_tea}></span></td>
+    </tr>
+    <tr>
+        <td class="c"><span class="my_value"><{$general.4.stu_grade}>-<{$general.4.stu_class}></span></td>
+        <td class="c"><span class="my_value"><{$general.4.stu_seat_no}></span></td>
+        <td class="c"><span class="my_value"><{$general.4.stu_grade}>-<{$general.4.stu_class}></span></td>
+        <td class="c"><span class="my_value"><{$general.4.stu_seat_no}></span></td>
+        <td class="c"><span class="my_value"><{$general.4.class_tea}></span></td>
     </tr>
 </table>

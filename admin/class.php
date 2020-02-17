@@ -60,6 +60,20 @@ function save_class_teacher($school_year, $class_teacher)
     }
     $TadDataCenter->saveCustomData($data_arr);
 
+    $TadDataCenter->set_col('class_tae', $school_year);
+    $data_arr = [];
+    foreach ($class_teacher as $class => $uid) {
+        if ($uid) {
+            $uid_name = XoopsUser::getUnameFromId($uid, 1);
+            if (empty($uid_name)) {
+                $uid_name = XoopsUser::getUnameFromId($uid, 0);
+            }
+        } else {
+            $uid_name = '';
+        }
+        $data_arr[$class] = [$uid_name];
+    }
+    $TadDataCenter->saveCustomData($data_arr);
 }
 
 /*-----------變數過濾----------*/

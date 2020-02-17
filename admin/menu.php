@@ -37,11 +37,11 @@ $adminmenu[$i]['link'] = 'admin/class.php';
 $adminmenu[$i]['desc'] = _MI_SCS_ADM_PAGE_1_DESC;
 $adminmenu[$i]['icon'] = "images/admin/button.png";
 
-$i++;
-$adminmenu[$i]['title'] = _MI_SCS_ADM_PAGE_2;
-$adminmenu[$i]['link'] = 'admin/power.php';
-$adminmenu[$i]['desc'] = _MI_SCS_ADM_PAGE_2_DESC;
-$adminmenu[$i]['icon'] = "images/admin/button.png";
+// $i++;
+// $adminmenu[$i]['title'] = _MI_SCS_ADM_PAGE_2;
+// $adminmenu[$i]['link'] = 'admin/power.php';
+// $adminmenu[$i]['desc'] = _MI_SCS_ADM_PAGE_2_DESC;
+// $adminmenu[$i]['icon'] = "images/admin/button.png";
 
 $i++;
 $adminmenu[$i]['title'] = _MI_TAD_ADMIN_ABOUT;

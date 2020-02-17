@@ -4,6 +4,7 @@ namespace XoopsModules\Scs;
 use XoopsModules\Scs\Scs_general;
 use XoopsModules\Scs\Tools;
 use XoopsModules\Tadtools\SweetAlert;
+use XoopsModules\Tadtools\TadDataCenter;
 use XoopsModules\Tadtools\Utility;
 
 /**
@@ -324,10 +325,7 @@ class Scs_general
         }
 
         // 各班導師
-        // $TadDataCenter = new TadDataCenter('scs');
-        // $TadDataCenter->set_col('school_year_class', $school_year);
-        // $class_tea = $TadDataCenter->getData();
-        // vv($class_tea);
+        $TadDataCenter = new TadDataCenter('scs');
 
         $and_stu_grade = '';
         if ($def_stu_grade) {
@@ -345,8 +343,11 @@ class Scs_general
             $arr[$g]['difficult_subject'] = explode(';', $data['difficult_subject']);
             $arr[$g]['expertise'] = explode(';', $data['expertise']);
             $arr[$g]['interest'] = explode(';', $data['interest']);
-            $arr[$g]['grade_class'] = "{$y}-{$g}-{$data['stu_class']}";
+            $arr[$g]['grade_class'] = $grade_class = "{$y}-{$g}-{$data['stu_class']}";
             $school_year_to_grade[$y] = $g;
+
+            $TadDataCenter->set_col('class_tae', $y);
+            $arr[$g]['class_tea'] = $TadDataCenter->getData($grade_class, 0);
         }
 
         if ($get_year) {

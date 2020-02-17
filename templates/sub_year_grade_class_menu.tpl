@@ -25,9 +25,13 @@
         <div class="form-group">
             <select name="school_year" id="school_year" class="form-control">
             <option value="">選年度</option>
+            <{if $school_year_arr}>
                 <{foreach from=$school_year_arr item=year}>
                     <option value="<{$year}>" <{if $school_year==$year}>selected<{/if}>><{$year}>學年度</option>
                 <{/foreach}>
+            <{else}>
+                <option value="<{$school_year}>"><{$school_year}></option>
+            <{/if}>
             </select>
         </div>
         <div class="form-group">
