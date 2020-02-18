@@ -3,25 +3,35 @@
     <table class="table table-bordered table-condensed table-responsive">
     <{foreach from=$students key=row item=student}>
         <{if $row>2}>
-        <tr>
-            <{foreach from=$student key=tbl item=stu_arr}>
-                <{foreach from=$stu_arr key=col item=val}>
-                    <td nowrap style="font-size:12px;">
-                        <{if $val|is_array}>
-                            <{foreach from=$val key=col2 item=val2}>
-                                <div>
-                                    <{$col2}>=<{$val2}>
-                                    <input type="hidden" name="students[<{$row}>][<{$tbl}>][<{$col}>][<{$col2}>]" value='<{$val2}>'>
-                                </div>
-                            <{/foreach}>
-                        <{else}>
-                            <{$val}>
-                            <input type="hidden" name="students[<{$row}>][<{$tbl}>][<{$col}>]" value="<{$val}>">
-                        <{/if}>
-                    </td>
+            <tr>
+                <{foreach from=$student key=tbl item=stu_arr}>
+                    <{foreach from=$stu_arr key=col item=val}>
+                        <td nowrap style="font-size:12px;">
+                            <{if $val|is_array}>
+                                <{foreach from=$val key=col2 item=val2}>
+                                    <div>
+                                        <{$val2}>
+                                        <input type="hidden" name="students[<{$row}>][<{$tbl}>][<{$col}>][<{$col2}>]" value='<{$val2}>'>
+                                    </div>
+                                <{/foreach}>
+                            <{else}>
+                                <{$val}>
+                                <input type="hidden" name="students[<{$row}>][<{$tbl}>][<{$col}>]" value="<{$val}>">
+                            <{/if}>
+                        </td>
+                    <{/foreach}>
                 <{/foreach}>
-            <{/foreach}>
-        </tr>
+            </tr>
+        <{else}>
+            <tr>
+                <{foreach from=$student key=tbl item=stu_arr}>
+                    <{foreach from=$stu_arr key=col item=val}>
+                        <th nowrap style="font-size:12px;">
+                            <{$val}>
+                        </th>
+                    <{/foreach}>
+                <{/foreach}>
+            </tr>
         <{/if}>
     <{/foreach}>
     </table>

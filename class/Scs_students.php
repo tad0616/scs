@@ -319,7 +319,7 @@ class Scs_students
             $update_item[] = "`$col` = '{$val}'";
 
         }
-        $update_sql = implode(', ', $update_item);
+        $update_sql = implode(", \n", $update_item);
 
         $sql = "
         INSERT INTO `" . $xoopsDB->prefix("scs_students") . "`(

@@ -62,14 +62,14 @@
         </label>
         <div class="col-sm-2">
             <{if $edit_grade.1==''}>
-                <select name="scs_general[difficult_subject_arr][1][]" id="difficult_subject_arr1" class="form-control " size=1>
+                <select name="scs_general[difficult_subject][1][]" id="difficult_subject1" class="form-control " size=1>
                     <option value=""></option>
-                    <{foreach from=$difficult_subject_arr_arr key=k item=opt}>
-                        <option value="<{$opt}>" <{if $opt|in_array:$general.1.difficult_subject_arr}>selected="selected"<{/if}>><{$opt}></option>
+                    <{foreach from=$difficult_subject_arr key=k item=opt}>
+                        <option value="<{$opt}>" <{if $opt|in_array:$general.1.difficult_subject}>selected="selected"<{/if}>><{$opt}></option>
                     <{/foreach}>
                 </select>
             <{else}>
-                <input type="text" name="scs_general[difficult_subject_arr][1][]" value="<{$general.1.difficult_subject_arr}>" class="form-control <{$edit_grade.1}>" placeholder="" <{$edit_grade.1}>>
+                <input type="text" name="scs_general[difficult_subject][1][]" value="<{$general.1.difficult_subject}>" class="form-control <{$edit_grade.1}>" placeholder="" <{$edit_grade.1}>>
             <{/if}>
         </div>
         <label class="col-sm-1 col-form-label text-md-right control-label">
@@ -77,14 +77,14 @@
         </label>
         <div class="col-sm-2">
             <{if $edit_grade.2==''}>
-                <select name="scs_general[difficult_subject_arr][2][]" id="difficult_subject_arr1" class="form-control " size=1>
+                <select name="scs_general[difficult_subject][2][]" id="difficult_subject1" class="form-control " size=1>
                     <option value=""></option>
-                    <{foreach from=$difficult_subject_arr_arr key=k item=opt}>
-                        <option value="<{$opt}>" <{if $opt|in_array:$general.2.difficult_subject_arr}>selected="selected"<{/if}>><{$opt}></option>
+                    <{foreach from=$difficult_subject_arr key=k item=opt}>
+                        <option value="<{$opt}>" <{if $opt|in_array:$general.2.difficult_subject}>selected="selected"<{/if}>><{$opt}></option>
                     <{/foreach}>
                 </select>
             <{else}>
-                <input type="text" name="scs_general[difficult_subject_arr][2][]" value="<{$general.2.difficult_subject_arr}>" class="form-control <{$edit_grade.2}>" placeholder="" <{$edit_grade.2}>>
+                <input type="text" name="scs_general[difficult_subject][2][]" value="<{$general.2.difficult_subject}>" class="form-control <{$edit_grade.2}>" placeholder="" <{$edit_grade.2}>>
             <{/if}>
         </div>
         <label class="col-sm-1 col-form-label text-md-right control-label">
@@ -92,14 +92,14 @@
         </label>
         <div class="col-sm-2">
             <{if $edit_grade.3==''}>
-                <select name="scs_general[difficult_subject_arr][3][]" id="difficult_subject_arr1" class="form-control " size=1>
+                <select name="scs_general[difficult_subject][3][]" id="difficult_subject1" class="form-control " size=1>
                     <option value=""></option>
-                    <{foreach from=$difficult_subject_arr_arr key=k item=opt}>
-                        <option value="<{$opt}>" <{if $opt|in_array:$general.3.difficult_subject_arr}>selected="selected"<{/if}>><{$opt}></option>
+                    <{foreach from=$difficult_subject_arr key=k item=opt}>
+                        <option value="<{$opt}>" <{if $opt|in_array:$general.3.difficult_subject}>selected="selected"<{/if}>><{$opt}></option>
                     <{/foreach}>
                 </select>
             <{else}>
-                <input type="text" name="scs_general[difficult_subject_arr][3][]" value="<{$general.3.difficult_subject_arr}>" class="form-control <{$edit_grade.3}>" placeholder="" <{$edit_grade.3}>>
+                <input type="text" name="scs_general[difficult_subject][3][]" value="<{$general.3.difficult_subject}>" class="form-control <{$edit_grade.3}>" placeholder="" <{$edit_grade.3}>>
             <{/if}>
         </div>
     </div>
