@@ -76,14 +76,30 @@
                             <a href="<{$xoops_url}>/modules/scs/consult.php?stu_id=<{$stu_id}>" class="btn btn-success" style="margin: 0px 2px;"><i class="fa fa-heart"></i> 回諮商紀錄</a>
                             <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_edit&stu_id=<{$stu_id}>&consult_id=<{$consult_id}>" class="btn btn-warning" style="margin: 0px 2px;"><i class="fa fa-pencil"></i> <{$smarty.const._TAD_EDIT}></a>
                         <{elseif $now_op=="scs_consult_index"}>
-                            <a href="<{$xoops_url}>/modules/scs/index.php" class="btn btn-success" style="margin: 0px 2px;"><i class="fa fa-undo"></i> 回列表</a>
+                            <a href="<{$xoops_url}>/modules/scs/index.php?school_year=<{$school_year}>&stu_grade=<{$stu_grade}>&stu_class=<{$stu_class}>" class="btn btn-success" style="margin: 0px 2px;"><i class="fa fa-undo"></i> 回列表</a>
                         <{elseif $now_op=="scs_students_show"}>
-                            <a href="<{$xoops_url}>/modules/scs/index.php" class="btn btn-success" style="margin: 0px 2px;"><i class="fa fa-undo"></i> 回列表</a>
+                            <a href="<{$xoops_url}>/modules/scs/index.php?school_year=<{$school_year}>&stu_grade=<{$stu_grade}>&stu_class=<{$stu_class}>" class="btn btn-success" style="margin: 0px 2px;"><i class="fa fa-undo"></i> 回列表</a>
                             <a href="<{$xoops_url}>/modules/scs/pdf.php?stu_id=<{$stu_id}>" class="btn btn-danger" style="margin: 0px 2px;"><i class="fa fa-file-pdf-o"></i> 匯出PDF</a>
                             <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit&stu_id=<{$stu_id}>" class="btn btn-warning" style="margin: 0px 2px;"><i class="fa fa-pencil"></i> <{$smarty.const._TAD_EDIT}></a>
                         <{/if}>
                     <{/if}>
                 <{/if}>
+            <{/if}>
+
+        </div>
+        <div class="form-group text-right">
+        目前身份：
+            <{if $smarty.session.stu_id}>
+                學生
+            <{/if}>
+            <{if $smarty.session.scs_adm}>
+                管理員
+            <{/if}>
+            <{if $smarty.session.tea_class_arr}>
+                <{foreach from=$smarty.session.tea_class_arr item=class}>
+                    <{$class}>
+                <{/foreach}>
+                導師
             <{/if}>
         </div>
     </form>

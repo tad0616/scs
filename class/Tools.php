@@ -125,17 +125,31 @@ class Tools
     }
 
     // 給選單用
-    public static function menu_option($stu_id = '', $def_stu_grade = '', $get_year = false)
+    public static function menu_option($stu_id = '', $def_stu_grade = '', $def_stu_class = '')
     {
         global $xoopsTpl, $xoopsDB;
         $xoopsTpl->assign('stu_id', $stu_id);
 
+        $and_stu_id = '';
+        if ($stu_id) {
+            $and_stu_id = "and `stu_id` = '{$stu_id}'";
+        }
+
         $and_stu_grade = '';
         if ($def_stu_grade) {
-            $and_stu_grade = "and `stu_grade` = '{$def_stu_grade}' order by `stu_grade`";
+            $and_stu_grade = "and `stu_grade` = '{$def_stu_grade}'";
+            $xoopsTpl->assign('stu_grade', $def_stu_grade);
         }
+
+        $and_stu_class = '';
+        if ($def_stu_class) {
+            $and_stu_class = "and `stu_class` = '{$def_stu_class}'";
+            $xoopsTpl->assign('stu_class', $def_stu_class);
+        }
+
         $sql = "select * from `" . $xoopsDB->prefix("scs_general") . "`
-        where `stu_id` = '{$stu_id}' {$and_stu_grade}";
+        where 1 {$and_stu_id} {$and_stu_grade} {$and_stu_class} order by `stu_grade`, `stu_class`, `stu_class`, `stu_seat_no`";
+
         $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $arr = $school_year_to_grade = [];
         while ($data = $xoopsDB->fetchArray($result)) {
@@ -163,7 +177,9 @@ class Tools
         $menu_stu_grade = $school_year_to_grade[$school_year];
 
         if (!empty($menu_stu_grade)) {
-            $xoopsTpl->assign('stu_grade', $menu_stu_grade);
+            if ($stu_id) {
+                $xoopsTpl->assign('stu_grade', $menu_stu_grade);
+            }
 
             $condition['stu_grade'] = $menu_stu_grade;
             $stu_class_arr = self::get_general_data_arr('scs_general', 'stu_class', $condition);
@@ -171,7 +187,9 @@ class Tools
         }
 
         if (!empty($arr[$menu_stu_grade]['stu_class'])) {
-            $xoopsTpl->assign('stu_class', $arr[$menu_stu_grade]['stu_class']);
+            if ($stu_id) {
+                $xoopsTpl->assign('stu_class', $arr[$menu_stu_grade]['stu_class']);
+            }
 
             $condition['stu_class'] = $arr[$menu_stu_grade]['stu_class'];
             $stu_arr = Scs_general::get_general_stu_arr($condition);

@@ -35,7 +35,13 @@ class Scs_general
         if (empty($school_year)) {
             $school_year = Tools::get_school_year();
         }
-
+        $and_stu_grade = $and_stu_class = '';
+        if ($stu_grade) {
+            $and_stu_grade = "and `stu_grade` = '{$stu_grade}' ";
+        }
+        if ($stu_class) {
+            $and_stu_class = "and `stu_class` = '{$stu_class}' ";
+        }
         $myts = \MyTextSanitizer::getInstance();
 
         $sql = "select a.`stu_id`, a.`school_year`, a.`stu_grade`, a.`stu_class`, a.`stu_seat_no`, b.`stu_name`, b.`stu_no`, b.`stu_pid`, b.`stu_sex`, b.`stu_birthday`, b.`emergency_contact`, a.`fill_date` from `" . $xoopsDB->prefix("scs_general") . "` as a

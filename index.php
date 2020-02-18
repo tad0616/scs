@@ -146,7 +146,7 @@ switch ($op) {
                 list($school_year, $stu_grade, $stu_class) = explode('-', $_SESSION['tea_class_arr'][$school_year]);
             }
             Scs_general::index($school_year, $stu_grade, $stu_class);
-            Tools::menu_option($stu_id);
+            Tools::menu_option($stu_id, $stu_grade, $stu_class);
             $op = 'scs_general_index';
         }
         break;
