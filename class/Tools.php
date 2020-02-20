@@ -203,18 +203,22 @@ class Tools
             list($stu_seat_no, $stu_grade, $stu_class) = $xoopsDB->fetchRow($result);
 
             // 下一筆
-            $sql = "select stu_id from `" . $xoopsDB->prefix("scs_general") . "`
-            where stu_seat_no > {$stu_seat_no} and stu_grade='{$stu_grade}' and stu_class='{$stu_class}' order by `stu_seat_no`  LIMIT 0,1";
+            $sql = "select a.stu_id,a.stu_seat_no,b.stu_name from `" . $xoopsDB->prefix("scs_general") . "` as a
+            join `" . $xoopsDB->prefix("scs_students") . "` as b on a.stu_id=b.stu_id
+            where a.stu_seat_no > {$stu_seat_no} and a.stu_grade='{$stu_grade}' and a.stu_class='{$stu_class}'
+            order by a.`stu_seat_no`  LIMIT 0,1";
             $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-            list($next_stu_id) = $xoopsDB->fetchRow($result);
-            $xoopsTpl->assign('next_stu_id', $next_stu_id);
+            list($next['stu_id'], $next['stu_seat_no'], $next['stu_name']) = $xoopsDB->fetchRow($result);
+            $xoopsTpl->assign('next', $next);
 
             // 上一筆
-            $sql = "select stu_id from `" . $xoopsDB->prefix("scs_general") . "`
-            where stu_seat_no < {$stu_seat_no} and stu_grade='{$stu_grade}' and stu_class='{$stu_class}' order by `stu_seat_no` DESC LIMIT 0,1";
+            $sql = "select a.stu_id,a.stu_seat_no,b.stu_name from `" . $xoopsDB->prefix("scs_general") . "` as a
+            join `" . $xoopsDB->prefix("scs_students") . "` as b on a.stu_id=b.stu_id
+            where a.stu_seat_no < {$stu_seat_no} and a.stu_grade='{$stu_grade}' and a.stu_class='{$stu_class}'
+            order by a.`stu_seat_no` DESC LIMIT 0,1";
             $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-            list($previous_stu_id) = $xoopsDB->fetchRow($result);
-            $xoopsTpl->assign('previous_stu_id', $previous_stu_id);
+            list($previous['stu_id'], $previous['stu_seat_no'], $previous['stu_name']) = $xoopsDB->fetchRow($result);
+            $xoopsTpl->assign('previous', $previous);
         }
     }
 

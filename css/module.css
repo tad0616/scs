@@ -30,6 +30,11 @@ table.line td.z {
     padding: 0px;
 }
 
+a.disabled {
+    pointer-events: none;
+    filter: grayscale(90%) opacity(.2);
+}
+
 .z table{
     width: 100%;
 }
