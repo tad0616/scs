@@ -195,6 +195,27 @@ class Tools
             $stu_arr = Scs_general::get_general_stu_arr($condition);
             $xoopsTpl->assign('stu_arr', $stu_arr);
         }
+
+        if ($stu_id) {
+            $sql = "select stu_seat_no,stu_grade,stu_class from `" . $xoopsDB->prefix("scs_general") . "`
+            where stu_id ='{$stu_id}'";
+            $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            list($stu_seat_no, $stu_grade, $stu_class) = $xoopsDB->fetchRow($result);
+
+            // 下一筆
+            $sql = "select stu_id from `" . $xoopsDB->prefix("scs_general") . "`
+            where stu_seat_no > {$stu_seat_no} and stu_grade='{$stu_grade}' and stu_class='{$stu_class}' order by `stu_seat_no`  LIMIT 0,1";
+            $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            list($next_stu_id) = $xoopsDB->fetchRow($result);
+            $xoopsTpl->assign('next_stu_id', $next_stu_id);
+
+            // 上一筆
+            $sql = "select stu_id from `" . $xoopsDB->prefix("scs_general") . "`
+            where stu_seat_no < {$stu_seat_no} and stu_grade='{$stu_grade}' and stu_class='{$stu_class}' order by `stu_seat_no` DESC LIMIT 0,1";
+            $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            list($previous_stu_id) = $xoopsDB->fetchRow($result);
+            $xoopsTpl->assign('previous_stu_id', $previous_stu_id);
+        }
     }
 
     public static function get_config_arr($table = '', $name = '', $col = '')

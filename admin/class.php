@@ -31,7 +31,7 @@ $TadDataCenter = new TadDataCenter('scs');
 
 /*-----------功能函數區----------*/
 
-function scs_teacher_setup()
+function scs_teacher_setup($school_year = '')
 {
     global $xoopsDB, $xoopsTpl, $xoopsModuleConfig, $TadDataCenter;
     if (empty($school_year)) {
@@ -48,6 +48,9 @@ function scs_teacher_setup()
     $TadDataCenter->set_col('school_year_class', $school_year);
     $data = $TadDataCenter->getData();
     $xoopsTpl->assign('setup', $data);
+
+    $school_year_arr = Tools::get_general_data_arr('scs_general', 'school_year');
+    $xoopsTpl->assign('school_year_arr', $school_year_arr);
 }
 
 function save_class_teacher($school_year, $class_teacher)

@@ -67,17 +67,22 @@
         <div class="form-group">
             <{if $stu_id}>
                 <{if $now_op=="scs_students_create" or $now_op=="scs_consult_create"}>
+                    <a href="<{$xoops_url}>/modules/scs/index.php?stu_id=<{$next_stu_id}>"><img src="<{$xoops_url}>/modules/scs/images/next.png"></a>
                     <a href="<{$xoops_url}>/modules/scs/index.php" class="btn btn-success"><i class="fa fa-undo"></i> 回列表</a>
                 <{else}>
                     <{if $smarty.session.stu_id}>
+                        <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit&stu_id=<{$next_stu_id}>"><img src="<{$xoops_url}>/modules/scs/images/next.png"></a>
                         <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit&stu_id=<{$smarty.session.stu_id}>" class="btn btn-warning" style="margin: 0px 2px;"><{$smarty.const._TAD_EDIT}></a>
                     <{elseif $smarty.session.scs_adm or $smarty.session.tea_class_arr}>
                         <{if $now_op=="scs_consult_show"}>
+                            <a href="<{$xoops_url}>/modules/scs/consult.php?stu_id=<{$next_stu_id}>"><img src="<{$xoops_url}>/modules/scs/images/next.png"></a>
                             <a href="<{$xoops_url}>/modules/scs/consult.php?stu_id=<{$stu_id}>" class="btn btn-success" style="margin: 0px 2px;"><i class="fa fa-heart"></i> 回諮商紀錄</a>
                             <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_edit&stu_id=<{$stu_id}>&consult_id=<{$consult_id}>" class="btn btn-warning" style="margin: 0px 2px;"><i class="fa fa-pencil"></i> <{$smarty.const._TAD_EDIT}></a>
                         <{elseif $now_op=="scs_consult_index"}>
+                            <a href="<{$xoops_url}>/modules/scs/index.php?school_year=<{$school_year}>&stu_grade=<{$stu_grade}>&stu_class=<{$stu_class}>&stu_id=<{$next_stu_id}>"><img src="<{$xoops_url}>/modules/scs/images/next.png"></a>
                             <a href="<{$xoops_url}>/modules/scs/index.php?school_year=<{$school_year}>&stu_grade=<{$stu_grade}>&stu_class=<{$stu_class}>" class="btn btn-success" style="margin: 0px 2px;"><i class="fa fa-undo"></i> 回列表</a>
                         <{elseif $now_op=="scs_students_show"}>
+                            <a href="<{$xoops_url}>/modules/scs/index.php?school_year=<{$school_year}>&stu_grade=<{$stu_grade}>&stu_class=<{$stu_class}>&stu_id=<{$next_stu_id}>"><img src="<{$xoops_url}>/modules/scs/images/next.png"></a>
                             <a href="<{$xoops_url}>/modules/scs/index.php?school_year=<{$school_year}>&stu_grade=<{$stu_grade}>&stu_class=<{$stu_class}>" class="btn btn-success" style="margin: 0px 2px;"><i class="fa fa-undo"></i> 回列表</a>
                             <a href="<{$xoops_url}>/modules/scs/pdf.php?stu_id=<{$stu_id}>" class="btn btn-danger" style="margin: 0px 2px;"><i class="fa fa-file-pdf-o"></i> 匯出PDF</a>
                             <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit&stu_id=<{$stu_id}>" class="btn btn-warning" style="margin: 0px 2px;"><i class="fa fa-pencil"></i> <{$smarty.const._TAD_EDIT}></a>

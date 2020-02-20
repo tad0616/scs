@@ -1,4 +1,23 @@
-<h2><{$school_year}>學年學生填寫日期設定</h2>
+<h2>
+<form class="form-inline">
+    <div class="form-group">
+        <select name="school_year" id="school_year" class="form-control" onchange="location.href='class.php?school_year='+this.value">
+        <option value="">選年度</option>
+        <{if $school_year_arr}>
+            <{foreach from=$school_year_arr item=year}>
+                <option value="<{$year}>" <{if $school_year==$year}>selected<{/if}>><{$year}>學年度</option>
+            <{/foreach}>
+        <{else}>
+            <option value="<{$school_year}>"><{$school_year}></option>
+        <{/if}>
+        </select>
+    </div>
+    <div class="form-group">
+    設定
+    </div>
+</form>
+</h2>
+<h3><{$school_year}>學年開放學生填寫日期設定</h3>
 <script type="text/javascript" src="<{$xoops_url}>/modules/tadtools/My97DatePicker/WdatePicker.js"></script>
 <form action="<{$smarty.server.PHP_SELF}>" method="post" id="myForm" class="form-horizontal">
     <div class="form-group row custom-gutter">
@@ -19,7 +38,7 @@
         </div>
     </div>
 
-    <h2><{$school_year}>學年各班導師設定</h2>
+    <h3><{$school_year}>學年各班導師設定</h3>
     <div class="row">
         <{foreach from=$all_class key=stu_grade item=grade_class}>
             <div class="col-sm-4">

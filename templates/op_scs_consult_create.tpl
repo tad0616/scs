@@ -18,8 +18,7 @@
 
 
 <!--套用formValidator驗證機制-->
-<form action="<{$smarty.server.PHP_SELF}>" method="post" id="myForm" enctype="multipart/form-data">
-
+<form action="<{$smarty.server.PHP_SELF}>" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal">
 
     <!--諮商日期 date-->
     <div class="form-group row custom-gutter">
@@ -114,7 +113,7 @@
     <!--上傳-->
     <div class="form-group row custom-gutter">
         <label class="col-sm-2 col-form-label text-md-right control-label">
-            <{$smarty.const._MD_SCS_UP_CONSULT_ID}>
+            相關檔案
         </label>
         <div class="col-sm-10">
             <{$up_consult_id_create}>
