@@ -76,7 +76,7 @@ function scs_import_excel($mode = 'scs_import_excel')
 
                     $students[$row]['scs_general']['stu_grade'][$val] = $grade = $val;
                     $students[$row]['scs_general']['school_year'][$grade] = $school_year;
-                    $students[$row]['scs_general']['fill_date'][$grade] = $now;
+                    $students[$row]['scs_general']['fill_date'][$grade] = '';
                     break;
                 case '2':
                     // 班級

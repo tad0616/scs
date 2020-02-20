@@ -24,10 +24,11 @@ use XoopsModules\Tadtools\Utility;
 require_once __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'scs_consult.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
-if (!empty($_SESSION['stu_id'])) {
-    header("location: index.php");
-    exit;
+
+if (!$xoopsUser or (!$_SESSION['scs_adm'] and !$_SESSION['tea_class_arr'])) {
+    redirect_header(XOOPS_URL . '/modules/tad_login', 3, _TAD_PERMISSION_DENIED);
 }
+
 /*-----------功能函數區----------*/
 
 /*-----------變數過濾----------*/

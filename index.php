@@ -31,7 +31,7 @@ use XoopsModules\Tadtools\Utility;
 require_once __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'scs_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
-if (!$xoopsUser) {
+if (!$xoopsUser or (!$_SESSION['scs_adm'] and !$_SESSION['tea_class_arr'] and !$_SESSION['stu_id'])) {
     redirect_header(XOOPS_URL . '/modules/tad_login', 3, _TAD_PERMISSION_DENIED);
 }
 

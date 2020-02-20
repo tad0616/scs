@@ -26,10 +26,11 @@ use XoopsModules\Tadtools\Utility;
 
 /*-----------引入檔案區--------------*/
 require_once __DIR__ . '/header.php';
-if (!empty($_SESSION['stu_id'])) {
-    header("location: index.php");
-    exit;
+
+if (!$xoopsUser or (!$_SESSION['scs_adm'] and !$_SESSION['tea_class_arr'] and !$_SESSION['stu_id'])) {
+    redirect_header(XOOPS_URL . '/modules/tad_login', 3, _TAD_PERMISSION_DENIED);
 }
+
 require_once XOOPS_ROOT_PATH . '/modules/tadtools/tcpdf/tcpdf.php';
 
 /*-----------執行動作判斷區----------*/
