@@ -1,14 +1,5 @@
 <script type="text/javascript" src="<{$xoops_url}>/modules/tadtools/My97DatePicker/WdatePicker.js"></script>
 
-<script type="text/javascript" src="<{$xoops_url}>/modules/scs/class/datalist.js"></script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        var maxHeight = '200px';
-        var openOnClick = true;
-        $('input[list]').datalist(maxHeight, openOnClick);
-    });
-</script>
-
 <h2>「<{$stu.stu_name}>」個別諮商紀錄</h2>
 
 <div class="alert alert-info">

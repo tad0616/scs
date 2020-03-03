@@ -3,6 +3,7 @@ namespace XoopsModules\Scs;
 
 use XoopsModules\Scs\Scs_consult;
 use XoopsModules\Scs\Tools;
+use XoopsModules\Tadtools\DataList;
 use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\TadUpFiles;
@@ -123,6 +124,8 @@ class Scs_consult
         $xoopsTpl->assign("token_form", $token_form);
         $xoopsTpl->assign('action', $_SERVER["PHP_SELF"]);
         $xoopsTpl->assign('next_op', $op);
+
+        DataList::render();
     }
 
     //新增資料到scs_consult中

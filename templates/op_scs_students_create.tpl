@@ -4,15 +4,11 @@
     .zipcode, .county, .district {width: 120px; display: inline-block}
 </style>
 <script type="text/javascript" src="<{$xoops_url}>/modules/scs/class/jquery.twzipcode.js"></script>
-<script type="text/javascript" src="<{$xoops_url}>/modules/scs/class/datalist.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         $("#twzipcode1").twzipcode();
         $("#twzipcode2").twzipcode();
         $('input.readonly').keyup(resizeInput).each(resizeInput);
-        var maxHeight = '200px';
-        var openOnClick = true;
-        $('input[list]').datalist(maxHeight, openOnClick);
     });
 
     function resizeInput() {
