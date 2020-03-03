@@ -6,7 +6,6 @@
         var maxHeight = '200px';
         var openOnClick = true;
         $('input[list]').datalist(maxHeight, openOnClick);
-        // $('[data-toggle="tooltip"]').tooltip();
     });
 </script>
 

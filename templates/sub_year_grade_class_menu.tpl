@@ -101,8 +101,8 @@
             <{/if}>
 
         </div>
-        <div class="form-group text-right">
-        目前身份：
+        <div class="pull-right">
+            目前身份：
             <{if $smarty.session.stu_id}>
                 學生
             <{/if}>

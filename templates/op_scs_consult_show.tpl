@@ -33,10 +33,3 @@
         <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_edit&consult_id=<{$consult_id}>&stu_id=<{$stu_id}>" class="btn btn-warning"><i class="fa fa-pencil"></i> <{$smarty.const._TAD_EDIT}></a>
     <{/if}>
 </div>
-
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        // $('[data-toggle="tooltip"]').tooltip();
-    });
-</script>
