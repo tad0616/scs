@@ -6,7 +6,7 @@
             <tr>
                 <{foreach from=$student key=tbl item=stu_arr}>
                     <{foreach from=$stu_arr key=col item=val}>
-                        <td nowrap style="font-size:12px;">
+                        <td nowrap style="font-size: 0.75em;">
                             <{if $val|is_array}>
                                 <{foreach from=$val key=col2 item=val2}>
                                     <div>
@@ -26,7 +26,7 @@
             <tr>
                 <{foreach from=$student key=tbl item=stu_arr}>
                     <{foreach from=$stu_arr key=col item=val}>
-                        <th nowrap style="font-size:12px;">
+                        <th nowrap style="font-size: 0.75em;">
                             <{$val}>
                         </th>
                     <{/foreach}>
@@ -46,9 +46,9 @@
         <tr>
             <{foreach from=$col_data key=col item=val}>
                 <{if $row==2}>
-                    <th nowrap style="font-size:12px;">(<{$col}>) <{$val}></th>
+                    <th nowrap style="font-size: 0.75em;">(<{$col}>) <{$val}></th>
                 <{else}>
-                    <td nowrap style="font-size:12px;"><{$val}></td>
+                    <td nowrap style="font-size: 0.75em;"><{$val}></td>
                 <{/if}>
             <{/foreach}>
         </tr>
