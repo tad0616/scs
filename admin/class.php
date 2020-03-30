@@ -53,28 +53,43 @@ function scs_teacher_setup($school_year = '')
     $xoopsTpl->assign('school_year_arr', $school_year_arr);
 }
 
+// 儲存設定
 function save_class_teacher($school_year, $class_teacher)
 {
     global $TadDataCenter;
     $TadDataCenter->set_col('school_year_class', $school_year);
     $data_arr = [];
-    foreach ($class_teacher as $class => $uid) {
-        $data_arr[$class] = [$uid];
+    foreach ($class_teacher as $class => $val) {
+        if (is_array($val)) {
+            foreach ($val as $i => $v) {
+                $data_arr[$class][$i] = $v;
+            }
+        } else {
+            $data_arr[$class][0] = $val;
+        }
     }
     $TadDataCenter->saveCustomData($data_arr);
 
-    $TadDataCenter->set_col('class_tae', $school_year);
+    $TadDataCenter->set_col('teacher_name', $school_year);
     $data_arr = [];
-    foreach ($class_teacher as $class => $uid) {
-        if ($uid) {
-            $uid_name = XoopsUser::getUnameFromId($uid, 1);
-            if (empty($uid_name)) {
-                $uid_name = XoopsUser::getUnameFromId($uid, 0);
+    foreach ($class_teacher as $class => $val) {
+        if (is_array($val)) {
+            foreach ($val as $i => $v) {
+                $uid_name = \XoopsUser::getUnameFromId($v, 1);
+                if (empty($uid_name)) {
+                    $uid_name = \XoopsUser::getUnameFromId($v, 0);
+                }
+                $data_arr[$class][$i] = $uid_name;
             }
         } else {
-            $uid_name = '';
+            if ($val and is_integer($val)) {
+                $uid_name = \XoopsUser::getUnameFromId($val, 1);
+                if (empty($uid_name)) {
+                    $uid_name = \XoopsUser::getUnameFromId($val, 0);
+                }
+                $data_arr[$class][0] = $uid_name;
+            }
         }
-        $data_arr[$class] = [$uid_name];
     }
     $TadDataCenter->saveCustomData($data_arr);
 }

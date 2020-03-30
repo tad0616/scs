@@ -84,17 +84,36 @@
                     <a href="<{$xoops_url}>/modules/scs/index.php" class="btn btn-success"><i class="fa fa-undo"></i> 回列表</a>
                 <{else}>
                     <{if $smarty.session.stu_id}>
-                        <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit&stu_id=<{$smarty.session.stu_id}>" class="btn btn-warning" style="margin: 0px 2px;"><{$smarty.const._TAD_EDIT}></a>
-                    <{elseif $smarty.session.scs_adm or $smarty.session.tea_class_arr}>
+                        <{if 'update'|have_scs_power:$smarty.session.stu_id}>
+                            <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit&stu_id=<{$smarty.session.stu_id}>" class="btn btn-warning" style="margin: 0px 2px;"><{$smarty.const._TAD_EDIT}></a>
+                        <{/if}>
+                    <{else}>
                         <{if $now_op=="scs_consult_show"}>
-                            <a href="<{$xoops_url}>/modules/scs/consult.php?stu_id=<{$stu_id}>" class="btn btn-success" style="margin: 0px 2px;"><i class="fa fa-heart"></i> 回諮商紀錄</a>
-                            <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_edit&stu_id=<{$stu_id}>&consult_id=<{$consult_id}>" class="btn btn-warning" style="margin: 0px 2px;"><i class="fa fa-pencil"></i> <{$smarty.const._TAD_EDIT}></a>
+                            <{if 'index'|have_consult_power:$stu_id}>
+                                <a href="<{$xoops_url}>/modules/scs/consult.php?stu_id=<{$stu_id}>" class="btn btn-success" style="margin: 0px 2px;"><i class="fa fa-heart"></i> 回諮商紀錄</a>
+                            <{/if}>
+                            <{if 'update'|have_consult_power:$stu_id:$consult_id}>
+                                <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_edit&stu_id=<{$stu_id}>&consult_id=<{$consult_id}>" class="btn btn-warning" style="margin: 0px 2px;"><i class="fa fa-pencil"></i> <{$smarty.const._TAD_EDIT}></a>
+                            <{/if}>
+                            <{if 'create'|have_consult_power:$stu_id}>
+                                <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_create&stu_id=<{$stu_id}>" class="btn btn-primary"><i class="fa fa-plus"></i>  新增諮商紀錄</a>
+                            <{/if}>
                         <{elseif $now_op=="scs_consult_index"}>
                             <a href="<{$xoops_url}>/modules/scs/index.php?school_year=<{$school_year}>&stu_grade=<{$stu_grade}>&stu_class=<{$stu_class}>" class="btn btn-success" style="margin: 0px 2px;"><i class="fa fa-undo"></i> 回列表</a>
+                            <{if 'create'|have_consult_power:$stu_id}>
+                                <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_create&stu_id=<{$stu_id}>" class="btn btn-primary"><i class="fa fa-plus"></i>  新增諮商紀錄</a>
+                            <{/if}>
                         <{elseif $now_op=="scs_students_show"}>
                             <a href="<{$xoops_url}>/modules/scs/index.php?school_year=<{$school_year}>&stu_grade=<{$stu_grade}>&stu_class=<{$stu_class}>" class="btn btn-success" style="margin: 0px 2px;"><i class="fa fa-undo"></i> 回列表</a>
-                            <a href="<{$xoops_url}>/modules/scs/pdf.php?stu_id=<{$stu_id}>" class="btn btn-danger" style="margin: 0px 2px;"><i class="fa fa-file-pdf-o"></i> 匯出PDF</a>
-                            <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit&stu_id=<{$stu_id}>" class="btn btn-warning" style="margin: 0px 2px;"><i class="fa fa-pencil"></i> <{$smarty.const._TAD_EDIT}></a>
+                            <{if 'show'|have_scs_power:$stu_id}>
+                                <a href="<{$xoops_url}>/modules/scs/pdf.php?stu_id=<{$stu_id}>" class="btn btn-danger" style="margin: 0px 2px;"><i class="fa fa-file-pdf-o"></i> 匯出PDF</a>
+                            <{/if}>
+                            <{if 'update'|have_scs_power:$stu_id}>
+                                <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit&stu_id=<{$stu_id}>" class="btn btn-warning" style="margin: 0px 2px;"><i class="fa fa-pencil"></i> <{$smarty.const._TAD_EDIT}></a>
+                            <{/if}>
+                            <{if 'index'|have_consult_power:$stu_id}>
+                                <a href="<{$xoops_url}>/modules/scs/consult.php?stu_id=<{$stu_id}>" class="btn btn-info" style="margin: 0px 2px;"><i class="fa fa-heart"></i> 諮商紀錄</a>
+                            <{/if}>
                         <{/if}>
                     <{/if}>
                 <{/if}>
@@ -109,9 +128,15 @@
             <{if $smarty.session.scs_adm}>
                 管理員
             <{/if}>
+            <{if $smarty.session.counselor}>
+                輔導主任
+            <{/if}>
+            <{if $smarty.session.tutor}>
+                專任輔導教師
+            <{/if}>
             <{if $smarty.session.tea_class_arr}>
                 <{foreach from=$smarty.session.tea_class_arr item=class}>
-                    <{$class}>
+                    <a href="index.php?op=scs_general_index&class=<{$class}>"><{$class}></a>
                 <{/foreach}>
                 導師
             <{/if}>

@@ -30,7 +30,6 @@ class Scs_brother_sister
     public static function index()
     {
         global $xoopsDB, $xoopsTpl;
-
         $myts = \MyTextSanitizer::getInstance();
 
         $sql = "select * from `" . $xoopsDB->prefix("scs_brother_sister") . "` ";
@@ -71,7 +70,7 @@ class Scs_brother_sister
     public static function create($stu_id)
     {
         global $xoopsDB, $xoopsTpl, $xoopsUser;
-        Tools::chk_have_power();
+        Tools::chk_scs_power('create');
 
         //抓取預設值
         $DBV = !empty($stu_id) ? self::get($stu_id) : [];
@@ -88,7 +87,7 @@ class Scs_brother_sister
 
         //XOOPS表單安全檢查
         if ($check) {
-            Tools::chk_have_power();
+            Tools::chk_scs_power('create');
             Utility::xoops_security_check();
         }
 
@@ -125,7 +124,10 @@ class Scs_brother_sister
 
         if (empty($stu_id)) {
             return;
+        } else {
+            $stu_id = (int) $stu_id;
         }
+        Tools::chk_scs_power('show', $stu_id);
 
         $myts = \MyTextSanitizer::getInstance();
         $all = self::get($stu_id);
@@ -152,7 +154,7 @@ class Scs_brother_sister
 
         //XOOPS表單安全檢查
         if ($check) {
-            Tools::chk_have_power();
+            Tools::chk_scs_power('update', $stu_id);
             Utility::xoops_security_check();
         }
 
@@ -199,14 +201,16 @@ class Scs_brother_sister
     public static function destroy($stu_id = '', $bs_relationship = '')
     {
         global $xoopsDB;
-        Tools::chk_have_power();
+        Tools::chk_scs_power('destroy', $stu_id);
 
         if (empty($stu_id) or empty($bs_relationship)) {
             return;
         }
 
+        $and_bs_relationship = !empty($bs_relationship) ? "and `bs_relationship` = '$bs_relationship'" : '';
+
         $sql = "delete from `" . $xoopsDB->prefix("scs_brother_sister") . "`
-        where `stu_id` = '$stu_id' and `bs_relationship` = '$bs_relationship'";
+        where `stu_id` = '$stu_id' $and_bs_relationship";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     }

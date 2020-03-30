@@ -30,7 +30,6 @@ class Scs_guardian
     public static function index()
     {
         global $xoopsDB, $xoopsTpl;
-
         $myts = \MyTextSanitizer::getInstance();
 
         $sql = "select * from `" . $xoopsDB->prefix("scs_guardian") . "` ";
@@ -71,7 +70,7 @@ class Scs_guardian
     public static function create($stu_id = '')
     {
         global $xoopsDB, $xoopsTpl, $xoopsUser;
-        Tools::chk_have_power();
+        Tools::chk_scs_power('create');
 
         //抓取預設值
         $DBV = !empty($stu_id) ? self::get($stu_id) : [];
@@ -88,7 +87,7 @@ class Scs_guardian
 
         //XOOPS表單安全檢查
         if ($check) {
-            Tools::chk_have_power();
+            Tools::chk_scs_power('create');
             Utility::xoops_security_check();
         }
 
@@ -125,7 +124,10 @@ class Scs_guardian
 
         if (empty($stu_id)) {
             return;
+        } else {
+            $stu_id = (int) $stu_id;
         }
+        Tools::chk_scs_power('show', $stu_id);
 
         $myts = \MyTextSanitizer::getInstance();
 
@@ -152,7 +154,7 @@ class Scs_guardian
 
         //XOOPS表單安全檢查
         if ($check) {
-            Tools::chk_have_power();
+            Tools::chk_scs_power('update', $stu_id);
             Utility::xoops_security_check();
         }
 
@@ -193,7 +195,7 @@ class Scs_guardian
     public static function destroy($stu_id = '')
     {
         global $xoopsDB;
-        Tools::chk_have_power();
+        Tools::chk_scs_power('destroy', $stu_id);
 
         if (empty($stu_id)) {
             return;

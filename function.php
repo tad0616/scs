@@ -1,5 +1,7 @@
 <?php
+use XoopsModules\Scs\Tools;
 use XoopsModules\Tadtools\Utility;
+
 /**
  * Scs module
  *
@@ -19,7 +21,18 @@ use XoopsModules\Tadtools\Utility;
  **/
 
 /********************* 自訂函數 *********************/
+
 function vv($array = [])
 {
     Utility::dd($array);
+}
+
+function have_scs_power($kind = '', $stu_id = '')
+{
+    return Tools::chk_scs_power($kind, $stu_id, '', '', '', 'return');
+}
+
+function have_consult_power($kind = '', $stu_id = '', $consult_id = '')
+{
+    return Tools::chk_consult_power($kind, $stu_id, $consult_id, 'return');
 }

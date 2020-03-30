@@ -1,12 +1,12 @@
 <?php
 use XoopsModules\Scs\Scs_brother_sister;
+use XoopsModules\Scs\Scs_consult;
 use XoopsModules\Scs\Scs_general;
 use XoopsModules\Scs\Scs_guardian;
 use XoopsModules\Scs\Scs_parents;
 use XoopsModules\Scs\Scs_students;
 use XoopsModules\Scs\Tools;
 use XoopsModules\Tadtools\EasyResponsiveTabs;
-use XoopsModules\Tadtools\TadDataCenter;
 use XoopsModules\Tadtools\Utility;
 
 /**
@@ -31,27 +31,7 @@ use XoopsModules\Tadtools\Utility;
 require_once __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'scs_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
-if (!$xoopsUser or (!$_SESSION['scs_adm'] and !$_SESSION['tea_class_arr'] and !$_SESSION['stu_id'])) {
-    redirect_header(XOOPS_URL . '/modules/tad_login', 3, _TAD_PERMISSION_DENIED);
-}
-
 /*-----------功能函數區----------*/
-
-function stu_edit_able()
-{
-    global $xoopsTpl;
-    $TadDataCenter = new TadDataCenter('scs');
-    $school_year = Tools::get_school_year();
-    $TadDataCenter->set_col('school_year_class', $school_year);
-    $setup = $TadDataCenter->getData();
-    $xoopsTpl->assign('setup', $setup);
-    $now = time();
-    $start = strtotime($setup['stu_start_sign'][0]);
-    $stop = strtotime($setup['stu_stop_sign'][0]);
-    $edit_able = ($now >= $start and $now <= $stop) ? true : false;
-    $xoopsTpl->assign('edit_able', $edit_able);
-    return $edit_able;
-}
 
 /*-----------變數過濾----------*/
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
@@ -73,8 +53,23 @@ $scs_general = system_CleanVars($_POST, 'scs_general', [], 'array');
 $scs_parents = system_CleanVars($_POST, 'scs_parents', [], 'array');
 $scs_guardian = system_CleanVars($_POST, 'scs_guardian', [], 'array');
 $scs_brother_sister = system_CleanVars($_POST, 'scs_brother_sister', [], 'array');
+$class = system_CleanVars($_REQUEST, 'class', '', 'string');
+if ($class) {
+    list($school_year, $stu_grade, $stu_class) = explode('-', $class);
+}
 /*-----------執行動作判斷區----------*/
 switch ($op) {
+
+    //刪除資料
+    case 'scs_students_destroy':
+        header("location: {$_SERVER['PHP_SELF']}");
+        Scs_brother_sister::destroy($stu_id);
+        Scs_guardian::destroy($stu_id);
+        Scs_parents::destroy($stu_id);
+        Scs_general::destroy($stu_id);
+        Scs_students::destroy($stu_id);
+        Scs_consult::destroy($stu_id);
+        exit;
 
     //更新資料
     case 'scs_students_store':
@@ -93,7 +88,7 @@ switch ($op) {
     case 'scs_students_create':
         $readonly = '';
         if ($_SESSION['stu_id']) {
-            $edit_able = stu_edit_able();
+            $edit_able = Tools::stu_edit_able();
             if (!$edit_able) {
                 redirect_header($_SERVER['PHP_SELF'], 3, '尚未開放填寫');
             }
@@ -122,10 +117,12 @@ switch ($op) {
 
     default:
         if ($_SESSION['stu_id']) {
-            stu_edit_able();
+            Tools::stu_edit_able();
         }
         if (!empty($stu_id)) {
-            if (!empty($_SESSION['tea_class_arr'])) {
+            if (!empty($_SESSION['scs_adm']) or !empty($_SESSION['counselor']) or !empty($_SESSION['tutor'])) {
+                $school_year = Tools::get_school_year();
+            } elseif (!empty($_SESSION['tea_class_arr'])) {
                 $school_year = Tools::get_school_year();
                 list($school_year, $stu_grade, $stu_class) = explode('-', $_SESSION['tea_class_arr'][$school_year]);
                 $stu_arr = Scs_general::get($stu_id);
@@ -139,16 +136,21 @@ switch ($op) {
             Scs_guardian::show($stu_id);
             Scs_brother_sister::show($stu_id);
             Tools::menu_option($stu_id);
+
             $op = 'scs_students_show';
         } else {
-            if (!empty($_SESSION['tea_class_arr'])) {
+            if (!empty($_SESSION['scs_adm']) or !empty($_SESSION['counselor']) or !empty($_SESSION['tutor'])) {
+                $school_year = Tools::get_school_year();
+            } elseif (!empty($_SESSION['tea_class_arr'])) {
                 $school_year = Tools::get_school_year();
                 list($school_year, $stu_grade, $stu_class) = explode('-', $_SESSION['tea_class_arr'][$school_year]);
             }
             Scs_general::index($school_year, $stu_grade, $stu_class);
             Tools::menu_option($stu_id, $stu_grade, $stu_class);
             $op = 'scs_general_index';
+
         }
+
         break;
 }
 

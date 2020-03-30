@@ -35,9 +35,9 @@
                 <th>
                     <{$smarty.const._MD_SCS_CONSULT_METHOD}>
                 </th>
-                <{if $smarty.session.scs_adm}>
-                    <th><{$smarty.const._TAD_FUNCTION}></th>
-                <{/if}>
+                <th>
+                    <{$smarty.const._TAD_FUNCTION}>
+                </th>
             </tr>
         </thead>
 
@@ -68,10 +68,14 @@
 
                         <!--主要原因-->
                         <td>
-                            <a href="<{$xoops_url}>/modules/scs/consult.php?consult_id=<{$data.consult_id}>">
-                <{$data.consult_reason}>
-                </a>
-                            <{$data.files}>
+                            <{if 'show'|have_consult_power:$stu_id:$data.consult_id}>
+                                <a href="<{$xoops_url}>/modules/scs/consult.php?stu_id=<{$data.stu_id}>&consult_id=<{$data.consult_id}>">
+                                <{$data.consult_reason}>
+                                </a>
+                                <{$data.files}>
+                            <{else}>
+                                無權觀看
+                            <{/if}>
                         </td>
 
                         <!--處理方式-->
@@ -79,32 +83,24 @@
                             <{$data.consult_method}>
                         </td>
 
-                    <{if $smarty.session.scs_adm}>
                         <td nowrap>
+                        <{if 'destroy'|have_consult_power:$data.stu_id:$data.consult_id}>
                             <a href="javascript:scs_consult_destroy_func(<{$data.consult_id}>);" class="btn btn-sm btn-danger" title="<{$smarty.const._TAD_DEL}>"><i class="fa fa-trash-o"></i></a>
+                        <{/if}>
+                        <{if 'update'|have_consult_power:$data.stu_id:$data.consult_id}>
                             <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_edit&consult_id=<{$data.consult_id}>&stu_id=<{$data.stu_id}>" class="btn btn-sm btn-warning" title="<{$smarty.const._TAD_EDIT}>"><i class="fa fa-pencil"></i></a>
+                        <{/if}>
 
                         </td>
-                    <{/if}>
                 </tr>
             <{/foreach}>
         </tbody>
     </table>
-
-
-    <{if $smarty.session.scs_adm}>
-        <div class="text-right">
-            <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_create&stu_id=<{$stu_id}>" class="btn btn-info">
-            <i class="fa fa-plus"></i> 新增諮商紀錄
-            </a>
-        </div>
-    <{/if}>
-
     <{$bar}>
 <{else}>
     <div class="jumbotron text-center">
-        <{if $smarty.session.scs_adm}>
-            <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_create&stu_id=<{$stu_id}>" class="btn btn-info">
+        <{if 'create'|have_consult_power:$stu_id}>
+            <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_create&stu_id=<{$stu_id}>" class="btn btn-primary">
             <i class="fa fa-plus"></i> 新增諮商紀錄
             </a>
         <{else}>

@@ -25,10 +25,6 @@ require_once __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'scs_consult.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 
-if (!$xoopsUser or (!$_SESSION['scs_adm'] and !$_SESSION['tea_class_arr'])) {
-    redirect_header(XOOPS_URL . '/modules/tad_login', 3, _TAD_PERMISSION_DENIED);
-}
-
 /*-----------功能函數區----------*/
 
 /*-----------變數過濾----------*/
@@ -72,7 +68,7 @@ switch ($op) {
 
     //刪除資料
     case 'scs_consult_destroy':
-        Scs_consult::destroy($consult_id);
+        Scs_consult::destroy($stu_id, $consult_id);
         header("location: {$_SERVER['PHP_SELF']}?stu_id=$stu_id");
         exit;
 

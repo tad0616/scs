@@ -33,7 +33,6 @@ class Scs_students
     public static function index()
     {
         global $xoopsDB, $xoopsTpl;
-
         $myts = \MyTextSanitizer::getInstance();
 
         $sql = "select * from `" . $xoopsDB->prefix("scs_students") . "` ";
@@ -98,7 +97,7 @@ class Scs_students
     public static function create($stu_id = '')
     {
         global $xoopsDB, $xoopsTpl, $xoopsUser, $xoopsModuleConfig;
-        Tools::chk_have_power();
+        Tools::chk_scs_power('create');
 
         //抓取預設值
         $DBV = !empty($stu_id) ? self::get($stu_id) : [];
@@ -143,7 +142,7 @@ class Scs_students
 
         //XOOPS表單安全檢查
         if ($check) {
-            Tools::chk_have_power();
+            Tools::chk_scs_power('create');
             Utility::xoops_security_check();
         }
 
@@ -258,6 +257,7 @@ class Scs_students
         } else {
             $stu_id = (int) $stu_id;
         }
+        Tools::chk_scs_power('show', $stu_id);
 
         $myts = \MyTextSanitizer::getInstance();
 
@@ -299,12 +299,12 @@ class Scs_students
 
         //XOOPS表單安全檢查
         if ($check) {
-            Tools::chk_have_power();
+            Tools::chk_scs_power('update', $stu_id);
             Utility::xoops_security_check();
         }
 
         $myts = \MyTextSanitizer::getInstance();
-        $update_item = [];
+        $update_item = $col_arr = $val_arr = [];
         foreach ($data as $col => $val) {
             if (empty($val) and $pass_empty) {
                 continue;
@@ -314,22 +314,21 @@ class Scs_students
                 foreach ($val as $k => $v) {
                     $arr[$k] = $myts->addSlashes($v);
                 }
-                $$col = $val = json_encode($arr, 256);
+                $val = json_encode($arr, 256);
             } else {
-                $$col = $val = $myts->addSlashes($val);
+                $val = $myts->addSlashes($val);
             }
-
+            $col_arr[] = "`{$col}`";
+            $val_arr[] = $val;
             $update_item[] = "`$col` = '{$val}'";
 
         }
+        $insert_col = implode(", ", $col_arr);
+        $insert_val = implode(", ", "'{$val}'");
         $update_sql = implode(", \n", $update_item);
 
         $sql = "
-        INSERT INTO `" . $xoopsDB->prefix("scs_students") . "`(
-            `stu_no`, `stu_name`, `stu_pid`, `stu_sex`, `stu_birthday`, `stu_blood`, `stu_religion`, `stu_residence`, `stu_birth_place`, `stu_email`, `stu_residence_zip`, `stu_residence_county`, `stu_residence_city`, `stu_residence_addr`, `stu_zip`, `stu_county`, `stu_city`, `stu_addr`, `stu_tel1`, `stu_tel2`, `stu_identity`, `stu_education`, `stu_autobiography`, `post_graduation_plan`, `note`, `emergency_contact`, `physiological_defect`, `special_disease`
-        ) VALUES(
-            '{$stu_no}', '{$stu_name}', '{$stu_pid}', '{$stu_sex}', '{$stu_birthday}', '{$stu_blood}', '{$stu_religion}', '{$stu_residence}', '{$stu_birth_place}', '{$stu_email}', '{$stu_residence_zip}', '{$stu_residence_county}', '{$stu_residence_city}', '{$stu_residence_addr}', '{$stu_zip}', '{$stu_county}', '{$stu_city}', '{$stu_addr}', '{$stu_tel1}', '{$stu_tel2}', '{$stu_identity}', '{$stu_education}', '{$stu_autobiography}', '{$post_graduation_plan}', '{$note}', '{$emergency_contact}', '{$physiological_defect}', '{$special_disease}'
-            )
+        INSERT INTO `" . $xoopsDB->prefix("scs_students") . "`($insert_col) VALUES($insert_val)
         ON DUPLICATE KEY UPDATE
         $update_sql";
 
@@ -350,7 +349,7 @@ class Scs_students
     public static function destroy($stu_id = '')
     {
         global $xoopsDB;
-        Tools::chk_have_power();
+        Tools::chk_scs_power('destroy', $stu_id);
 
         if (empty($stu_id)) {
             return;

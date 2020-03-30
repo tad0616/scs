@@ -17,28 +17,74 @@
     </div>
 </form>
 </h2>
-<h3><{$school_year}>學年開放學生填寫日期設定</h3>
+<div class="alert alert-info">
+只有老師利用OpenID登入過本站後，其姓名才會出現在下方選單中。
+</div>
 <script type="text/javascript" src="<{$xoops_url}>/modules/tadtools/My97DatePicker/WdatePicker.js"></script>
 <form action="<{$smarty.server.PHP_SELF}>" method="post" id="myForm" class="form-horizontal">
-    <div class="form-group row custom-gutter">
-        <label class="col-sm-2 col-form-label text-sm-right control-label">
-            開始填寫日期
-        </label>
-        <div class="col-sm-2">
-            <input type="text" name="class_teacher[stu_start_sign]" id="stu_start_sign" class="form-control" value="<{$setup.stu_start_sign.0}>"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd', startDate:'%y-%M-%d'})" placeholder="">
-        </div>
-        <label class="col-sm-2 col-form-label text-sm-right control-label">
-            結束填寫日期
-        </label>
-        <div class="col-sm-2">
-            <input type="text" name="class_teacher[stu_stop_sign]" id="stu_stop_sign" class="form-control" value="<{$setup.stu_stop_sign.0}>"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd', startDate:'%y-%M-%d'})" placeholder="">
+
+
+    <div class="row">
+        <div class="col-sm-4">
+            <h3><{$school_year}>學年「輔導主任」設定</h3>
+            <div class="form-group row custom-gutter">
+                <label class="col-sm-6 col-form-label text-sm-right control-label">
+                    <{$school_year}>學年「輔導主任」
+                </label>
+                <div class="col-sm-6">
+                    <select class="form-control" name="class_teacher[counselor]">
+                        <option value="">請選擇輔導主任</option>
+                        <{foreach from=$teachers key=uid item=teacher}>
+                            <option value="<{$uid}>" <{if $setup.counselor.0==$uid}>selected<{/if}>><{$teacher.name}>（<{$teacher.uname}>）</option>
+                        <{/foreach}>
+                    </select>
+                </div>
+            </div>
+
         </div>
         <div class="col-sm-4">
-            兩者都空白表示不限制，學生隨時可填
+            <h3><{$school_year}>學年「專任輔導教師」設定</h3>
+            <div class="form-group row custom-gutter">
+                <label class="col-sm-6 col-form-label text-sm-right control-label">
+                    <{$school_year}>學年「專任輔導教師」
+                </label>
+                <div class="col-sm-6">
+                    <select class="form-control" name="class_teacher[tutor][]" multiple size=10>
+                        <option value="">請選擇專任輔導教師</option>
+                        <{foreach from=$teachers key=uid item=teacher}>
+                            <option value="<{$uid}>" <{if $uid|in_array:$setup.tutor}>selected<{/if}>><{$teacher.name}>（<{$teacher.uname}>）</option>
+                        <{/foreach}>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <h3><{$school_year}>學年開放學生填寫日期設定</h3>
+            <div class="form-group row custom-gutter">
+                <label class="col-sm-5 col-form-label text-sm-right control-label">
+                    開始填寫日期
+                </label>
+                <div class="col-sm-7">
+                    <input type="text" name="class_teacher[stu_start_sign]" id="stu_start_sign" class="form-control" value="<{$setup.stu_start_sign.0}>"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd', startDate:'%y-%M-%d'})" placeholder="">
+                </div>
+            </div>
+            <div class="form-group row custom-gutter">
+                <label class="col-sm-5 col-form-label text-sm-right control-label">
+                    結束填寫日期
+                </label>
+                <div class="col-sm-7">
+                    <input type="text" name="class_teacher[stu_stop_sign]" id="stu_stop_sign" class="form-control" value="<{$setup.stu_stop_sign.0}>"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd', startDate:'%y-%M-%d'})" placeholder="">
+                </div>
+            </div>
+            <div class="text-right">
+                兩者都空白表示不限制，學生隨時可填
+            </div>
         </div>
     </div>
 
-    <h3><{$school_year}>學年各班導師設定</h3>
+
+
+    <h3><{$school_year}>學年「各班導師」設定</h3>
     <div class="row">
         <{foreach from=$all_class key=stu_grade item=grade_class}>
             <div class="col-sm-4">

@@ -49,6 +49,6 @@ ADD `tag` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '註記'
 ";
 $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/system/admin.php?fct=modulesadmin', 30, $xoopsDB->error());
 }
- */
+
 
 }

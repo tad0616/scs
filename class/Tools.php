@@ -62,19 +62,35 @@ class Tools
         return false;
     }
 
-    public static function isTeacher()
+    public static function isTeacher($kind = '', $uid = '')
     {
         global $xoopsUser, $xoopsDB;
         if ($xoopsUser->user_icq() == 'teacher') {
-            $uid = $xoopsUser->uid();
-            $sql = "select `col_sn`,`data_name` from `" . $xoopsDB->prefix("scs_data_center") . "`
-            where `col_name`='school_year_class' and `data_value`='{$uid}' order by col_sn desc";
-            $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-            $tea_class_arr = [];
-            while (list($year, $class) = $xoopsDB->fetchRow($result)) {
-                $tea_class_arr[$year] = $class;
+
+            $and_data_name = !empty($kind) ? "and `data_name`='$kind'" : '';
+
+            if (empty($uid)) {
+                $uid = $xoopsUser->uid();
             }
-            return $tea_class_arr;
+            $sql = "select `col_sn`,`data_name` from `" . $xoopsDB->prefix("scs_data_center") . "`
+            where `col_name`='school_year_class' and `data_value`='{$uid}' $and_data_name order by col_sn desc";
+            $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
+            if (!empty($kind)) {
+                $year = [];
+                while (list($year, $class) = $xoopsDB->fetchRow($result)) {
+                    $years[$year] = $year;
+                }
+                return $years;
+            } else {
+                $tea_class_arr = [];
+                while (list($year, $class) = $xoopsDB->fetchRow($result)) {
+                    if (strpos($class, '-') !== false) {
+                        $tea_class_arr[$year] = $class;
+                    }
+                }
+                return $tea_class_arr;
+            }
         }
         return false;
     }
@@ -98,11 +114,186 @@ class Tools
         return $teachers;
     }
 
-    public static function chk_have_power()
+    // 檢查是否有權限
+    public static function chk_scs_power($kind = '', $stu_id = '', $school_year = '', $stu_grade = '', $stu_class = '', $mode = '')
     {
-        if (!$_SESSION['tea_class_arr'] and !$_SESSION['stu_id'] and !$_SESSION['scs_adm'] and strpos($_SERVER['PHP_SELF'], '/admin/') === false) {
+        //          觀看學生資料    編輯學生資料    刪除學生資料    新增學生資料
+        // 管 理 員  全部           全部            全部            全部
+        // 輔導主任  全部           全部            全部            全部
+        // 專輔教師  全部           不可            不可            不可
+        // 班級導師  自己班學生     自己班學生       不可            不可
+        // 班級學生  自己           自己(限制時程內) 不可            不可
+
+        switch ($kind) {
+            case 'index':
+                if ($_SESSION['scs_adm'] or $_SESSION['counselor'] or $_SESSION['tutor']) {
+                    return true;
+                } elseif ($_SESSION['tea_class_arr']) {
+                    if (in_array("{$school_year}-{$stu_grade}-{$stu_class}", $_SESSION['tea_class_arr'])) {
+                        return true;
+                    }
+                }
+                break;
+
+            case 'show':
+                if ($_SESSION['scs_adm'] or $_SESSION['counselor'] or $_SESSION['tutor']) {
+                    return true;
+                } elseif ($_SESSION['tea_class_arr']) {
+                    $stu = Scs_general::get($stu_id);
+                    if (in_array($stu[1]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[2]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[3]['grade_class'], $_SESSION['tea_class_arr'])) {
+                        return true;
+                    }
+                } elseif ($_SESSION['stu_id'] and $_SESSION['stu_id'] == $stu_id) {
+                    return true;
+                }
+                break;
+
+            case 'create':
+                if ($_SESSION['scs_adm'] or $_SESSION['counselor']) {
+                    return true;
+                }
+                break;
+
+            case 'update':
+                if ($_SESSION['scs_adm'] or $_SESSION['counselor']) {
+                    return true;
+                } elseif ($_SESSION['tea_class_arr']) {
+                    $stu = Scs_general::get($stu_id);
+                    if (in_array($stu[1]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[2]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[3]['grade_class'], $_SESSION['tea_class_arr'])) {
+                        return true;
+                    }
+                } elseif ($_SESSION['stu_id'] and $_SESSION['stu_id'] == $stu_id and self::stu_edit_able()) {
+                    return true;
+                }
+                break;
+
+            case 'destroy':
+                if ($_SESSION['scs_adm'] or $_SESSION['counselor']) {
+                    return true;
+                }
+                break;
+        }
+
+        if ($mode == 'return') {
+            return false;
+        } else {
             redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
         }
+
+    }
+    // 檢查是否有輔導權限
+    public static function chk_consult_power($kind = '', $stu_id = '', $consult_id = '', $mode = '')
+    {
+        global $xoopsUser;
+        //             新增諮商紀錄     觀看諮商紀錄
+        // 管 理 員     不可               不可
+        // 輔導主任     任一學生            任一學生/導師.專輔紀錄
+        // 專輔教師     任一學生            自己個案紀錄/導師紀錄
+        // 班級導師     自己班學生          自己班學生/自己的紀錄
+        // 班級學生     不可                不可
+
+        switch ($kind) {
+            case 'index':
+                if ($_SESSION['counselor'] or $_SESSION['tutor']) {
+                    return true;
+                } elseif ($_SESSION['tea_class_arr']) {
+                    $stu = Scs_general::get($stu_id);
+                    if (in_array($stu[1]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[2]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[3]['grade_class'], $_SESSION['tea_class_arr'])) {
+                        return true;
+                    }
+                }
+                break;
+
+            case 'show':
+                if ($_SESSION['counselor']) {
+                    return true;
+                } elseif ($_SESSION['tutor']) {
+                    $consult = Scs_consult::get($consult_id);
+                    $now_uid = $xoopsUser->uid();
+                    if ($consult['consult_uid'] == $now_uid) {
+                        return true;
+                    }
+                } elseif ($_SESSION['tea_class_arr']) {
+                    $stu = Scs_general::get($stu_id);
+                    $consult = Scs_consult::get($consult_id);
+                    $now_uid = $xoopsUser->uid();
+                    if (in_array($stu[1]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[2]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[3]['grade_class'], $_SESSION['tea_class_arr'])) {
+                        if ($consult['consult_uid'] == $now_uid) {
+                            return true;
+                        } else {
+                            // 若之前的發布者是舊班導，那也可以看，但無法刪或編輯
+                            $counselor = self::isTeacher('counselor', $consult['consult_uid']);
+                            $tutor = self::isTeacher('tutor', $consult['consult_uid']);
+                            if (!$counselor and !$tutor) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case 'create':
+                if ($_SESSION['counselor'] or $_SESSION['tutor']) {
+                    return true;
+                } elseif ($_SESSION['tea_class_arr']) {
+                    $stu = Scs_general::get($stu_id);
+                    if (in_array($stu[1]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[2]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[3]['grade_class'], $_SESSION['tea_class_arr'])) {
+                        return true;
+                    }
+                }
+                break;
+
+            case 'update':
+                if ($_SESSION['counselor']) {
+                    return true;
+                } elseif ($_SESSION['tutor']) {
+                    $consult = Scs_consult::get($consult_id);
+                    $now_uid = $xoopsUser->uid();
+                    if ($consult['consult_uid'] == $now_uid) {
+                        return true;
+                    }
+                } elseif ($_SESSION['tea_class_arr']) {
+                    $stu = Scs_general::get($stu_id);
+                    $consult = Scs_consult::get($consult_id);
+                    $now_uid = $xoopsUser->uid();
+                    if (in_array($stu[1]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[2]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[3]['grade_class'], $_SESSION['tea_class_arr'])) {
+                        if ($consult['consult_uid'] == $now_uid) {
+                            return true;
+                        }
+                    }
+                }
+                break;
+
+            case 'destroy':
+                if ($_SESSION['counselor']) {
+                    return true;
+                }
+                break;
+
+        }
+
+        if ($mode == 'return') {
+            return false;
+        } else {
+            redirect_header('index.php', 3, _TAD_PERMISSION_DENIED);
+        }
+
+    }
+
+    public static function stu_edit_able()
+    {
+        global $xoopsTpl;
+        $TadDataCenter = new TadDataCenter('scs');
+        $school_year = Tools::get_school_year();
+        $TadDataCenter->set_col('school_year_class', $school_year);
+        $setup = $TadDataCenter->getData();
+        $xoopsTpl->assign('setup', $setup);
+        $now = time();
+        $start = strtotime($setup['stu_start_sign'][0]);
+        $stop = strtotime($setup['stu_stop_sign'][0]);
+        $edit_able = ($now >= $start and $now <= $stop) ? true : false;
+        $xoopsTpl->assign('edit_able', $edit_able);
+        return $edit_able;
     }
 
     //取得學年度
@@ -197,15 +388,15 @@ class Tools
         }
 
         if ($stu_id) {
-            $sql = "select stu_seat_no,stu_grade,stu_class from `" . $xoopsDB->prefix("scs_general") . "`
+            $sql = "select stu_seat_no,school_year,stu_grade,stu_class from `" . $xoopsDB->prefix("scs_general") . "`
             where stu_id ='{$stu_id}'";
             $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-            list($stu_seat_no, $stu_grade, $stu_class) = $xoopsDB->fetchRow($result);
+            list($stu_seat_no, $school_year, $stu_grade, $stu_class) = $xoopsDB->fetchRow($result);
 
             // 下一筆
             $sql = "select a.stu_id,a.stu_seat_no,b.stu_name from `" . $xoopsDB->prefix("scs_general") . "` as a
             join `" . $xoopsDB->prefix("scs_students") . "` as b on a.stu_id=b.stu_id
-            where a.stu_seat_no > {$stu_seat_no} and a.stu_grade='{$stu_grade}' and a.stu_class='{$stu_class}'
+            where a.stu_seat_no > {$stu_seat_no} and a.school_year='{$school_year}' and a.stu_grade='{$stu_grade}' and a.stu_class='{$stu_class}'
             order by a.`stu_seat_no`  LIMIT 0,1";
             $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
             list($next['stu_id'], $next['stu_seat_no'], $next['stu_name']) = $xoopsDB->fetchRow($result);
@@ -214,7 +405,7 @@ class Tools
             // 上一筆
             $sql = "select a.stu_id,a.stu_seat_no,b.stu_name from `" . $xoopsDB->prefix("scs_general") . "` as a
             join `" . $xoopsDB->prefix("scs_students") . "` as b on a.stu_id=b.stu_id
-            where a.stu_seat_no < {$stu_seat_no} and a.stu_grade='{$stu_grade}' and a.stu_class='{$stu_class}'
+            where a.stu_seat_no < {$stu_seat_no} and a.school_year='{$school_year}' and a.stu_grade='{$stu_grade}' and a.stu_class='{$stu_class}'
             order by a.`stu_seat_no` DESC LIMIT 0,1";
             $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
             list($previous['stu_id'], $previous['stu_seat_no'], $previous['stu_name']) = $xoopsDB->fetchRow($result);

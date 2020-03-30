@@ -32,6 +32,8 @@ class Scs_general
     {
         global $xoopsDB, $xoopsTpl;
 
+        Tools::chk_scs_power('index', '', $school_year, $stu_grade, $stu_class);
+
         if (empty($school_year)) {
             $school_year = Tools::get_school_year();
         }
@@ -91,7 +93,7 @@ class Scs_general
     public static function create($stu_id = '')
     {
         global $xoopsDB, $xoopsTpl, $xoopsUser, $xoopsModuleConfig;
-        Tools::chk_have_power();
+        Tools::chk_scs_power('create');
 
         //抓取預設值
         $DBV = !empty($stu_id) ? self::get($stu_id) : [];
@@ -122,7 +124,7 @@ class Scs_general
 
         //XOOPS表單安全檢查
         if ($check) {
-            Tools::chk_have_power();
+            Tools::chk_scs_power('create');
             Utility::xoops_security_check();
         }
 
@@ -225,7 +227,10 @@ class Scs_general
 
         if (empty($stu_id)) {
             return;
+        } else {
+            $stu_id = (int) $stu_id;
         }
+        Tools::chk_scs_power('show', $stu_id);
 
         $all = self::get($stu_id);
 
@@ -254,7 +259,7 @@ class Scs_general
 
         //XOOPS表單安全檢查
         if ($check) {
-            Tools::chk_have_power();
+            Tools::chk_scs_power('update', $stu_id);
             Utility::xoops_security_check();
         }
 
@@ -309,14 +314,16 @@ class Scs_general
     public static function destroy($stu_id = '', $school_year = '')
     {
         global $xoopsDB;
-        Tools::chk_have_power();
+        Tools::chk_scs_power('destroy', $stu_id);
 
         if (empty($stu_id) or empty($school_year)) {
             return;
         }
 
+        $and_school_year = !empty($school_year) ? "and `school_year` = '$school_year'" : '';
+
         $sql = "delete from `" . $xoopsDB->prefix("scs_general") . "`
-        where `stu_id` = '{$stu_id}' and `school_year` = '{$school_year}'";
+        where `stu_id` = '{$stu_id}' $and_school_year";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     }
@@ -352,7 +359,7 @@ class Scs_general
             $arr[$g]['grade_class'] = $grade_class = "{$y}-{$g}-{$data['stu_class']}";
             $school_year_to_grade[$y] = $g;
 
-            $TadDataCenter->set_col('class_tae', $y);
+            $TadDataCenter->set_col('teacher_name', $y);
             $arr[$g]['class_tea'] = $TadDataCenter->getData($grade_class, 0);
         }
 

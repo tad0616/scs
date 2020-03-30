@@ -44,18 +44,18 @@
                 </th>
                 <!--緊急聯絡人姓名-->
                 <th>
-                    緊急聯絡人姓名
+                    緊急聯絡人
                 </th>
 
                 <!--緊急聯絡人電話-->
                 <th>
-                    緊急聯絡人電話
+                    聯絡人電話
                 </th>
                 <!--填寫日期-->
                 <th>
                     <{$smarty.const._MD_SCS_FILL_DATE}>
                 </th>
-                <{if $smarty.session.scs_adm or $smarty.session.tea_class_arr}>
+                <{if 'show'|have_scs_power:$data.stu_id or 'update'|have_scs_power:$data.stu_id or 'index'|have_consult_power:$data.stu_id}>
                     <th><{$smarty.const._TAD_FUNCTION}></th>
                 <{/if}>
             </tr>
@@ -110,22 +110,22 @@
                         <{$data.fill_date}>
                     </td>
 
-                    <{if $smarty.session.scs_adm or $smarty.session.tea_class_arr}>
-                        <td nowrap>
-                            <!-- <a href="javascript:scs_general_destroy_func(<{$data.stu_id_school_year}>);" class="btn btn-sm btn-danger" title="<{$smarty.const._TAD_DEL}>"><i class="fa fa-trash-o"></i></a> -->
-                            <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_index&stu_id=<{$data.stu_id}>" class="btn btn-sm btn-primary" title="<{$data.stu_name}>的個別諮商" data-toggle="tooltip"><i class="fa fa-heart" aria-hidden="true"></i>
-</a>
+                    <td nowrap>
+                        <{if 'index'|have_consult_power:$data.stu_id:$data.school_year:$data.stu_grade:$data.stu_class}>
+                            <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_index&stu_id=<{$data.stu_id}>" class="btn btn-sm btn-primary" title="<{$data.stu_name}>的個別諮商" data-toggle="tooltip"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                        <{/if}>
+                        <{if 'update'|have_scs_power:$data.stu_id}>
                             <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit&school_year=<{$data.school_year}>&stu_id=<{$data.stu_id}>" class="btn btn-sm btn-warning" title="編輯<{$data.stu_name}>綜合資料紀錄表" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
-
-                        </td>
-                    <{/if}>
+                        <{/if}>
+                    </td>
                 </tr>
             <{/foreach}>
         </tbody>
     </table>
 
 
-    <{if $smarty.session.scs_adm or $smarty.session.tea_class_arr}>
+
+    <{if 'create'|have_scs_power}>
         <div class="text-right">
             <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit" class="btn btn-info">
             <i class="fa fa-plus"></i><{$smarty.const._TAD_ADD}>
@@ -138,7 +138,7 @@
     <h2>無任何資料</h2>
     <div class="jumbotron text-center">
         請先至臺南市學籍系統匯出所有學生資料，並於<a href="admin/main.php">後台進行匯入</a>。
-        <{if $smarty.session.scs_adm or $smarty.session.tea_class_arr}>
+        <{if 'create'|have_scs_power}>
             <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit" class="btn btn-info">
             <i class="fa fa-plus"></i> 手動新增
             </a>

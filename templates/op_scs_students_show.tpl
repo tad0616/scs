@@ -73,11 +73,15 @@
 
 
 <div class="bar">
-    <{if $smarty.session.stu_id}>
+    <{if $smarty.session.stu_id and 'update'|have_scs_power:$smarty.session.stu_id}>
         <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit&stu_id=<{$smarty.session.stu_id}>" class="btn btn-warning"><i class="fa fa-pencil"></i> <{$smarty.const._TAD_EDIT}></a>
-    <{elseif $smarty.session.scs_adm or $smarty.session.tea_class_arr}>
-        <a href="javascript:scs_students_destroy_func(<{$stu_id}>);" class="btn btn-danger"><i class="fa fa-trash-o"></i> <{$smarty.const._TAD_DEL}></a>
+    <{elseif 'update'|have_scs_power:$stu_id}>
         <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit&stu_id=<{$stu_id}>" class="btn btn-warning"><i class="fa fa-pencil"></i> <{$smarty.const._TAD_EDIT}></a>
+    <{/if}>
+    <{if 'destroy'|have_scs_power:$stu_id}>
+        <a href="javascript:scs_students_destroy_func(<{$stu_id}>);" class="btn btn-danger"><i class="fa fa-trash-o"></i> <{$smarty.const._TAD_DEL}></a>
+    <{/if}>
+    <{if 'create'|have_scs_power}>
         <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_create" class="btn btn-primary"><i class="fa fa-plus"></i> <{$smarty.const._TAD_ADD}></a>
     <{/if}>
     <a href="<{$xoops_url}>/modules/scs/" class="btn btn-success"><i class="fa fa-undo"></i> 回列表</a>

@@ -13,13 +13,18 @@ if (!isset($_SESSION['stu_id'])) {
 if (!isset($_SESSION['tea_class_arr'])) {
     $_SESSION['tea_class_arr'] = ($xoopsUser) ? Tools::isTeacher() : false;
 }
+// 若是輔導主任（其值是學年度陣列）
+if (!isset($_SESSION['counselor'])) {
+    $_SESSION['counselor'] = ($xoopsUser) ? Tools::isTeacher('counselor') : false;
+}
+
+// 若是專任輔導教師（其值是學年度陣列）
+if (!isset($_SESSION['tutor'])) {
+    $_SESSION['tutor'] = ($xoopsUser) ? Tools::isTeacher('tutor') : false;
+}
 
 $interface_menu[_TAD_TO_MOD] = "index.php";
 $interface_icon[_TAD_TO_MOD] = "fa-chevron-right";
-// if (empty($_SESSION['stu_id'])) {
-//     $interface_menu[_MD_SCS_PAGE_1] = "consult.php";
-//     $interface_icon[_MD_SCS_PAGE_1] = "fa-chevron-right";
-// }
 
 if ($_SESSION['scs_adm']) {
     $interface_menu[_TAD_TO_ADMIN] = "admin/main.php";

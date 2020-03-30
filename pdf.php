@@ -4,6 +4,7 @@ use XoopsModules\Scs\Scs_general;
 use XoopsModules\Scs\Scs_guardian;
 use XoopsModules\Scs\Scs_parents;
 use XoopsModules\Scs\Scs_students;
+use XoopsModules\Scs\Tools;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
 /**
@@ -27,16 +28,14 @@ use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 require_once __DIR__ . '/header.php';
 
-if (!$xoopsUser or (!$_SESSION['scs_adm'] and !$_SESSION['tea_class_arr'] and !$_SESSION['stu_id'])) {
-    redirect_header(XOOPS_URL . '/modules/tad_login', 3, _TAD_PERMISSION_DENIED);
-}
-
 require_once XOOPS_ROOT_PATH . '/modules/tadtools/tcpdf/tcpdf.php';
 
 /*-----------執行動作判斷區----------*/
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $stu_id = system_CleanVars($_REQUEST, 'stu_id', '', 'stu_id');
+
+Tools::chk_scs_power('show', $stu_id);
 
 $general = Scs_general::get($stu_id);
 $stu = Scs_students::get($stu_id);
@@ -1115,6 +1114,6 @@ $pdf->setX($col_x['瞭解我']);
 $pdf->SetTextColor(0, 0, 255);
 $pdf->MultiCell($col_w['剩餘寬'], $col_h['備註欄'], $stu['note'], 1, 'L', false, 1, '', '', true, 0, false, true, $col_h['備註欄'], 'M');
 
-$pdf_title = iconv("UTF-8", "Big5", $pdf_title);
+$pdf_title = iconv("UTF-8", "Big5", $pdf_title . "-{$stu['stu_no']}-{$stu['stu_name']}");
 $pdf->Output($pdf_title . '.pdf', "D");
 // $pdf->Output();

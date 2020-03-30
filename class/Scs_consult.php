@@ -33,6 +33,7 @@ class Scs_consult
     public static function index($stu_id)
     {
         global $xoopsDB, $xoopsTpl;
+        Tools::chk_consult_power('index', $stu_id);
 
         $myts = \MyTextSanitizer::getInstance();
 
@@ -65,6 +66,8 @@ class Scs_consult
             $all['consult_reason'] = $myts->htmlSpecialChars($all['consult_reason']);
             $all['consult_method'] = $myts->htmlSpecialChars($all['consult_method']);
             $all['consult_note'] = $myts->displayTarea($all['consult_note'], 0, 1, 0, 1, 1);
+            $all['consult_uid'] = (int) $all['consult_uid'];
+            $all['consult_uid_name'] = \XoopsUser::getUnameFromId($all['consult_uid'], 1);
 
             $all_scs_consult[] = $all;
         }
@@ -85,7 +88,7 @@ class Scs_consult
         if (empty($stu_id)) {
             redirect_header('index.php', 3, '未指定學生');
         }
-        Tools::chk_have_power();
+        Tools::chk_consult_power('create', $stu_id);
         $xoopsTpl->assign('consult_id', $consult_id);
 
         //抓取預設值
@@ -132,7 +135,6 @@ class Scs_consult
     public static function store()
     {
         global $xoopsDB, $xoopsUser;
-        Tools::chk_have_power();
 
         //XOOPS表單安全檢查
         Utility::xoops_security_check();
@@ -141,6 +143,7 @@ class Scs_consult
 
         $consult_id = (int) $_POST['consult_id'];
         $stu_id = $myts->addSlashes($_POST['stu_id']);
+        Tools::chk_consult_power('create', $stu_id);
         $consult_date = $myts->addSlashes($_POST['consult_date']);
         $consult_start = $myts->addSlashes($_POST['consult_start']);
         $consult_end = $myts->addSlashes($_POST['consult_end']);
@@ -149,6 +152,7 @@ class Scs_consult
         $consult_reason = $myts->addSlashes($_POST['consult_reason']);
         $consult_method = $myts->addSlashes($_POST['consult_method']);
         $consult_note = $myts->addSlashes($_POST['consult_note']);
+        $consult_uid = $xoopsUser->uid();
 
         $sql = "replace into `" . $xoopsDB->prefix("scs_consult") . "` (
         `stu_id`,
@@ -159,7 +163,8 @@ class Scs_consult
         `consult_kind`,
         `consult_reason`,
         `consult_method`,
-        `consult_note`
+        `consult_note`,
+        `consult_uid`
         ) values(
         '{$stu_id}',
         '{$consult_date}',
@@ -169,7 +174,8 @@ class Scs_consult
         '{$consult_kind}',
         '{$consult_reason}',
         '{$consult_method}',
-        '{$consult_note}'
+        '{$consult_note}',
+        '{$consult_uid}'
         )";
         $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
@@ -197,6 +203,8 @@ class Scs_consult
 
         $all = self::get($consult_id);
 
+        Tools::chk_consult_power('show', $all['stu_id'], $consult_id);
+
         //過濾讀出的變數值
         $all['consult_id'] = (int) $all['consult_id'];
         $all['stu_id'] = $myts->htmlSpecialChars($all['stu_id']);
@@ -208,6 +216,8 @@ class Scs_consult
         $all['consult_reason'] = $myts->htmlSpecialChars($all['consult_reason']);
         $all['consult_method'] = $myts->htmlSpecialChars($all['consult_method']);
         $all['consult_note'] = $myts->displayTarea($all['consult_note'], 0, 1, 0, 1, 1);
+        $all['consult_uid'] = (int) $all['consult_id'];
+        $all['consult_uid_name'] = \XoopsUser::getUnameFromId($all['consult_uid'], 1);
 
         $stu_id = !empty($all['stu_id']) ? $all['stu_id'] : $stu_id;
         $stu = Scs_students::get($stu_id);
@@ -235,7 +245,6 @@ class Scs_consult
     public static function update($consult_id = '')
     {
         global $xoopsDB, $xoopsUser;
-        Tools::chk_have_power();
 
         //XOOPS表單安全檢查
         Utility::xoops_security_check();
@@ -244,6 +253,7 @@ class Scs_consult
 
         $consult_id = (int) $_POST['consult_id'];
         $stu_id = $myts->addSlashes($_POST['stu_id']);
+        Tools::chk_consult_power('update', $stu_id, $consult_id);
         $consult_date = $myts->addSlashes($_POST['consult_date']);
         $consult_start = $myts->addSlashes($_POST['consult_start']);
         $consult_end = $myts->addSlashes($_POST['consult_end']);
@@ -252,6 +262,7 @@ class Scs_consult
         $consult_reason = $myts->addSlashes($_POST['consult_reason']);
         $consult_method = $myts->addSlashes($_POST['consult_method']);
         $consult_note = $myts->addSlashes($_POST['consult_note']);
+        $consult_uid = $xoopsUser->uid();
 
         $sql = "update `" . $xoopsDB->prefix("scs_consult") . "` set
         `stu_id` = '{$stu_id}',
@@ -262,7 +273,8 @@ class Scs_consult
         `consult_kind` = '{$consult_kind}',
         `consult_reason` = '{$consult_reason}',
         `consult_method` = '{$consult_method}',
-        `consult_note` = '{$consult_note}'
+        `consult_note` = '{$consult_note}',
+        `consult_uid` = '{$consult_uid}'
         where `consult_id` = '$consult_id'";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
@@ -273,17 +285,19 @@ class Scs_consult
     }
 
     //刪除scs_consult某筆資料資料
-    public static function destroy($consult_id = '')
+    public static function destroy($stu_id = '', $consult_id = '')
     {
         global $xoopsDB;
-        Tools::chk_have_power();
+        Tools::chk_consult_power('destroy', $stu_id, $consult_id);
 
-        if (empty($consult_id)) {
+        if (empty($consult_id) or empty($stu_id)) {
             return;
         }
 
+        $and_consult_id = !empty($consult_id) ? "and `consult_id` = '$consult_id'" : '';
+
         $sql = "delete from `" . $xoopsDB->prefix("scs_consult") . "`
-        where `consult_id` = '{$consult_id}'";
+        where `stu_id` = '{$stu_id}' $and_consult_id";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     }
