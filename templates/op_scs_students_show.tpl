@@ -1,10 +1,10 @@
-<h2 class="text-center"><{$student.stu_name}>綜合資料紀錄表</h2>
+<h2 class="scs text-center"><{$student.stu_name}>綜合資料紀錄表</h2>
 
 <div class="alert alert-info">
     <{includeq file="$xoops_rootpath/modules/scs/templates/sub_year_grade_class_menu.tpl"}>
 </div>
 
-<table class="frame" style="width:100%">
+<table class="frame" style="width:100%" style="background:white;">
     <tr>
         <td>
             <{includeq file="$xoops_rootpath/modules/$xoops_dirname/templates/sub_scs_students_show0.tpl"}>

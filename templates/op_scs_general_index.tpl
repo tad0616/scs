@@ -1,5 +1,5 @@
 <{if $all_scs_general}>
-    <h2>
+    <h2  class="scs">
     <{$school_year}>學年度
     <{if $stu_grade}>
         <{$stu_grade}>年
@@ -14,7 +14,7 @@
         <{includeq file="$xoops_rootpath/modules/scs/templates/sub_year_grade_class_menu.tpl"}>
     </div>
 
-    <table class="table table-striped table-hover table-condensed table-bordered">
+    <table class="table table-striped table-hover table-condensed table-bordered" style="background:white;">
         <thead>
             <tr class="info">
 
@@ -135,7 +135,7 @@
 
     <{$bar}>
 <{else}>
-    <h2>無任何資料</h2>
+    <h2  class="scs">無任何資料</h2>
     <div class="jumbotron text-center">
         請先至臺南市學籍系統匯出所有學生資料，並於<a href="admin/main.php">後台進行匯入</a>。
         <{if 'create'|have_scs_power}>

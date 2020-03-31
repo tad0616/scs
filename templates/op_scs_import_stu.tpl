@@ -1,4 +1,4 @@
-<h2>匯入臺南市學籍系統 Excel</h2>
+<h2  class="scs">匯入臺南市學籍系統 Excel</h2>
 <div class="row">
     <div class="col-sm-6">
         <ol>

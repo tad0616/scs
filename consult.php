@@ -33,6 +33,7 @@ $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $consult_id = system_CleanVars($_REQUEST, 'consult_id', 0, 'int');
 $files_sn = system_CleanVars($_REQUEST, 'files_sn', 0, 'int');
 $stu_id = system_CleanVars($_REQUEST, 'stu_id', 0, 'int');
+$consult_uid = system_CleanVars($_REQUEST, 'consult_uid', 0, 'int');
 
 /*-----------執行動作判斷區----------*/
 switch ($op) {
@@ -85,7 +86,15 @@ switch ($op) {
 
     //預設動作
     default:
-        if (empty($consult_id)) {
+        if (!empty($consult_uid)) {
+            Scs_consult::statistics($consult_uid);
+            $op = 'scs_consult_statistics';
+
+        } elseif (empty($consult_id) and empty($stu_id)) {
+            Scs_consult::statistics_all();
+            $op = 'scs_consult_statistics_all';
+
+        } elseif (empty($consult_id) and !empty($stu_id)) {
             Scs_consult::index($stu_id);
             Tools::menu_option($stu_id);
             $op = 'scs_consult_index';

@@ -26,6 +26,11 @@ if (!isset($_SESSION['tutor'])) {
 $interface_menu[_TAD_TO_MOD] = "index.php";
 $interface_icon[_TAD_TO_MOD] = "fa-chevron-right";
 
+if ($_SESSION['counselor'] or $_SESSION['tutor']) {
+    $interface_menu['輔導專區'] = "consult.php";
+    $interface_icon['輔導專區'] = "fa-heart";
+}
+
 if ($_SESSION['scs_adm']) {
     $interface_menu[_TAD_TO_ADMIN] = "admin/main.php";
     $interface_icon[_TAD_TO_ADMIN] = "fa-sign-in";

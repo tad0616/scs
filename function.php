@@ -32,7 +32,7 @@ function have_scs_power($kind = '', $stu_id = '')
     return Tools::chk_scs_power($kind, $stu_id, '', '', '', 'return');
 }
 
-function have_consult_power($kind = '', $stu_id = '', $consult_id = '')
+function have_consult_power($kind = '', $stu_id = '', $consult_id = '', $consult_uid = '')
 {
-    return Tools::chk_consult_power($kind, $stu_id, $consult_id, 'return');
+    return Tools::chk_consult_power($kind, $stu_id, $consult_id, $consult_uid, 'return');
 }
