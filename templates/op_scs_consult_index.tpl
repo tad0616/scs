@@ -1,4 +1,4 @@
-<h2>「<{$stu.stu_name}>」個別諮商紀錄</h2>
+<h2 class="scs">「<{$stu.stu_name}>」個別諮商紀錄</h2>
 
 <div class="alert alert-info">
     <{includeq file="$xoops_rootpath/modules/scs/templates/sub_year_grade_class_menu.tpl"}>
@@ -8,16 +8,16 @@
 
     <div id="scs_consult_save_msg"></div>
 
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover" style="background:white;">
         <thead>
             <tr class="info">
-                <!--諮商日期-->
+                <!--會談日期-->
                 <th>
-                    <{$smarty.const._MD_SCS_CONSULT_DATE}>
+                    會談日期
                 </th>
-                <!--諮商開始時間-->
+                <!--會談時間-->
                 <th>
-                    諮商時間
+                    會談時間
                 </th>
                 <!--來談動機-->
                 <th>
@@ -36,6 +36,9 @@
                     <{$smarty.const._MD_SCS_CONSULT_METHOD}>
                 </th>
                 <th>
+                    諮商者
+                </th>
+                <th>
                     <{$smarty.const._TAD_FUNCTION}>
                 </th>
             </tr>
@@ -45,15 +48,13 @@
             <{foreach from=$all_scs_consult item=data}>
                 <tr id="tr_<{$data.consult_id}>">
 
-                        <!--諮商日期-->
+                        <!--會談日期-->
                         <td>
-                            <{$data.consult_date}>
+                            <{$data.consult_cdate}>
                         </td>
-
-                        <!--諮商開始時間-->
+                        <!--會談時間-->
                         <td>
-                            <{$data.consult_start}> ~
-                            <{$data.consult_end}>
+                            <{$data.consult_time}>
                         </td>
 
                         <!--來談動機-->
@@ -83,6 +84,10 @@
                             <{$data.consult_method}>
                         </td>
 
+                        <!--諮商者-->
+                        <td>
+                            <a href="consult.php?consult_uid=<{$data.consult_uid}>"><{$data.consult_uid_name}></a>
+                        </td>
                         <td nowrap>
                         <{if 'destroy'|have_consult_power:$data.stu_id:$data.consult_id}>
                             <a href="javascript:scs_consult_destroy_func(<{$data.consult_id}>);" class="btn btn-sm btn-danger" title="<{$smarty.const._TAD_DEL}>"><i class="fa fa-trash-o"></i></a>

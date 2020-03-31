@@ -1,4 +1,4 @@
-<h2><{$consult_date}> <{$stu.stu_name}>：<{$consult_reason}></h2>
+<h2 class="scs"><{$consult_date}> <{$stu.stu_name}>：<{$consult_reason}></h2>
 
 <div class="alert alert-info">
     <{includeq file="$xoops_rootpath/modules/scs/templates/sub_year_grade_class_menu.tpl"}>
@@ -11,9 +11,7 @@
 
 <div class="alert alert-success">
     <span data-toggle="tooltip" title="<{$smarty.const._MD_SCS_CONSULT_DATE}>"><{$consult_date}></span>
-    <span data-toggle="tooltip" title="<{$smarty.const._MD_SCS_CONSULT_START}>"><{$consult_start}></span>
-    ～
-    <span data-toggle="tooltip" title="<{$smarty.const._MD_SCS_CONSULT_END}>"><{$consult_end}></span>
+    <span data-toggle="tooltip" title="<{$smarty.const._MD_SCS_CONSULT_TIME}>"><{$consult_time}></span>
     /
     <span data-toggle="tooltip" title="<{$smarty.const._MD_SCS_CONSULT_UID_NAME}>"><{$consult_uid_name}></span>
     /

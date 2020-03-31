@@ -185,3 +185,13 @@ th.c3 {
 .tooltip.bs-tooltip-top .arrow:before {
     border-top-color: #830d48 !important;
 }
+
+h2.scs{
+    padding:6px; /* 離標題邊框距離 */
+    text-align:left; /* 文字靠左 */
+    font-weight:normal; /* 不要粗體 */
+    font-family: HanWangMingBlack, jf-openhuninn, 'Noto Sans TC', Mamelon; /* 字型 */
+    background: -webkit-linear-gradient(rgb(3, 86, 163), rgb(0, 3, 3)); /* 漸層顏色 */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

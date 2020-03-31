@@ -33,7 +33,7 @@ require_once XOOPS_ROOT_PATH . '/modules/tadtools/tcpdf/tcpdf.php';
 /*-----------執行動作判斷區----------*/
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$stu_id = system_CleanVars($_REQUEST, 'stu_id', '', 'stu_id');
+$stu_id = system_CleanVars($_REQUEST, 'stu_id', 0, 'int');
 
 Tools::chk_scs_power('show', $stu_id);
 

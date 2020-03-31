@@ -1,6 +1,6 @@
-<h2><{$school_year}>學年度第<{$semester}>學期學生資料</h2>
+<h2  class="scs"><{$school_year}>學年度第<{$semester}>學期學生資料</h2>
 <form action="main.php" method="post">
-    <table class="table table-bordered table-condensed table-responsive">
+    <table class="table table-bordered table-condensed table-responsive" style="background:white;">
     <{foreach from=$students key=row item=student}>
         <{if $row>2}>
             <tr>
@@ -41,7 +41,7 @@
 </form>
 <{*
 <div class="table-responsive">
-    <table class="table table-bordered table-condensed table-responsive">
+    <table class="table table-bordered table-condensed table-responsive" style="background:white;">
     <{foreach from=$all_data key=row item=col_data}>
         <tr>
             <{foreach from=$col_data key=col item=val}>

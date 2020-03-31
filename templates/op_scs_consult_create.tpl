@@ -1,6 +1,6 @@
 <script type="text/javascript" src="<{$xoops_url}>/modules/tadtools/My97DatePicker/WdatePicker.js"></script>
 
-<h2>「<{$stu.stu_name}>」個別諮商紀錄</h2>
+<h2 class="scs">「<{$stu.stu_name}>」個別諮商紀錄</h2>
 
 <div class="alert alert-info">
     <{includeq file="$xoops_rootpath/modules/scs/templates/sub_year_grade_class_menu.tpl"}>
@@ -10,7 +10,7 @@
 <!--套用formValidator驗證機制-->
 <form action="<{$smarty.server.PHP_SELF}>" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal">
 
-    <!--諮商日期 date-->
+    <!--會談日期-->
     <div class="form-group row custom-gutter">
         <label class="col-sm-2 col-form-label text-md-right control-label">
             <{$smarty.const._MD_SCS_CONSULT_DATE}>
@@ -19,21 +19,14 @@
             <input type="text" name="consult_date" id="consult_date" class="form-control validate[required]" value="<{$DBV.consult_date}>"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd', startDate:'%y-%M-%d'})" placeholder="<{$smarty.const._MD_SCS_CONSULT_DATE}>">
         </div>
 
-        <!--諮商開始時間 date-->
+        <!--會談時間-->
         <label class="col-sm-2 col-form-label text-md-right control-label">
-            <{$smarty.const._MD_SCS_CONSULT_START}>
+            <{$smarty.const._MD_SCS_CONSULT_TIME}>
         </label>
         <div class="col-sm-2">
-            <input type="text" name="consult_start" id="consult_start" class="form-control " value="<{$DBV.consult_start}>"  onClick="WdatePicker({dateFmt:'HH:mm'})" placeholder="<{$smarty.const._MD_SCS_CONSULT_START}>">
+            <input type="text" name="consult_time" id="consult_time" class="form-control " value="<{$DBV.consult_time}>"  onClick="WdatePicker({dateFmt:'HH:mm'})" placeholder="<{$smarty.const._MD_SCS_CONSULT_TIME}>">
         </div>
 
-        <!--諮商結束時間 date-->
-        <label class="col-sm-2 col-form-label text-md-right control-label">
-            <{$smarty.const._MD_SCS_CONSULT_END}>
-        </label>
-        <div class="col-sm-2">
-            <input type="text" name="consult_end" id="consult_end" class="form-control " value="<{$DBV.consult_end}>"  onClick="WdatePicker({dateFmt:'HH:mm'})" placeholder="<{$smarty.const._MD_SCS_CONSULT_END}>">
-        </div>
 
     </div>
 
@@ -118,6 +111,9 @@
         <{$token_form}>
 
         <input type="hidden" name="op" value="<{$next_op}>">
+        <input type="hidden" name="stu_grade" value="<{$stu_grade}>">
+        <input type="hidden" name="stu_class" value="<{$stu_class}>">
+        <input type="hidden" name="stu_seat_no" value="<{$stu_seat_no}>">
         <input type="hidden" name="consult_id" value="<{$consult_id}>">
         <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
     </div>

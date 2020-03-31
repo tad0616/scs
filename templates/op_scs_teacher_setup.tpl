@@ -1,4 +1,4 @@
-<h2>
+<h2  class="scs">
 <form class="form-inline">
     <div class="form-group">
         <select name="school_year" id="school_year" class="form-control" onchange="location.href='class.php?school_year='+this.value">

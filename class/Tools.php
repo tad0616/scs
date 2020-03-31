@@ -177,12 +177,12 @@ class Tools
         if ($mode == 'return') {
             return false;
         } else {
-            redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
+            redirect_header($_SERVER['HTTP_REFERER'], 3, _TAD_PERMISSION_DENIED);
         }
 
     }
     // 檢查是否有輔導權限
-    public static function chk_consult_power($kind = '', $stu_id = '', $consult_id = '', $mode = '')
+    public static function chk_consult_power($kind = '', $stu_id = '', $consult_id = '', $consult_uid = '', $mode = '')
     {
         global $xoopsUser;
         //             新增諮商紀錄     觀看諮商紀錄
@@ -264,6 +264,16 @@ class Tools
                 }
                 break;
 
+            case 'statistics':
+                if ($_SESSION['counselor']) {
+                    return true;
+                } elseif ($_SESSION['tutor']) {
+                    $now_uid = $xoopsUser->uid();
+                    if ($consult_uid == $now_uid) {
+                        return true;
+                    }
+                }
+                break;
             case 'destroy':
                 if ($_SESSION['counselor']) {
                     return true;
@@ -275,7 +285,7 @@ class Tools
         if ($mode == 'return') {
             return false;
         } else {
-            redirect_header('index.php', 3, _TAD_PERMISSION_DENIED);
+            redirect_header($_SERVER['HTTP_REFERER'], 3, _TAD_PERMISSION_DENIED);
         }
 
     }
@@ -392,6 +402,7 @@ class Tools
             where stu_id ='{$stu_id}'";
             $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
             list($stu_seat_no, $school_year, $stu_grade, $stu_class) = $xoopsDB->fetchRow($result);
+            $xoopsTpl->assign('stu_seat_no', $stu_seat_no);
 
             // 下一筆
             $sql = "select a.stu_id,a.stu_seat_no,b.stu_name from `" . $xoopsDB->prefix("scs_general") . "` as a
