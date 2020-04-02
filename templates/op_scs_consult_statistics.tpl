@@ -1,5 +1,13 @@
-<h2  class="scs">「<{$consult_name}>」個別諮商紀錄</h2>
-
+<h2  class="scs">「<{$consult_name}>」個別諮商紀錄統計報表</h2>
+<div class="alert alert-success">
+    <{includeq file="$xoops_rootpath/modules/scs/templates/sub_consult_date_menu.tpl"}>
+</div>
+<{if 'statistics'|have_consult_power:'':'':$uid}>
+    <a href="pdf_consult_all.php?consult_uid=<{$consult_uid}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/pdf.png">期末報表PDF</a>
+    <a href="excel_consult_all.php?consult_uid=<{$consult_uid}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/xls.png">期末報表Excel</a>
+    <a href="pdf_consult_month.php?consult_uid=<{$consult_uid}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/pdf.png">月報表PDF</a>
+    <a href="excel_consult_month.php?consult_uid=<{$consult_uid}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/xls.png">月報表Excel</a>
+<{/if}>
 <table class="table table-striped table-hover" style="background:white;">
     <thead>
         <tr class="info">
@@ -21,7 +29,7 @@
                 <td><{$data.stu_grade}>-<{$data.stu_class}></td>
                 <td><{$data.stu_seat_no}></td>
                 <{if 'statistics'|have_consult_power:'':'':$data.consult_uid}>
-                    <td><a href="consult.php?stu_id=<{$data.stu_id}>"><{$data.stu_name}></a></td>
+                    <td><a href="consult.php?stu_id=<{$data.stu_id}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><{$data.stu_name}></a></td>
                 <{else}>
                     <td><{$data.stu_name}></td>
                 <{/if}>

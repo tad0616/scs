@@ -22,7 +22,7 @@ CREATE TABLE `scs_consult` (
   `consult_kind` varchar(255) DEFAULT '' COMMENT '問題類別',
   `consult_reason` varchar(255) DEFAULT '' COMMENT '主要原因',
   `consult_method` varchar(255) DEFAULT '' COMMENT '處理方式',
-  `consult_note` text COMMENT '備註資料',
+  `consult_note` text COMMENT '會談紀要',
   `consult_uid` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '諮商者',
   PRIMARY KEY (`consult_id`),
   KEY `stu_id` (`stu_id`)

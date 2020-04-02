@@ -1,6 +1,6 @@
 <script type="text/javascript" src="<{$xoops_url}>/modules/tadtools/My97DatePicker/WdatePicker.js"></script>
 
-<h2 class="scs">「<{$stu.stu_name}>」個別諮商紀錄</h2>
+<h2 class="scs">編輯「<{$stu.stu_name}>」個別諮商紀錄</h2>
 
 <div class="alert alert-info">
     <{includeq file="$xoops_rootpath/modules/scs/templates/sub_year_grade_class_menu.tpl"}>
@@ -36,7 +36,7 @@
             <{$smarty.const._MD_SCS_CONSULT_MOTIVATION}>
         </label>
         <div class="col-sm-2">
-            <input list="consult_motivation" name="consult_motivation" class="form-control" value="<{$DBV.consult_motivation}>" placeholder="可選亦可直接輸入">
+            <input list="consult_motivation" name="consult_motivation" class="form-control validate[required]" value="<{$DBV.consult_motivation}>" placeholder="可選亦可直接輸入">
             <datalist id="consult_motivation">
                 <{foreach from=$consult_motivation_arr key=k item=title}>
                     <option value="<{$title}>">
@@ -49,7 +49,7 @@
             <{$smarty.const._MD_SCS_CONSULT_KIND}>
         </label>
         <div class="col-sm-2">
-            <input list="consult_kind" name="consult_kind" class="form-control" value="<{$DBV.consult_kind}>" placeholder="可選亦可直接輸入">
+            <input list="consult_kind" name="consult_kind" class="form-control validate[required]" value="<{$DBV.consult_kind}>" placeholder="可選亦可直接輸入">
             <datalist id="consult_kind">
                 <{foreach from=$consult_kind_arr key=k item=title}>
                     <option value="<{$title}>">
@@ -61,7 +61,7 @@
             <{$smarty.const._MD_SCS_CONSULT_METHOD}>
         </label>
         <div class="col-sm-2">
-            <input list="consult_method" name="consult_method" class="form-control" value="<{$DBV.consult_method}>" placeholder="可選亦可直接輸入">
+            <input list="consult_method" name="consult_method" class="form-control validate[required]" value="<{$DBV.consult_method}>" placeholder="可選亦可直接輸入">
             <datalist id="consult_method">
                 <{foreach from=$consult_method_arr key=k item=title}>
                     <option value="<{$title}>">
@@ -73,22 +73,16 @@
     <div class="alert alert-warning">
         <!--主要原因-->
         <div class="form-group row custom-gutter">
-            <label class="col-sm-1 col-form-label text-md-right control-label">
-                <{$smarty.const._MD_SCS_CONSULT_REASON}>
-            </label>
-            <div class="col-sm-11">
+            <div class="col-sm-12">
                 <input type="text" name="consult_reason" id="consult_reason" class="form-control " value="<{$DBV.consult_reason}>" placeholder="<{$smarty.const._MD_SCS_CONSULT_REASON}>">
             </div>
         </div>
 
 
-        <!--備註資料-->
+        <!--會談紀要-->
         <div class="form-group row custom-gutter">
-            <label class="col-sm-1 col-form-label text-md-right control-label">
-                <{$smarty.const._MD_SCS_CONSULT_NOTE}>
-            </label>
-            <div class="col-sm-11">
-                <textarea name="consult_note" rows=15 id="consult_note" class="form-control " placeholder="<{$smarty.const._MD_SCS_CONSULT_NOTE}>"><{$DBV.consult_note}></textarea>
+            <div class="col-sm-12">
+                <textarea name="consult_note" rows=10 id="consult_note" class="form-control " placeholder="<{$smarty.const._MD_SCS_CONSULT_NOTE}>"><{$DBV.consult_note}></textarea>
             </div>
         </div>
     </div>

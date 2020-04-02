@@ -29,8 +29,8 @@ require_once XOOPS_ROOT_PATH . '/modules/tadtools/tcpdf/tcpdf.php';
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $consult_uid = system_CleanVars($_REQUEST, 'consult_uid', '', 'string');
-$year = system_CleanVars($_REQUEST, 'year', '', 'string');
-$month = system_CleanVars($_REQUEST, 'month', '', 'string');
+$start = system_CleanVars($_REQUEST, 'start', '', 'string');
+$end = system_CleanVars($_REQUEST, 'end', '', 'string');
 
 if (empty($consult_uid)) {
     redirect_header($_SERVER['HTTP_REFERER'], 3, '未指定教師');
@@ -38,7 +38,7 @@ if (empty($consult_uid)) {
 
 Tools::chk_consult_power('statistics', '', '', $consult_uid);
 
-$consult = Scs_consult::statistics($consult_uid, $year, $month, 'return');
+$consult = Scs_consult::statistics($consult_uid, $start, $end, 'return');
 
 $pdf_title = "個別諮商月報表";
 
@@ -87,6 +87,16 @@ foreach ($consult['data_arr'] as $c) {
     $pdf->Cell(26, $col_h['行高'], $c['consult_method'], 1, 1, "C", false);
 }
 
-$pdf_title = iconv("UTF-8", "Big5", $pdf_title . "-{$consult['consult_name']}");
+$date = $start_txt = $end_txt = "";
+if ($start) {
+    $start_txt = "{$start}起";
+}if ($end) {
+    $end_txt = "{$end}止";
+}
+if ($start or $end) {
+    $date = "（{$start_txt}{$end_txt}）";
+}
+
+$pdf_title = iconv("UTF-8", "Big5", $pdf_title . "-{$consult['consult_name']}{$date}");
 $pdf->Output($pdf_title . '.pdf', "D");
 // $pdf->Output();

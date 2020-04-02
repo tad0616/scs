@@ -62,7 +62,7 @@ class Tools
         return false;
     }
 
-    public static function isTeacher($kind = '', $uid = '')
+    public static function isTeacher($kind = '', $uid = '', $return_arr = true)
     {
         global $xoopsUser, $xoopsDB;
         if ($xoopsUser->user_icq() == 'teacher') {
@@ -81,7 +81,13 @@ class Tools
                 while (list($year, $class) = $xoopsDB->fetchRow($result)) {
                     $years[$year] = $year;
                 }
-                return $years;
+                if (!empty($years)) {
+                    if ($return_arr) {
+                        return $years;
+                    } else {
+                        return true;
+                    }
+                }
             } else {
                 $tea_class_arr = [];
                 while (list($year, $class) = $xoopsDB->fetchRow($result)) {
@@ -89,7 +95,13 @@ class Tools
                         $tea_class_arr[$year] = $class;
                     }
                 }
-                return $tea_class_arr;
+                if (!empty($tea_class_arr)) {
+                    if ($return_arr) {
+                        return $tea_class_arr;
+                    } else {
+                        return true;
+                    }
+                }
             }
         }
         return false;
@@ -193,6 +205,7 @@ class Tools
         // 班級學生     不可                不可
 
         switch ($kind) {
+            // 觀看學生的諮商列表
             case 'index':
                 if ($_SESSION['counselor'] or $_SESSION['tutor']) {
                     return true;
@@ -204,13 +217,27 @@ class Tools
                 }
                 break;
 
-            case 'show':
+            // 觀看諮商員諮商紀錄列表
+            case 'counselor_index':
                 if ($_SESSION['counselor']) {
                     return true;
                 } elseif ($_SESSION['tutor']) {
                     $consult = Scs_consult::get($consult_id);
                     $now_uid = $xoopsUser->uid();
                     if ($consult['consult_uid'] == $now_uid) {
+                        return true;
+                    }
+                }
+                break;
+
+            // 觀看某學生完整紀錄pdf
+            case 'show':
+                if ($_SESSION['counselor']) {
+                    return true;
+                } elseif ($_SESSION['tutor']) {
+                    $consult = Scs_consult::get($consult_id);
+                    $now_uid = $xoopsUser->uid();
+                    if ($consult['consult_uid'] == $now_uid or self::isTeacher('', $consult['consult_uid'], false)) {
                         return true;
                     }
                 } elseif ($_SESSION['tea_class_arr']) {
@@ -222,9 +249,7 @@ class Tools
                             return true;
                         } else {
                             // 若之前的發布者是舊班導，那也可以看，但無法刪或編輯
-                            $counselor = self::isTeacher('counselor', $consult['consult_uid']);
-                            $tutor = self::isTeacher('tutor', $consult['consult_uid']);
-                            if (!$counselor and !$tutor) {
+                            if (self::isTeacher('', $consult['consult_uid'], false)) {
                                 return true;
                             }
                         }
@@ -264,6 +289,7 @@ class Tools
                 }
                 break;
 
+            // 觀看統計或報表界面
             case 'statistics':
                 if ($_SESSION['counselor']) {
                     return true;
@@ -274,6 +300,19 @@ class Tools
                     }
                 }
                 break;
+
+            // 下載某學生完整紀錄pdf
+            case 'download':
+                if ($_SESSION['counselor'] or $_SESSION['tutor']) {
+                    return true;
+                } elseif ($_SESSION['tea_class_arr']) {
+                    $stu = Scs_general::get($stu_id);
+                    if (in_array($stu[1]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[2]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[3]['grade_class'], $_SESSION['tea_class_arr'])) {
+                        return true;
+                    }
+                }
+                break;
+
             case 'destroy':
                 if ($_SESSION['counselor']) {
                     return true;

@@ -236,7 +236,7 @@ define('_MD_SCS_CONSULT_MOTIVATION', '來談動機');
 define('_MD_SCS_CONSULT_KIND', '問題類別');
 define('_MD_SCS_CONSULT_REASON', '主要原因');
 define('_MD_SCS_CONSULT_METHOD', '處理方式');
-define('_MD_SCS_CONSULT_NOTE', '備註資料');
+define('_MD_SCS_CONSULT_NOTE', '會談紀要');
 define('_MD_SCS_CONSULT_UID', '諮商者編號');
 define('_MD_SCS_CONSULT_UID_NAME', '諮商者');
 define('_MD_SCS_UP_CONSULT_ID', '相關檔案');

@@ -1,9 +1,11 @@
-<h2 class="scs">「<{$stu.stu_name}>」個別諮商紀錄</h2>
+<h2 class="scs">「<{$stu.stu_name}>」個別諮商紀錄列表</h2>
 
 <div class="alert alert-info">
     <{includeq file="$xoops_rootpath/modules/scs/templates/sub_year_grade_class_menu.tpl"}>
 </div>
-
+<div class="alert alert-success">
+    <{includeq file="$xoops_rootpath/modules/scs/templates/sub_consult_date_menu.tpl"}>
+</div>
 <{if $all_scs_consult}>
 
     <div id="scs_consult_save_msg"></div>
@@ -46,6 +48,7 @@
 
         <tbody id="scs_consult_sort">
             <{foreach from=$all_scs_consult item=data}>
+                <{assign var=can_view value='show'|have_consult_power:$stu_id:$data.consult_id}>
                 <tr id="tr_<{$data.consult_id}>">
 
                         <!--會談日期-->
@@ -69,7 +72,7 @@
 
                         <!--主要原因-->
                         <td>
-                            <{if 'show'|have_consult_power:$stu_id:$data.consult_id}>
+                            <{if $can_view}>
                                 <a href="<{$xoops_url}>/modules/scs/consult.php?stu_id=<{$data.stu_id}>&consult_id=<{$data.consult_id}>">
                                 <{$data.consult_reason}>
                                 </a>
@@ -86,7 +89,11 @@
 
                         <!--諮商者-->
                         <td>
-                            <a href="consult.php?consult_uid=<{$data.consult_uid}>"><{$data.consult_uid_name}></a>
+                            <{if $can_view}>
+                                <a href="consult.php?consult_uid=<{$data.consult_uid}>"><{$data.consult_uid_name}></a>
+                            <{else}>
+                                <{$data.consult_uid_name}>
+                            <{/if}>
                         </td>
                         <td nowrap>
                         <{if 'destroy'|have_consult_power:$data.stu_id:$data.consult_id}>
