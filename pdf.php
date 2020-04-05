@@ -35,7 +35,7 @@ include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $stu_id = system_CleanVars($_REQUEST, 'stu_id', 0, 'int');
 
-Tools::chk_scs_power('show', $stu_id);
+Tools::chk_scs_power(__FILE__, __LINE__,  'show', $stu_id);
 
 $general = Scs_general::get($stu_id);
 $stu = Scs_students::get($stu_id);

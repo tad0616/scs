@@ -33,7 +33,7 @@ class Scs_consult
     public static function index($stu_id, $start = '', $end = '')
     {
         global $xoopsDB, $xoopsTpl;
-        Tools::chk_consult_power('index', $stu_id);
+        Tools::chk_consult_power(__FILE__, __LINE__, 'index', $stu_id);
 
         $myts = \MyTextSanitizer::getInstance();
 
@@ -97,7 +97,7 @@ class Scs_consult
         if (empty($stu_id)) {
             redirect_header('index.php', 3, '未指定學生');
         }
-        Tools::chk_consult_power('create', $stu_id);
+        Tools::chk_consult_power(__FILE__, __LINE__, 'create', $stu_id);
         $xoopsTpl->assign('consult_id', $consult_id);
 
         //抓取預設值
@@ -154,7 +154,7 @@ class Scs_consult
         $stu_grade = (int) $_POST['stu_grade'];
         $stu_class = (int) $_POST['stu_class'];
         $stu_seat_no = (int) $_POST['stu_seat_no'];
-        Tools::chk_consult_power('create', $stu_id);
+        Tools::chk_consult_power(__FILE__, __LINE__, 'create', $stu_id);
         $consult_date = $myts->addSlashes($_POST['consult_date']);
         $consult_time = $myts->addSlashes($_POST['consult_time']);
         $consult_motivation = $myts->addSlashes($_POST['consult_motivation']);
@@ -217,7 +217,7 @@ class Scs_consult
 
         $all = self::get($consult_id);
 
-        Tools::chk_consult_power('show', $all['stu_id'], $consult_id);
+        Tools::chk_consult_power(__FILE__, __LINE__, 'show', $all['stu_id'], $consult_id);
 
         //過濾讀出的變數值
         $all['consult_id'] = (int) $all['consult_id'];
@@ -278,7 +278,7 @@ class Scs_consult
         $stu_grade = (int) $_POST['stu_grade'];
         $stu_class = (int) $_POST['stu_class'];
         $stu_seat_no = (int) $_POST['stu_seat_no'];
-        Tools::chk_consult_power('update', $stu_id, $consult_id);
+        Tools::chk_consult_power(__FILE__, __LINE__, 'update', $stu_id, $consult_id);
         $consult_date = $myts->addSlashes($_POST['consult_date']);
         $consult_time = $myts->addSlashes($_POST['consult_time']);
         $consult_motivation = $myts->addSlashes($_POST['consult_motivation']);
@@ -314,7 +314,7 @@ class Scs_consult
     public static function destroy($stu_id = '', $consult_id = '')
     {
         global $xoopsDB;
-        Tools::chk_consult_power('destroy', $stu_id, $consult_id);
+        Tools::chk_consult_power(__FILE__, __LINE__, 'destroy', $stu_id, $consult_id);
 
         if (empty($consult_id) or empty($stu_id)) {
             return;
@@ -406,7 +406,7 @@ class Scs_consult
             redirect_header('consult.php', 3, '未指定教師');
         }
 
-        Tools::chk_consult_power('counselor_index', '', '', $consult_uid);
+        Tools::chk_consult_power(__FILE__, __LINE__, 'counselor_index', '', '', $consult_uid);
 
         $and_start = !empty($start) ? "and a.`consult_date` >= '{$start}'" : '';
         $and_end = !empty($end) ? "and a.`consult_date` <= '{$end}'" : '';

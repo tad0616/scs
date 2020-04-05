@@ -32,7 +32,7 @@ class Scs_general
     {
         global $xoopsDB, $xoopsTpl;
 
-        Tools::chk_scs_power('index', '', $school_year, $stu_grade, $stu_class);
+        Tools::chk_scs_power(__FILE__, __LINE__, 'index', '', $school_year, $stu_grade, $stu_class);
 
         if (empty($school_year)) {
             $school_year = Tools::get_school_year();
@@ -93,7 +93,7 @@ class Scs_general
     public static function create($stu_id = '')
     {
         global $xoopsDB, $xoopsTpl, $xoopsUser, $xoopsModuleConfig;
-        Tools::chk_scs_power('create');
+        Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id);
 
         //抓取預設值
         $DBV = !empty($stu_id) ? self::get($stu_id) : [];
@@ -124,7 +124,7 @@ class Scs_general
 
         //XOOPS表單安全檢查
         if ($check) {
-            Tools::chk_scs_power('create');
+            Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id);
             Utility::xoops_security_check();
         }
 
@@ -230,7 +230,7 @@ class Scs_general
         } else {
             $stu_id = (int) $stu_id;
         }
-        Tools::chk_scs_power('show', $stu_id);
+        Tools::chk_scs_power(__FILE__, __LINE__, 'show', $stu_id);
 
         $all = self::get($stu_id);
 
@@ -259,7 +259,7 @@ class Scs_general
 
         //XOOPS表單安全檢查
         if ($check) {
-            Tools::chk_scs_power('update', $stu_id);
+            Tools::chk_scs_power(__FILE__, __LINE__, 'update', $stu_id);
             Utility::xoops_security_check();
         }
 
@@ -314,7 +314,7 @@ class Scs_general
     public static function destroy($stu_id = '', $school_year = '')
     {
         global $xoopsDB;
-        Tools::chk_scs_power('destroy', $stu_id);
+        Tools::chk_scs_power(__FILE__, __LINE__, 'destroy', $stu_id);
 
         if (empty($stu_id) or empty($school_year)) {
             return;

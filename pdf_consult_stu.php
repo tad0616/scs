@@ -37,7 +37,7 @@ if (empty($stu_id)) {
     redirect_header($_SERVER['HTTP_REFERER'], 3, '未指定學生');
 }
 
-Tools::chk_consult_power('download', $stu_id);
+Tools::chk_consult_power(__FILE__, __LINE__, 'download', $stu_id);
 
 $stu = Scs_students::get($stu_id);
 $stu_all_data = Scs_consult::get_all('', $stu_id, $start, $end);
@@ -79,7 +79,7 @@ $pdf->Cell(18, $col_h['行高'], '處理方式', 'TB', 1, "C", false);
 
 foreach ($stu_all_data as $c) {
 
-    if (Tools::chk_consult_power('show', $stu_id, $c['consult_id'], $c['consult_uid'], 'return')) {
+    if (Tools::chk_consult_power(__FILE__, __LINE__, 'show', $stu_id, $c['consult_id'], $c['consult_uid'], 'return')) {
         $pdf->Cell(12, $col_h['行高'], "{$c['stu_grade']}-{$c['stu_class']}", 'TB', 0, "C", false);
         $pdf->Cell(8, $col_h['行高'], $c['stu_seat_no'], 'TB', 0, "C", false);
         $pdf->Cell(18, $col_h['行高'], $c['stu_name'], 'TB', 0, "C", false);

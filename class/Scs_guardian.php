@@ -70,7 +70,7 @@ class Scs_guardian
     public static function create($stu_id = '')
     {
         global $xoopsDB, $xoopsTpl, $xoopsUser;
-        Tools::chk_scs_power('create');
+        Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id);
 
         //抓取預設值
         $DBV = !empty($stu_id) ? self::get($stu_id) : [];
@@ -87,7 +87,7 @@ class Scs_guardian
 
         //XOOPS表單安全檢查
         if ($check) {
-            Tools::chk_scs_power('create');
+            Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id);
             Utility::xoops_security_check();
         }
 
@@ -127,7 +127,7 @@ class Scs_guardian
         } else {
             $stu_id = (int) $stu_id;
         }
-        Tools::chk_scs_power('show', $stu_id);
+        Tools::chk_scs_power(__FILE__, __LINE__, 'show', $stu_id);
 
         $myts = \MyTextSanitizer::getInstance();
 
@@ -154,7 +154,7 @@ class Scs_guardian
 
         //XOOPS表單安全檢查
         if ($check) {
-            Tools::chk_scs_power('update', $stu_id);
+            Tools::chk_scs_power(__FILE__, __LINE__, 'update', $stu_id);
             Utility::xoops_security_check();
         }
 
@@ -195,7 +195,7 @@ class Scs_guardian
     public static function destroy($stu_id = '')
     {
         global $xoopsDB;
-        Tools::chk_scs_power('destroy', $stu_id);
+        Tools::chk_scs_power(__FILE__, __LINE__, 'destroy', $stu_id);
 
         if (empty($stu_id)) {
             return;

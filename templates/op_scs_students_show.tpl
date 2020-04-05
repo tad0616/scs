@@ -4,7 +4,7 @@
     <{includeq file="$xoops_rootpath/modules/scs/templates/sub_year_grade_class_menu.tpl"}>
 </div>
 
-<table class="frame" style="width:100%" style="background:white;">
+<table class="frame" style="width:100%;background: white;">
     <tr>
         <td>
             <{includeq file="$xoops_rootpath/modules/$xoops_dirname/templates/sub_scs_students_show0.tpl"}>

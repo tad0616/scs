@@ -2,6 +2,7 @@
 namespace XoopsModules\Scs;
 
 use XoopsModules\Scs\Scs_general;
+use XoopsModules\Tadtools\TadDataCenter;
 
 /**
  * Scs module
@@ -112,6 +113,13 @@ class Tools
         global $xoopsUser, $xoopsDB, $xoopsModuleConfig, $xoopsModule;
 
         if (empty($xoopsModuleConfig['school_code'])) {
+            $modhandler = xoops_gethandler('module');
+            $xoopsModule = $modhandler->getByDirname("scs");
+            $config_handler = xoops_gethandler('config');
+            $xoopsModuleConfig = $config_handler->getConfigsByCat(0, $xoopsModule->mid());
+        }
+
+        if (empty($xoopsModuleConfig['school_code'])) {
             $mid = $xoopsModule->mid();
             redirect_header(XOOPS_URL . '/modules/system/admin.php?fct=preferences&op=showmod&mod=' . $mid, 3, '請先至偏好設定，設定「教育部學校代碼」');
         }
@@ -127,7 +135,7 @@ class Tools
     }
 
     // 檢查是否有權限
-    public static function chk_scs_power($kind = '', $stu_id = '', $school_year = '', $stu_grade = '', $stu_class = '', $mode = '')
+    public static function chk_scs_power($file, $line, $kind = '', $stu_id = '', $school_year = '', $stu_grade = '', $stu_class = '', $mode = '')
     {
         //          觀看學生資料    編輯學生資料    刪除學生資料    新增學生資料
         // 管 理 員  全部           全部            全部            全部
@@ -163,6 +171,13 @@ class Tools
             case 'create':
                 if ($_SESSION['scs_adm'] or $_SESSION['counselor']) {
                     return true;
+                } elseif ($_SESSION['tea_class_arr']) {
+                    $stu = Scs_general::get($stu_id);
+                    if (in_array($stu[1]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[2]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[3]['grade_class'], $_SESSION['tea_class_arr'])) {
+                        return true;
+                    }
+                } elseif ($_SESSION['stu_id'] and $_SESSION['stu_id'] == $stu_id and self::stu_edit_able()) {
+                    return true;
                 }
                 break;
 
@@ -189,12 +204,13 @@ class Tools
         if ($mode == 'return') {
             return false;
         } else {
-            redirect_header($_SERVER['HTTP_REFERER'], 3, _TAD_PERMISSION_DENIED);
+            $file = \addslashes($file);
+            redirect_header($_SERVER['HTTP_REFERER'], 3, _TAD_PERMISSION_DENIED . "<div>$file:$line</div>");
         }
 
     }
     // 檢查是否有輔導權限
-    public static function chk_consult_power($kind = '', $stu_id = '', $consult_id = '', $consult_uid = '', $mode = '')
+    public static function chk_consult_power($file, $line, $kind = '', $stu_id = '', $consult_id = '', $consult_uid = '', $mode = '')
     {
         global $xoopsUser;
         //             新增諮商紀錄     觀看諮商紀錄
@@ -324,7 +340,8 @@ class Tools
         if ($mode == 'return') {
             return false;
         } else {
-            redirect_header($_SERVER['HTTP_REFERER'], 3, _TAD_PERMISSION_DENIED);
+            $file = \addslashes($file);
+            redirect_header($_SERVER['HTTP_REFERER'], 3, _TAD_PERMISSION_DENIED . "<div>$file:$line</div>");
         }
 
     }

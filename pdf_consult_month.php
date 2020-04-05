@@ -36,7 +36,7 @@ if (empty($consult_uid)) {
     redirect_header($_SERVER['HTTP_REFERER'], 3, '未指定教師');
 }
 
-Tools::chk_consult_power('statistics', '', '', $consult_uid);
+Tools::chk_consult_power(__FILE__, __LINE__, 'statistics', '', '', $consult_uid);
 
 $consult = Scs_consult::statistics($consult_uid, $start, $end, 'return');
 
