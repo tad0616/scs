@@ -232,6 +232,8 @@ define('_MD_SCS_CONSULT_ID', '諮商編號');
 define('_MD_SCS_STU_ID', '學生編號');
 define('_MD_SCS_CONSULT_DATE', '會談日期');
 define('_MD_SCS_CONSULT_TIME', '會談時間');
+define('_MD_SCS_CONSULT_START', '會談開始時間');
+define('_MD_SCS_CONSULT_END', '會談結束時間');
 define('_MD_SCS_CONSULT_MOTIVATION', '來談動機');
 define('_MD_SCS_CONSULT_KIND', '問題類別');
 define('_MD_SCS_CONSULT_REASON', '主要原因');

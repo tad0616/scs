@@ -84,7 +84,7 @@ foreach ($stu_all_data as $c) {
         $pdf->Cell(8, $col_h['行高'], $c['stu_seat_no'], 'TB', 0, "C", false);
         $pdf->Cell(18, $col_h['行高'], $c['stu_name'], 'TB', 0, "C", false);
         $pdf->Cell(20, $col_h['行高'], $c['consult_cdate'], 'TB', 0, "C", false);
-        $pdf->Cell(18, $col_h['行高'], $c['consult_time'], 'TB', 0, "C", false);
+        $pdf->Cell(18, $col_h['行高'], $c['consult_start'], 'TB', 0, "C", false);
         $pdf->Cell(18, $col_h['行高'], $c['consult_name'], 'TB', 0, "C", false);
         $pdf->Cell(18, $col_h['行高'], $c['consult_motivation'], 'TB', 0, "C", false);
         $pdf->Cell(18, $col_h['行高'], $c['consult_kind'], 'TB', 0, "C", false);

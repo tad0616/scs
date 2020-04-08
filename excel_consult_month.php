@@ -92,7 +92,7 @@ foreach ($consult['data_arr'] as $c) {
         ->setCellValue("C{$i}", $c['stu_name'])
         ->setCellValue("D{$i}", $c['consult_cdate'])
         ->setCellValue("E{$i}", $c['consult_week'])
-        ->setCellValue("F{$i}", $c['consult_time'])
+        ->setCellValue("F{$i}", $c['consult_start'])
         ->setCellValue("G{$i}", $c['consult_motivation'])
         ->setCellValue("H{$i}", $c['consult_kind'])
         ->setCellValue("I{$i}", $c['consult_method']);

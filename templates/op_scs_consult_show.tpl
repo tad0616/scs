@@ -11,7 +11,7 @@
 
 <div class="alert alert-success">
     <span data-toggle="tooltip" title="<{$smarty.const._MD_SCS_CONSULT_DATE}>"><{$consult_date}></span>
-    <span data-toggle="tooltip" title="<{$smarty.const._MD_SCS_CONSULT_TIME}>"><{$consult_time}></span>
+    <span data-toggle="tooltip" title="<{$smarty.const._MD_SCS_CONSULT_TIME}>"><{$consult_start}>~<{$consult_end}></span>
     /
     <span data-toggle="tooltip" title="<{$smarty.const._MD_SCS_CONSULT_UID_NAME}>"><{$consult_uid_name}></span>
     /

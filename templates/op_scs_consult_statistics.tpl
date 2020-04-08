@@ -35,7 +35,7 @@
                 <{/if}>
                 <td><{$data.consult_cdate}></td>
                 <td><{$data.consult_week}></td>
-                <td><{$data.consult_time}></td>
+                <td><{$data.consult_start}>~<{$data.consult_end}></td>
                 <td><{$data.consult_motivation}></td>
                 <td><{$data.consult_kind}></td>
                 <td><{$data.consult_method}></td>

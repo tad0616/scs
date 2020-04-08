@@ -57,7 +57,7 @@
                         </td>
                         <!--會談時間-->
                         <td>
-                            <{$data.consult_time}>
+                            <{$data.consult_start}>~<{$data.consult_end}>
                         </td>
 
                         <!--來談動機-->

@@ -19,14 +19,21 @@
             <input type="text" name="consult_date" id="consult_date" class="form-control validate[required]" value="<{$DBV.consult_date}>"  onClick="WdatePicker({dateFmt:'yyyy-MM-dd', startDate:'%y-%M-%d'})" placeholder="<{$smarty.const._MD_SCS_CONSULT_DATE}>">
         </div>
 
-        <!--會談時間-->
+        <!--會談開始時間-->
         <label class="col-sm-2 col-form-label text-md-right control-label">
-            <{$smarty.const._MD_SCS_CONSULT_TIME}>
+            <{$smarty.const._MD_SCS_CONSULT_START}>
         </label>
         <div class="col-sm-2">
-            <input type="text" name="consult_time" id="consult_time" class="form-control " value="<{$DBV.consult_time}>"  onClick="WdatePicker({dateFmt:'HH:mm'})" placeholder="<{$smarty.const._MD_SCS_CONSULT_TIME}>">
+            <input type="text" name="consult_start" id="consult_start" class="form-control " value="<{$DBV.consult_start}>"  onClick="WdatePicker({dateFmt:'HH:mm'})" placeholder="<{$smarty.const._MD_SCS_CONSULT_START}>">
         </div>
 
+        <!--會談結束時間-->
+        <label class="col-sm-2 col-form-label text-md-right control-label">
+            <{$smarty.const._MD_SCS_CONSULT_END}>
+        </label>
+        <div class="col-sm-2">
+            <input type="text" name="consult_end" id="consult_end" class="form-control " value="<{$DBV.consult_end}>"  onClick="WdatePicker({dateFmt:'HH:mm'})" placeholder="<{$smarty.const._MD_SCS_CONSULT_END}>">
+        </div>
 
     </div>
 

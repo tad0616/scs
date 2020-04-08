@@ -81,7 +81,7 @@ foreach ($consult['data_arr'] as $c) {
     $pdf->Cell(30, $col_h['行高'], $c['stu_name'], 1, 0, "C", false);
     $pdf->Cell(24, $col_h['行高'], $c['consult_cdate'], 1, 0, "C", false);
     $pdf->Cell(10, $col_h['行高'], $c['consult_week'], 1, 0, "C", false);
-    $pdf->Cell(16, $col_h['行高'], $c['consult_time'], 1, 0, "C", false);
+    $pdf->Cell(16, $col_h['行高'], $c['consult_start'], 1, 0, "C", false);
     $pdf->Cell(26, $col_h['行高'], $c['consult_motivation'], 1, 0, "C", false);
     $pdf->Cell(26, $col_h['行高'], $c['consult_kind'], 1, 0, "C", false);
     $pdf->Cell(26, $col_h['行高'], $c['consult_method'], 1, 1, "C", false);

@@ -69,7 +69,8 @@ class Scs_consult
             list($y, $m, $d) = explode('-', $all['consult_date']);
             $cy = $y - 1911;
             $all['consult_cdate'] = "{$cy}.{$m}.{$d}";
-            $all['consult_time'] = substr($myts->htmlSpecialChars($all['consult_time']), 0, 5);
+            $all['consult_start'] = substr($myts->htmlSpecialChars($all['consult_start']), 0, 5);
+            $all['consult_end'] = substr($myts->htmlSpecialChars($all['consult_end']), 0, 5);
             $all['consult_motivation'] = $myts->htmlSpecialChars($all['consult_motivation']);
             $all['consult_kind'] = $myts->htmlSpecialChars($all['consult_kind']);
             $all['consult_reason'] = $myts->htmlSpecialChars($all['consult_reason']);
@@ -104,7 +105,8 @@ class Scs_consult
         $DBV = !empty($consult_id) ? self::get($consult_id) : [];
 
         $DBV['consult_date'] = empty($DBV['consult_date']) ? date("Y-m-d") : $DBV['consult_date'];
-        $DBV['consult_time'] = empty($DBV['consult_time']) ? date("H:i") : $DBV['consult_time'];
+        $DBV['consult_start'] = empty($DBV['consult_start']) ? date("H:i") : $DBV['consult_start'];
+        $DBV['consult_end'] = empty($DBV['consult_end']) ? date("H:i") : $DBV['consult_end'];
 
         $xoopsTpl->assign('DBV', $DBV);
 
@@ -156,7 +158,8 @@ class Scs_consult
         $stu_seat_no = (int) $_POST['stu_seat_no'];
         Tools::chk_consult_power(__FILE__, __LINE__, 'create', $stu_id);
         $consult_date = $myts->addSlashes($_POST['consult_date']);
-        $consult_time = $myts->addSlashes($_POST['consult_time']);
+        $consult_start = $myts->addSlashes($_POST['consult_start']);
+        $consult_end = $myts->addSlashes($_POST['consult_end']);
         $consult_motivation = $myts->addSlashes($_POST['consult_motivation']);
         $consult_kind = $myts->addSlashes($_POST['consult_kind']);
         $consult_reason = $myts->addSlashes($_POST['consult_reason']);
@@ -170,7 +173,8 @@ class Scs_consult
         `stu_class`,
         `stu_seat_no`,
         `consult_date`,
-        `consult_time`,
+        `consult_start`,
+        `consult_end`,
         `consult_motivation`,
         `consult_kind`,
         `consult_reason`,
@@ -183,7 +187,8 @@ class Scs_consult
         '{$stu_class}',
         '{$stu_seat_no}',
         '{$consult_date}',
-        '{$consult_time}',
+        '{$consult_start}',
+        '{$consult_end}',
         '{$consult_motivation}',
         '{$consult_kind}',
         '{$consult_reason}',
@@ -229,7 +234,8 @@ class Scs_consult
         list($y, $m, $d) = explode('-', $all['consult_date']);
         $cy = $y - 1911;
         $all['consult_cdate'] = "{$cy}.{$m}.{$d}";
-        $all['consult_time'] = $myts->htmlSpecialChars($all['consult_time']);
+        $all['consult_start'] = $myts->htmlSpecialChars($all['consult_start']);
+        $all['consult_end'] = $myts->htmlSpecialChars($all['consult_end']);
         $all['consult_motivation'] = $myts->htmlSpecialChars($all['consult_motivation']);
         $all['consult_kind'] = $myts->htmlSpecialChars($all['consult_kind']);
         $all['consult_reason'] = $myts->htmlSpecialChars($all['consult_reason']);
@@ -245,7 +251,7 @@ class Scs_consult
         $stu = Scs_students::get($stu_id);
         $xoopsTpl->assign('stu', $stu);
 
-        //以下會產生這些變數： $stu_id, $consult_date, $consult_time, $consult_motivation, $consult_kind, $consult_reason, $consult_method, $consult_note
+        //以下會產生這些變數： $stu_id, $consult_date, $consult_start, $consult_end, $consult_motivation, $consult_kind, $consult_reason, $consult_method, $consult_note
         foreach ($all as $k => $v) {
             $$k = $v;
             $xoopsTpl->assign($k, $v);
@@ -280,7 +286,8 @@ class Scs_consult
         $stu_seat_no = (int) $_POST['stu_seat_no'];
         Tools::chk_consult_power(__FILE__, __LINE__, 'update', $stu_id, $consult_id);
         $consult_date = $myts->addSlashes($_POST['consult_date']);
-        $consult_time = $myts->addSlashes($_POST['consult_time']);
+        $consult_start = $myts->addSlashes($_POST['consult_start']);
+        $consult_end = $myts->addSlashes($_POST['consult_end']);
         $consult_motivation = $myts->addSlashes($_POST['consult_motivation']);
         $consult_kind = $myts->addSlashes($_POST['consult_kind']);
         $consult_reason = $myts->addSlashes($_POST['consult_reason']);
@@ -294,7 +301,8 @@ class Scs_consult
         `stu_grade` = '{$stu_grade}',
         `stu_seat_no` = '{$stu_seat_no}',
         `consult_date` = '{$consult_date}',
-        `consult_time` = '{$consult_time}',
+        `consult_start` = '{$consult_start}',
+        `consult_end` = '{$consult_end}',
         `consult_motivation` = '{$consult_motivation}',
         `consult_kind` = '{$consult_kind}',
         `consult_reason` = '{$consult_reason}',
@@ -367,7 +375,8 @@ class Scs_consult
             if (empty($data['consult_name'])) {
                 $data['consult_name'] = \XoopsUser::getUnameFromId($data['consult_uid'], 0);
             }
-            $data['consult_time'] = substr($data['consult_time'], 0, -3);
+            $data['consult_start'] = substr($data['consult_start'], 0, -3);
+            $data['consult_end'] = substr($data['consult_end'], 0, -3);
             $consult_id = $data['consult_id'];
             $data_arr[$consult_id] = $data;
         }
@@ -432,7 +441,8 @@ class Scs_consult
             $cy = $y - 1911;
             $consult['consult_cdate'] = "{$cy}.{$m}.{$d}";
             $consult['month'] = $m;
-            $consult['consult_time'] = substr($consult['consult_time'], 0, -3);
+            $consult['consult_start'] = substr($consult['consult_start'], 0, -3);
+            $consult['consult_end'] = substr($consult['consult_end'], 0, -3);
             $consult['consult_week'] = date('w', strtotime($consult['consult_date']));
             $data_arr[] = $consult;
         }
@@ -488,7 +498,8 @@ class Scs_consult
             $cy = $y - 1911;
             $consult['consult_cdate'] = "{$cy}.{$m}.{$d}";
             $consult['month'] = $m;
-            $consult['consult_time'] = substr($consult['consult_time'], 0, -3);
+            $consult['consult_start'] = substr($consult['consult_start'], 0, -3);
+            $consult['consult_end'] = substr($consult['consult_end'], 0, -3);
             $consult['consult_week'] = date('w', strtotime($consult['consult_date']));
             $stu_id = $consult['stu_id'];
 
