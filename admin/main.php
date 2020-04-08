@@ -39,14 +39,14 @@ function scs_import_excel($mode = 'scs_import_excel')
 
     $stu_blood_arr = explode(';', $xoopsModuleConfig['stu_blood']);
 
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/PHPExcel/IOFactory.php';
-    $reader = PHPExcel_IOFactory::createReader('Excel2007');
+    require XOOPS_ROOT_PATH . '/modules/tadtools/vendor/phpoffice/phpexcel/Classes/PHPExcel/IOFactory.php';
+    $reader = \PHPExcel_IOFactory::createReader('Excel2007');
     $PHPExcel = $reader->load($_FILES['userfile']['tmp_name']); // 檔案名稱
 
     $sheet = $PHPExcel->getSheet(0); // 讀取第一個工作表(編號從 0 開始)
     $highestRow = $sheet->getHighestRow(); // 取得總列數
     $colString = $sheet->getHighestDataColumn();
-    $highestColumn = PHPExcel_Cell::columnIndexFromString($colString);
+    $highestColumn = \PHPExcel_Cell::columnIndexFromString($colString);
 
     $cell = $sheet->getCellByColumnAndRow(0, 1);
     $val = get_value_of_cell($cell);
