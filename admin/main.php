@@ -27,6 +27,9 @@ use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 $GLOBALS['xoopsOption']['template_main'] = 'scs_adm_main.tpl';
 require_once __DIR__ . '/header.php';
+if (!class_exists('XoopsModules\Scs\Tools')) {
+    require XOOPS_ROOT_PATH . '/modules/scs/preloads/autoloader.php';
+}
 require_once dirname(__DIR__) . '/function.php';
 $_SESSION['scs_adm'] = true;
 

@@ -4,7 +4,7 @@
     <{includeq file="$xoops_rootpath/modules/scs/templates/sub_year_grade_class_menu.tpl"}>
 </div>
 
-<div style="padding:20px 5px;font-size:1.5em;line-height:2;">
+<div style="padding:20px 5px;font-size:1.1em;line-height:1.5;">
     <{$consult_note}>
 </div>
 

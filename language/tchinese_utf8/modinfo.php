@@ -119,7 +119,7 @@ define('_MI_SCS_CONSULT_MOTIVATION_DEFAULT', '主動來談;教師轉介;約談;�
 
 define('_MI_SCS_CONSULT_KIND', '問題類別');
 define('_MI_SCS_CONSULT_KIND_DESC', '問題類別選項（請用;隔開，盡量不要有任何空白）');
-define('_MI_SCS_CONSULT_KIND_DEFAULT', '學習;升學問題;課程選修;人際關係;異性交友;家庭;心理困擾;健康;生活適應;就業;問題行為;其他;轉科選組;精神疾病');
+define('_MI_SCS_CONSULT_KIND_DEFAULT', 'T01.人際困擾;T02.師生關係;T03.家庭困擾;T04.自我探索;T05.情緒困擾;T06.生活壓力;T07.創傷反應;T08.自我傷害;T09.性別議題;T10.脆弱家庭;T11.兒少保議題;T12.學習困擾;T13.生涯輔導;T14.偏差行為;T15.網路成癮;T16.中離(輟)拒學;T17.藥物濫用;T18.心理疾病;T19.其他');
 
 define('_MI_SCS_CONSULT_METHOD', '處理方式');
 define('_MI_SCS_CONSULT_METHOD_DESC', '處理方式選項（請用;隔開，盡量不要有任何空白）');

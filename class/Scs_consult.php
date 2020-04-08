@@ -106,7 +106,7 @@ class Scs_consult
 
         $DBV['consult_date'] = empty($DBV['consult_date']) ? date("Y-m-d") : $DBV['consult_date'];
         $DBV['consult_start'] = empty($DBV['consult_start']) ? date("H:i") : $DBV['consult_start'];
-        $DBV['consult_end'] = empty($DBV['consult_end']) ? date("H:i") : $DBV['consult_end'];
+        $DBV['consult_end'] = empty($DBV['consult_end']) ? '' : $DBV['consult_end'];
 
         $xoopsTpl->assign('DBV', $DBV);
 
