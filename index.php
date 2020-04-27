@@ -31,6 +31,9 @@ use XoopsModules\Tadtools\Utility;
 require_once __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'scs_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
+if (!$xoopsUser) {
+    redirect_header(XOOPS_URL, 3, '無權限');
+}
 /*-----------功能函數區----------*/
 
 /*-----------變數過濾----------*/

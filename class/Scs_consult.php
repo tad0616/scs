@@ -476,7 +476,7 @@ class Scs_consult
         $and_start = !empty($start) ? "and a.`consult_date` >= '{$start}'" : '';
         $and_end = !empty($end) ? "and a.`consult_date` <= '{$end}'" : '';
 
-        $sql = "select a.*, b.stu_name from `" . $xoopsDB->prefix("scs_consult") . "` as a
+        $sql = "select a.*, b.stu_name, b.stu_sex from `" . $xoopsDB->prefix("scs_consult") . "` as a
         join `" . $xoopsDB->prefix("scs_students") . "` as b on a.stu_id=b.stu_id
         where a.`consult_uid`='$consult_uid' $and_start $and_end
         order by a.consult_date";

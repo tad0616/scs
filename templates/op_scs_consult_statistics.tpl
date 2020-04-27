@@ -7,6 +7,7 @@
     <a href="excel_consult_all.php?consult_uid=<{$consult_uid}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/xls.png">期末報表Excel</a>
     <a href="pdf_consult_month.php?consult_uid=<{$consult_uid}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/pdf.png">月報表PDF</a>
     <a href="excel_consult_month.php?consult_uid=<{$consult_uid}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/xls.png">月報表Excel</a>
+    <a href="excel_edu_month.php?consult_uid=<{$consult_uid}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/xls.png">教育部每月輔導統計</a>
 <{/if}>
 <table class="table table-striped table-hover" style="background:white;">
     <thead>

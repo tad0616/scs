@@ -17,6 +17,9 @@
             <th>
                 個別諮商月報表
             </th>
+            <th>
+                教育部每月輔導統計
+            </th>
         </tr>
     </thead>
 
@@ -50,6 +53,11 @@
                     <{/if}>
                 </td>
 
+                <td>
+                    <{if 'statistics'|have_consult_power:'':'':$uid}>
+                        <a href="excel_edu_month.php?consult_uid=<{$uid}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/xls.png"></a>
+                    <{/if}>
+                </td>
             </tr>
         <{/foreach}>
     </tbody>
