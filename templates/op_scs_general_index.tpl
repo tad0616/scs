@@ -53,11 +53,9 @@
                 </th>
                 <!--填寫日期-->
                 <th>
-                    <{$smarty.const._MD_SCS_FILL_DATE}>
+                    填寫日期
                 </th>
-                <{if 'show'|have_scs_power:$data.stu_id or 'update'|have_scs_power:$data.stu_id or 'index'|have_consult_power:$data.stu_id}>
-                    <th><{$smarty.const._TAD_FUNCTION}></th>
-                <{/if}>
+                <th>功能</th>
             </tr>
         </thead>
 
@@ -112,7 +110,7 @@
 
                     <td nowrap>
                         <{if 'index'|have_consult_power:$data.stu_id:$data.school_year:$data.stu_grade:$data.stu_class}>
-                            <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_index&stu_id=<{$data.stu_id}>" class="btn btn-sm btn-primary" title="<{$data.stu_name}>的個別諮商" data-toggle="tooltip"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                            <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_index&stu_id=<{$data.stu_id}>" class="btn btn-sm btn-primary" title="<{$data.stu_name}>的個別輔導" data-toggle="tooltip"><i class="fa fa-heart" aria-hidden="true"></i></a>
                         <{/if}>
                         <{if 'update'|have_scs_power:$data.stu_id}>
                             <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit&school_year=<{$data.school_year}>&stu_id=<{$data.stu_id}>" class="btn btn-sm btn-warning" title="編輯<{$data.stu_name}>綜合資料紀錄表" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>

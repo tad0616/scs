@@ -213,7 +213,7 @@ class Tools
     public static function chk_consult_power($file, $line, $kind = '', $stu_id = '', $consult_id = '', $consult_uid = '', $mode = '')
     {
         global $xoopsUser;
-        //             新增諮商紀錄     觀看諮商紀錄
+        //             新增輔導紀錄     觀看輔導紀錄
         // 管 理 員     不可               不可
         // 輔導主任     任一學生            任一學生/導師.專輔紀錄
         // 專輔教師     任一學生            自己個案紀錄/導師紀錄
@@ -221,7 +221,7 @@ class Tools
         // 班級學生     不可                不可
 
         switch ($kind) {
-            // 觀看學生的諮商列表
+            // 觀看學生的輔導列表
             case 'index':
                 if ($_SESSION['counselor'] or $_SESSION['tutor']) {
                     return true;
@@ -233,7 +233,7 @@ class Tools
                 }
                 break;
 
-            // 觀看諮商員諮商紀錄列表
+            // 觀看輔導員輔導紀錄列表
             case 'counselor_index':
                 if ($_SESSION['counselor']) {
                     return true;

@@ -18,7 +18,6 @@
  **/
 
 xoops_loadLanguage('main', 'tadtools');
-define('_TAD_NEED_TADTOOLS', '需要 tadtools 模組，可至<a href="http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1" target="_blank">XOOPS輕鬆架</a>下載。');
 
 define('_MD_SCS_STU_ID', '學生編號');
 define('_MD_SCS_BS_NAME', '姓名');
@@ -26,7 +25,6 @@ define('_MD_SCS_BS_RELATIONSHIP', '稱謂');
 define('_MD_SCS_BS_YEAR', '出生年');
 define('_MD_SCS_BS_SCHOOL', '畢（肄）業學校');
 define('_MD_SCS_BS_NOTE', '備註');
-define('_MD_SCS_SHOW_STU_ID_BS_RELATIONSHIP_FILES', '');
 define('_MD_SCS_PARENTAL_RELATIONSHIP_DEF', '同住');
 define('_MD_SCS_SCHOOL_YEAR', '學年度');
 define('_MD_SCS_STU_GRADE', '年級');
@@ -227,8 +225,8 @@ define('_MD_SCS_PHYSIOLOGICAL_DEFECT', '生理缺陷');
 define('_MD_SCS_SPECIAL_DISEASE', '特殊疾病');
 define('_MD_SCS_UP_STU_ID', '大頭照');
 define('_MD_SCS_YS', '學年學期');
-define('_MD_SCS_PAGE_1', '個別諮商');
-define('_MD_SCS_CONSULT_ID', '諮商編號');
+define('_MD_SCS_PAGE_1', '個別輔導');
+define('_MD_SCS_CONSULT_ID', '輔導編號');
 define('_MD_SCS_STU_ID', '學生編號');
 define('_MD_SCS_CONSULT_DATE', '會談日期');
 define('_MD_SCS_CONSULT_TIME', '會談時間');
@@ -239,7 +237,7 @@ define('_MD_SCS_CONSULT_KIND', '問題類別');
 define('_MD_SCS_CONSULT_REASON', '主要原因');
 define('_MD_SCS_CONSULT_METHOD', '處理方式');
 define('_MD_SCS_CONSULT_NOTE', '會談紀要');
-define('_MD_SCS_CONSULT_UID', '諮商者編號');
-define('_MD_SCS_CONSULT_UID_NAME', '諮商者');
+define('_MD_SCS_CONSULT_UID', '輔導者編號');
+define('_MD_SCS_CONSULT_UID_NAME', '輔導者');
 define('_MD_SCS_UP_CONSULT_ID', '相關檔案');
 define('_MD_SCS_SHOW_CONSULT_ID_FILES', '相關檔案');

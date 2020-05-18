@@ -1,4 +1,4 @@
-<h2 class="scs">「<{$stu.stu_name}>」個別諮商紀錄列表</h2>
+<h2 class="scs">「<{$stu.stu_name}>」個別輔導紀錄列表</h2>
 
 <div class="alert alert-info">
     <{includeq file="$xoops_rootpath/modules/scs/templates/sub_year_grade_class_menu.tpl"}>
@@ -38,10 +38,10 @@
                     <{$smarty.const._MD_SCS_CONSULT_METHOD}>
                 </th>
                 <th>
-                    諮商者
+                    輔導者
                 </th>
                 <th>
-                    <{$smarty.const._TAD_FUNCTION}>
+                    功能
                 </th>
             </tr>
         </thead>
@@ -87,7 +87,7 @@
                             <{$data.consult_method}>
                         </td>
 
-                        <!--諮商者-->
+                        <!--輔導者-->
                         <td>
                             <{if $can_view}>
                                 <a href="consult.php?consult_uid=<{$data.consult_uid}>"><{$data.consult_uid_name}></a>
@@ -113,7 +113,7 @@
     <div class="jumbotron text-center">
         <{if 'create'|have_consult_power:$stu_id}>
             <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_create&stu_id=<{$stu_id}>" class="btn btn-primary">
-            <i class="fa fa-plus"></i> 新增諮商紀錄
+            <i class="fa fa-plus"></i> 新增輔導紀錄
             </a>
         <{else}>
             <h4><{$smarty.const._TAD_EMPTY}></h4>

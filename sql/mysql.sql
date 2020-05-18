@@ -11,7 +11,7 @@ CREATE TABLE `scs_brother_sister` (
 
 
 CREATE TABLE `scs_consult` (
-  `consult_id` mediumint(9) unsigned NOT NULL AUTO_INCREMENT COMMENT '諮商編號',
+  `consult_id` mediumint(9) unsigned NOT NULL AUTO_INCREMENT COMMENT '輔導編號',
   `stu_id` mediumint(9) unsigned NOT NULL DEFAULT '0' COMMENT '學生編號',
   `stu_grade` tinyint(3) unsigned NOT NULL COMMENT '年級',
   `stu_class` tinyint(3) unsigned DEFAULT '0' COMMENT '班級',
@@ -24,7 +24,7 @@ CREATE TABLE `scs_consult` (
   `consult_reason` varchar(255) DEFAULT '' COMMENT '主要原因',
   `consult_method` varchar(255) DEFAULT '' COMMENT '處理方式',
   `consult_note` text COMMENT '會談紀要',
-  `consult_uid` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '諮商者',
+  `consult_uid` mediumint(8) unsigned NOT NULL DEFAULT '0' COMMENT '輔導者',
   PRIMARY KEY (`consult_id`),
   KEY `stu_id` (`stu_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

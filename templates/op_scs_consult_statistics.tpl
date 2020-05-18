@@ -1,4 +1,4 @@
-<h2  class="scs">「<{$consult_name}>」個別諮商紀錄統計報表</h2>
+<h2  class="scs">「<{$consult_name}>」個別輔導紀錄統計報表</h2>
 <div class="alert alert-success">
     <{includeq file="$xoops_rootpath/modules/scs/templates/sub_consult_date_menu.tpl"}>
 </div>

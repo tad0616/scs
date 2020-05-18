@@ -1,6 +1,6 @@
 <script type="text/javascript" src="<{$xoops_url}>/modules/tadtools/My97DatePicker/WdatePicker.js"></script>
 
-<h2 class="scs">編輯「<{$stu.stu_name}>」個別諮商紀錄</h2>
+<h2 class="scs">編輯「<{$stu.stu_name}>」個別輔導紀錄</h2>
 
 <div class="alert alert-info">
     <{includeq file="$xoops_rootpath/modules/scs/templates/sub_year_grade_class_menu.tpl"}>

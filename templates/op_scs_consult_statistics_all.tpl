@@ -1,4 +1,4 @@
-<h2  class="scs">諮商報表及統計</h2>
+<h2  class="scs">輔導報表及統計</h2>
 <div class="alert alert-success">
     <{includeq file="$xoops_rootpath/modules/scs/templates/sub_consult_date_menu.tpl"}>
 </div>
@@ -9,13 +9,13 @@
                 姓名
             </th>
             <th>
-                所有諮商紀錄
+                所有輔導紀錄
             </th>
             <th>
-                個別諮商期末報表
+                個別輔導期末報表
             </th>
             <th>
-                個別諮商月報表
+                個別輔導月報表
             </th>
             <th>
                 教育部每月輔導統計
@@ -32,9 +32,9 @@
 
                 <td>
                     <{if 'statistics'|have_consult_power:'':'':$uid}>
-                        <a href="consult.php?consult_uid=<{$uid}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>">共 <{$data.num}> 筆諮商紀錄</a>
+                        <a href="consult.php?consult_uid=<{$uid}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>">共 <{$data.num}> 筆輔導紀錄</a>
                     <{else}>
-                        共 <{$data.num}> 筆諮商紀錄
+                        共 <{$data.num}> 筆輔導紀錄
                     <{/if}>
                 </td>
 

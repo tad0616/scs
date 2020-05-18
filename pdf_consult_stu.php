@@ -42,7 +42,7 @@ Tools::chk_consult_power(__FILE__, __LINE__, 'download', $stu_id);
 $stu = Scs_students::get($stu_id);
 $stu_all_data = Scs_consult::get_all('', $stu_id, $start, $end);
 
-$pdf_title = "個別諮商表";
+$pdf_title = "個別輔導表";
 
 $pdf = new TCPDF("P", "mm", "A4", true, 'UTF-8', false);
 $pdf->setPrintHeader(false); //不要頁首
@@ -71,7 +71,7 @@ $pdf->Cell(8, $col_h['行高'], '座號', 'TB', 0, "C", false);
 $pdf->Cell(18, $col_h['行高'], '姓名', 'TB', 0, "C", false);
 $pdf->Cell(20, $col_h['行高'], "會談日期", 'TB', 0, "C", false);
 $pdf->Cell(18, $col_h['行高'], '會談時間', 'TB', 0, "C", false);
-$pdf->Cell(18, $col_h['行高'], '諮商員', 'TB', 0, "C", false);
+$pdf->Cell(18, $col_h['行高'], '輔導員', 'TB', 0, "C", false);
 $pdf->Cell(18, $col_h['行高'], '來談動機', 'TB', 0, "C", false);
 $pdf->Cell(18, $col_h['行高'], '問題類別', 'TB', 0, "C", false);
 $pdf->Cell(46, $col_h['行高'], '主要原因', 'TB', 0, "C", false);

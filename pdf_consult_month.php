@@ -40,7 +40,7 @@ Tools::chk_consult_power(__FILE__, __LINE__, 'statistics', '', '', $consult_uid)
 
 $consult = Scs_consult::statistics($consult_uid, $start, $end, 'return');
 
-$pdf_title = "個別諮商月報表";
+$pdf_title = "個別輔導月報表";
 
 $pdf = new TCPDF("P", "mm", "A4", true, 'UTF-8', false);
 $pdf->setPrintHeader(false); //不要頁首

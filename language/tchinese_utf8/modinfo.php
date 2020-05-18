@@ -30,7 +30,7 @@ define('_MI_SCS_ADM_PAGE_1', '身份設定');
 define('_MI_SCS_ADM_PAGE_1_DESC', '身份設定');
 define('_MI_SCS_ADM_PAGE_2', '權限管理');
 define('_MI_SCS_ADM_PAGE_2_DESC', '權限管理');
-define('_MI_SCS_PAGE_1', '個別諮商');
+define('_MI_SCS_PAGE_1', '個別輔導');
 
 define('_MI_SCS_SCHOOL_CODE', '教育部學校代碼');
 define('_MI_SCS_SCHOOL_CODE_DESC', '用來篩選學校教職員用，可至 <a href="http://203.68.32.190/code_new.aspx" target="_blank">http://203.68.32.190/code_new.aspx</a> 查詢');
@@ -123,4 +123,4 @@ define('_MI_SCS_CONSULT_KIND_DEFAULT', 'T01.人際困擾;T02.師生關係;T03.�
 
 define('_MI_SCS_CONSULT_METHOD', '處理方式');
 define('_MI_SCS_CONSULT_METHOD_DESC', '處理方式選項（請用;隔開，盡量不要有任何空白）');
-define('_MI_SCS_CONSULT_METHOD_DEFAULT', '會商處理;轉介輔導;提供諮詢;個案研究;個別諮商;提供認輔;團體輔導;轉介醫療;電話協談;輔導諮商;其他');
+define('_MI_SCS_CONSULT_METHOD_DEFAULT', '會商處理;轉介輔導;提供諮詢;個案研究;個別輔導;提供認輔;團體輔導;轉介醫療;電話協談;輔導輔導;其他');

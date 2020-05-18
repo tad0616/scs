@@ -37,7 +37,7 @@ Tools::chk_consult_power(__FILE__, __LINE__, 'statistics', '', '', $consult_uid)
 
 $consult = Scs_consult::statistics($consult_uid, $start, $end, 'return');
 
-$title = "個別諮商月報表";
+$title = "個別輔導月報表";
 
 /** Error reporting */
 error_reporting(E_ALL);

@@ -31,7 +31,7 @@
         <a href="javascript:scs_consult_destroy_func(<{$consult_id}>);" class="btn btn-danger"><i class="fa fa-trash-o"></i> <{$smarty.const._TAD_DEL}></a>
     <{/if}>
     <{if 'create'|have_consult_power:$stu_id}>
-        <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_create&stu_id=<{$stu_id}>" class="btn btn-primary"><i class="fa fa-plus"></i>  新增諮商紀錄</a>
+        <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_create&stu_id=<{$stu_id}>" class="btn btn-primary"><i class="fa fa-plus"></i>  新增輔導紀錄</a>
     <{/if}>
     <{if 'update'|have_consult_power:$stu_id:$consult_id}>
         <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_edit&consult_id=<{$consult_id}>&stu_id=<{$stu_id}>" class="btn btn-warning"><i class="fa fa-pencil"></i> <{$smarty.const._TAD_EDIT}></a>

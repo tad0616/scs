@@ -24,7 +24,7 @@ use XoopsModules\Tadtools\Utility;
 require_once __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'scs_consult.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
-if (!$_SESSION['counselor'] and !$_SESSION['tutor']) {
+if (!$_SESSION['counselor'] and !$_SESSION['tutor'] and !$_SESSION['tea_class_arr']) {
     redirect_header('index.php', 3, '無權限');
 }
 /*-----------功能函數區----------*/

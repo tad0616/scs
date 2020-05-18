@@ -90,7 +90,7 @@
                     <{else}>
                         <{if $now_op=="scs_consult_show"}>
                             <{if 'index'|have_consult_power:$stu_id}>
-                                <a href="<{$xoops_url}>/modules/scs/consult.php?stu_id=<{$stu_id}>" class="btn btn-success" style="margin: 0px 2px;"><i class="fa fa-heart"></i> 回諮商紀錄</a>
+                                <a href="<{$xoops_url}>/modules/scs/consult.php?stu_id=<{$stu_id}>" class="btn btn-success" style="margin: 0px 2px;"><i class="fa fa-heart"></i> 回輔導紀錄</a>
                             <{/if}>
                             <{if 'update'|have_consult_power:$stu_id:$consult_id}>
                                 <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_edit&stu_id=<{$stu_id}>&consult_id=<{$consult_id}>" class="btn btn-warning" style="margin: 0px 2px;"><i class="fa fa-pencil"></i> <{$smarty.const._TAD_EDIT}></a>
@@ -104,7 +104,7 @@
                                 <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_create&stu_id=<{$stu_id}>" class="btn btn-primary"><i class="fa fa-plus"></i> 新增紀錄</a>
                             <{/if}>
                             <{if 'download'|have_consult_power:$stu_id}>
-                                <a href="<{$xoops_url}>/modules/scs/pdf_consult_stu.php?stu_id=<{$stu_id}>" class="btn btn-warning"><i class="fa fa-download"></i> 下載諮商表</a>
+                                <a href="<{$xoops_url}>/modules/scs/pdf_consult_stu.php?stu_id=<{$stu_id}>" class="btn btn-warning"><i class="fa fa-download"></i> 下載輔導表</a>
                             <{/if}>
                         <{elseif $now_op=="scs_students_show"}>
                             <a href="<{$xoops_url}>/modules/scs/index.php?school_year=<{$school_year}>&stu_grade=<{$stu_grade}>&stu_class=<{$stu_class}>" class="btn btn-success" style="margin: 0px 2px;"><i class="fa fa-undo"></i> 回列表</a>
@@ -115,10 +115,10 @@
                                 <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit&stu_id=<{$stu_id}>" class="btn btn-warning" style="margin: 0px 2px;"><i class="fa fa-pencil"></i> <{$smarty.const._TAD_EDIT}></a>
                             <{/if}>
                             <{if 'index'|have_consult_power:$stu_id}>
-                                <a href="<{$xoops_url}>/modules/scs/consult.php?stu_id=<{$stu_id}>" class="btn btn-info" style="margin: 0px 2px;"><i class="fa fa-heart"></i> 諮商紀錄</a>
+                                <a href="<{$xoops_url}>/modules/scs/consult.php?stu_id=<{$stu_id}>" class="btn btn-info" style="margin: 0px 2px;"><i class="fa fa-heart"></i> 輔導紀錄</a>
                             <{/if}>
                             <{if 'download'|have_consult_power:$stu_id}>
-                                <a href="<{$xoops_url}>/modules/scs/pdf_consult_stu.php?stu_id=<{$stu_id}>" class="btn btn-warning"><i class="fa fa-download"></i> 下載諮商表</a>
+                                <a href="<{$xoops_url}>/modules/scs/pdf_consult_stu.php?stu_id=<{$stu_id}>" class="btn btn-warning"><i class="fa fa-download"></i> 下載輔導表</a>
                             <{/if}>
                         <{/if}>
                     <{/if}>
