@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Scs\Scs_brother_sister;
 use XoopsModules\Scs\Scs_general;
 use XoopsModules\Scs\Scs_guardian;
@@ -31,11 +32,10 @@ require_once __DIR__ . '/header.php';
 require_once XOOPS_ROOT_PATH . '/modules/tadtools/tcpdf/tcpdf.php';
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$stu_id = system_CleanVars($_REQUEST, 'stu_id', 0, 'int');
+$op = Request::getString('op');
+$stu_id = Request::getInt('stu_id');
 
-Tools::chk_scs_power(__FILE__, __LINE__,  'show', $stu_id);
+Tools::chk_scs_power(__FILE__, __LINE__, 'show', $stu_id);
 
 $general = Scs_general::get($stu_id);
 $stu = Scs_students::get($stu_id);

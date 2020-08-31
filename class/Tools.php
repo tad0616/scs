@@ -366,18 +366,18 @@ class Tools
     public static function get_school_year()
     {
         global $xoopsDB;
-        $sql = "select max(school_year) from `" . $xoopsDB->prefix("scs_general") . "`";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-        list($school_year) = $xoopsDB->fetchRow($result);
-        if (empty($school_year)) {
-            $y = date('Y');
-            $m = date('n');
-            if ($m >= 8) {
-                $school_year = $y - 1911;
-            } else {
-                $school_year = $y - 1912;
-            }
+        // $sql = "select max(school_year) from `" . $xoopsDB->prefix("scs_general") . "`";
+        // $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        // list($school_year) = $xoopsDB->fetchRow($result);
+        // if (empty($school_year)) {
+        $y = date('Y');
+        $m = date('n');
+        if ($m >= 8) {
+            $school_year = $y - 1911;
+        } else {
+            $school_year = $y - 1912;
         }
+        // }
         return $school_year;
     }
 

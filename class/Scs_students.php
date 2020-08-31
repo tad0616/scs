@@ -354,6 +354,10 @@ class Scs_students
             return;
         }
 
+        $sql = "insert into " . $xoopsDB->prefix("scs_students_del") . " select *
+        from " . $xoopsDB->prefix("scs_students") . " where `stu_id` = '{$stu_id}'";
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
         $sql = "delete from `" . $xoopsDB->prefix("scs_students") . "`
         where `stu_id` = '{$stu_id}'";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);

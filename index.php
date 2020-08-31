@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Scs\Scs_brother_sister;
 use XoopsModules\Scs\Scs_consult;
 use XoopsModules\Scs\Scs_general;
@@ -37,26 +38,24 @@ if (!$xoopsUser) {
 /*-----------功能函數區----------*/
 
 /*-----------變數過濾----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
+$op = Request::getString('op');
+$stu_id = !empty($_SESSION['stu_id']) ? (int) $_SESSION['stu_id'] : Request::getInt('stu_id');
+$school_year = Request::getInt('school_year');
+$parent_kind = Request::getString('parent_kind');
+$bs_relationship = Request::getString('bs_relationship');
+$files_sn = Request::getInt('files_sn');
+$stu_id_parent_kind = Request::getString('stu_id_parent_kind');
+$stu_id_school_year = Request::getString('stu_id_school_year');
+$stu_id_bs_relationship = Request::getString('stu_id_bs_relationship');
+$stu_grade = Request::getInt('stu_grade');
+$stu_class = Request::getInt('stu_class');
+$scs_students = Request::getArray('scs_students');
+$scs_general = Request::getArray('scs_general');
+$scs_parents = Request::getArray('scs_parents');
+$scs_guardian = Request::getArray('scs_guardian');
+$scs_brother_sister = Request::getArray('scs_brother_sister');
+$class = Request::getString('class');
 
-$stu_id = !empty($_SESSION['stu_id']) ? (int) $_SESSION['stu_id'] : system_CleanVars($_REQUEST, 'stu_id', 0, 'int');
-
-$school_year = system_CleanVars($_REQUEST, 'school_year', 0, 'int');
-$parent_kind = system_CleanVars($_REQUEST, 'parent_kind', '', 'string');
-$bs_relationship = system_CleanVars($_REQUEST, 'bs_relationship', '', 'string');
-$files_sn = system_CleanVars($_REQUEST, 'files_sn', 0, 'int');
-$stu_id_parent_kind = system_CleanVars($_REQUEST, 'stu_id_parent_kind', '', 'string');
-$stu_id_school_year = system_CleanVars($_REQUEST, 'stu_id_school_year', '', 'string');
-$stu_id_bs_relationship = system_CleanVars($_REQUEST, 'stu_id_bs_relationship', '', 'string');
-$stu_grade = system_CleanVars($_REQUEST, 'stu_grade', 0, 'int');
-$stu_class = system_CleanVars($_REQUEST, 'stu_class', 0, 'int');
-$scs_students = system_CleanVars($_POST, 'scs_students', [], 'array');
-$scs_general = system_CleanVars($_POST, 'scs_general', [], 'array');
-$scs_parents = system_CleanVars($_POST, 'scs_parents', [], 'array');
-$scs_guardian = system_CleanVars($_POST, 'scs_guardian', [], 'array');
-$scs_brother_sister = system_CleanVars($_POST, 'scs_brother_sister', [], 'array');
-$class = system_CleanVars($_REQUEST, 'class', '', 'string');
 if ($class) {
     list($school_year, $stu_grade, $stu_class) = explode('-', $class);
 }
@@ -65,13 +64,13 @@ switch ($op) {
 
     //刪除資料
     case 'scs_students_destroy':
-        header("location: {$_SERVER['PHP_SELF']}");
         Scs_brother_sister::destroy($stu_id);
         Scs_guardian::destroy($stu_id);
         Scs_parents::destroy($stu_id);
         Scs_general::destroy($stu_id);
         Scs_students::destroy($stu_id);
         Scs_consult::destroy($stu_id);
+        header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
     //更新資料

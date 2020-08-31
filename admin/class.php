@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Scs\Scs_general;
 use XoopsModules\Scs\Tools;
 use XoopsModules\Tadtools\TadDataCenter;
@@ -95,11 +96,9 @@ function save_class_teacher($school_year, $class_teacher)
 }
 
 /*-----------變數過濾----------*/
-
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$school_year = system_CleanVars($_REQUEST, 'school_year', '', 'int');
-$class_teacher = system_CleanVars($_REQUEST, 'class_teacher', '', 'array');
+$op = Request::getString('op');
+$school_year = Request::getInt('school_year');
+$class_teacher = Request::getArray('class_teacher');
 
 /*-----------執行動作判斷區----------*/
 switch ($op) {

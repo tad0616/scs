@@ -1,6 +1,6 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
-use XoopsModules\Tadtools\EasyResponsiveTabs;
 /**
  * Scs module
  *
@@ -19,7 +19,6 @@ use XoopsModules\Tadtools\EasyResponsiveTabs;
  * @version    $Id $
  **/
 
-
 /*-----------引入檔案區--------------*/
 $GLOBALS['xoopsOption']['template_main'] = 'scs_adm_power.tpl';
 require_once __DIR__ . '/header.php';
@@ -27,7 +26,6 @@ require_once dirname(__DIR__) . '/function.php';
 $_SESSION['scs_adm'] = true;
 
 /*-----------功能函數區----------*/
-
 
 include_once XOOPS_ROOT_PATH . "/Frameworks/art/functions.php";
 include_once XOOPS_ROOT_PATH . "/Frameworks/art/functions.admin.php";
@@ -61,23 +59,20 @@ foreach ($item_list as $item_id => $item_name) {
 
 echo $formi->render();
 
-
 /*-----------變數過濾----------*/
-include_once $GLOBALS['xoops']->path( '/modules/system/include/functions.php' );
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-
+$op = Request::getString('op');
 
 /*-----------執行動作判斷區----------*/
-switch($op){
-    
+switch ($op) {
+
 }
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('now_op', $op);
 $xoTheme->addStylesheet('/modules/tadtools/css/font-awesome/css/font-awesome.css');
-if($_SEESION['bootstrap']==4){
-    $xoTheme->addStylesheet(XOOPS_URL.'/modules/tadtools/css/xoops_adm4.css');
-}else{
-    $xoTheme->addStylesheet(XOOPS_URL.'/modules/tadtools/css/xoops_adm3.css');
+if ($_SEESION['bootstrap'] == 4) {
+    $xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/css/xoops_adm4.css');
+} else {
+    $xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/css/xoops_adm3.css');
 }
 require_once __DIR__ . '/footer.php';

@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Scs\Scs_consult;
 use XoopsModules\Scs\Tools;
 /**
@@ -23,11 +24,10 @@ use XoopsModules\Scs\Tools;
 require_once __DIR__ . '/header.php';
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$consult_uid = system_CleanVars($_REQUEST, 'consult_uid', '', 'string');
-$start = system_CleanVars($_REQUEST, 'start', '', 'string');
-$end = system_CleanVars($_REQUEST, 'end', '', 'string');
+$op = Request::getString('op');
+$consult_uid = Request::getInt('consult_uid');
+$start = Request::getString('start');
+$end = Request::getString('end');
 
 list($y, $m) = explode('-', $start);
 $y = $y - 1911;

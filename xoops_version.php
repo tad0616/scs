@@ -63,6 +63,12 @@ $modversion['tables'][] = "scs_general";
 $modversion['tables'][] = "scs_guardian";
 $modversion['tables'][] = "scs_parents";
 $modversion['tables'][] = "scs_students";
+$modversion['tables'][] = "scs_brother_sister_del";
+$modversion['tables'][] = "scs_consult_del";
+$modversion['tables'][] = "scs_general_del";
+$modversion['tables'][] = "scs_guardian_del";
+$modversion['tables'][] = "scs_parents_del";
+$modversion['tables'][] = "scs_students_del";
 
 //---後台使用系統選單---//
 $modversion['system_menu'] = 1;

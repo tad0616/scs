@@ -209,6 +209,10 @@ class Scs_brother_sister
 
         $and_bs_relationship = !empty($bs_relationship) ? "and `bs_relationship` = '$bs_relationship'" : '';
 
+        $sql = "insert into " . $xoopsDB->prefix("scs_brother_sister_del") . " select *
+        from " . $xoopsDB->prefix("scs_brother_sister") . " where `stu_id` = '$stu_id' $and_bs_relationship";
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
         $sql = "delete from `" . $xoopsDB->prefix("scs_brother_sister") . "`
         where `stu_id` = '$stu_id' $and_bs_relationship";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);

@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Scs\Scs_general;
 use XoopsModules\Scs\Tools;
 use XoopsModules\Tadtools\Utility;
@@ -6,11 +7,10 @@ use XoopsModules\Tadtools\Utility;
 include_once "../../mainfile.php";
 include_once "header.php";
 
-include_once XOOPS_ROOT_PATH . '/modules/system/include/functions.php';
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$school_year = system_CleanVars($_REQUEST, 'school_year', '', 'int');
-$stu_grade = system_CleanVars($_REQUEST, 'stu_grade', '', 'int');
-$stu_id = system_CleanVars($_REQUEST, 'stu_id', '', 'int');
+$op = Request::getString('op');
+$school_year = Request::getInt('school_year');
+$stu_grade = Request::getInt('stu_grade');
+$stu_id = Request::getInt('stu_id');
 
 switch ($op) {
     case "get_stu_grade_option":

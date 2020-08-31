@@ -322,6 +322,10 @@ class Scs_general
 
         $and_school_year = !empty($school_year) ? "and `school_year` = '$school_year'" : '';
 
+        $sql = "insert into " . $xoopsDB->prefix("scs_general_del") . " select *
+        from " . $xoopsDB->prefix("scs_general") . " where `stu_id` = '{$stu_id}' $and_school_year";
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
         $sql = "delete from `" . $xoopsDB->prefix("scs_general") . "`
         where `stu_id` = '{$stu_id}' $and_school_year";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);

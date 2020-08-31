@@ -230,6 +230,10 @@ class Scs_parents
 
         $and_parent_kind = !empty($parent_kind) ? "and `parent_kind` = '$parent_kind'" : '';
 
+        $sql = "insert into " . $xoopsDB->prefix("scs_parents_del") . " select *
+        from " . $xoopsDB->prefix("scs_parents") . " where `stu_id` = '{$stu_id}' $and_parent_kind";
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
         $sql = "delete from `" . $xoopsDB->prefix("scs_parents") . "`
         where `stu_id` = '{$stu_id}' $and_parent_kind";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);

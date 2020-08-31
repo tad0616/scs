@@ -2,11 +2,11 @@
 <div class="row">
     <div class="col-sm-6">
         <ol>
-            <li style="line-height:1.5em;">1.請從臺南市國中學籍系統匯出學生資料（如右圖），格式後請另存成xlsx格式</li>
-            <li style="line-height:1.5em;">2.欄位需和範例檔一致：<a href="../demo.xlsx">範例檔</a></li>
-            <li style="line-height:1.5em;">3.每學年都要匯入一次</li>
-            <li style="line-height:1.5em;">4.可匯入多次，同一個學年的話會以後面匯入的資料蓋掉前面的資料</li>
-            <li style="line-height:1.5em;">5.若有罕見字（如：𧛟）導致匯入錯誤，可<a href="https://www.online-toolz.com/tools/unicode-html-entities-convertor.php" target="_blank">透過此工具將罕見字轉為特殊碼</a>，並修改Excel檔內容（如：<img src="../images/html_unicode.png">）再匯入。</li>
+            <li style="line-height:1.5em;">請從臺南市國中學籍系統匯出學生資料（如右圖），格式後請另存成xlsx格式</li>
+            <li style="line-height:1.5em;">欄位需和<a href="../demo.xlsx">範例檔</a>一致（請勿刪除「XX國中X學年度第X學期...」那一行）</li>
+            <li style="line-height:1.5em;">每學年都要匯入一次</li>
+            <li style="line-height:1.5em;">可匯入多次，同一個學年的話會以後面匯入的資料蓋掉前面的資料</li>
+            <li style="line-height:1.5em;">若有罕見字（如：𧛟）導致匯入錯誤，可<a href="https://www.online-toolz.com/tools/unicode-html-entities-convertor.php" target="_blank">透過此工具將罕見字轉為特殊碼</a>，並修改Excel檔內容（如：<img src="../images/html_unicode.png">）再匯入。</li>
         </ol>
         </br>
         <form action="main.php" method="post" enctype="multipart/form-data">

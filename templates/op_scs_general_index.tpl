@@ -113,7 +113,7 @@
                             <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_index&stu_id=<{$data.stu_id}>" class="btn btn-sm btn-primary" title="<{$data.stu_name}>的個別輔導" data-toggle="tooltip"><i class="fa fa-heart" aria-hidden="true"></i></a>
                         <{/if}>
                         <{if 'update'|have_scs_power:$data.stu_id}>
-                            <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit&school_year=<{$data.school_year}>&stu_id=<{$data.stu_id}>" class="btn btn-sm btn-warning" title="編輯<{$data.stu_name}>綜合資料紀錄表" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
+                            <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit&school_year=<{$data.school_year}>&stu_id=<{$data.stu_id}>" class="btn btn-sm btn-warning" title="編輯「<{$data.stu_name}>」綜合資料紀錄表" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
                         <{/if}>
                     </td>
                 </tr>

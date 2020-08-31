@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Scs\Scs_consult;
 use XoopsModules\Scs\Tools;
 use XoopsModules\Tadtools\Utility;
@@ -30,14 +31,13 @@ if (!$_SESSION['counselor'] and !$_SESSION['tutor'] and !$_SESSION['tea_class_ar
 /*-----------功能函數區----------*/
 
 /*-----------變數過濾----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$consult_id = system_CleanVars($_REQUEST, 'consult_id', 0, 'int');
-$files_sn = system_CleanVars($_REQUEST, 'files_sn', 0, 'int');
-$stu_id = system_CleanVars($_REQUEST, 'stu_id', 0, 'int');
-$consult_uid = system_CleanVars($_REQUEST, 'consult_uid', 0, 'int');
-$start = system_CleanVars($_REQUEST, 'start', '', 'string');
-$end = system_CleanVars($_REQUEST, 'end', '', 'string');
+$op = Request::getString('op');
+$consult_id = Request::getInt('consult_id');
+$files_sn = Request::getInt('files_sn');
+$stu_id = Request::getInt('stu_id');
+$consult_uid = Request::getInt('consult_uid');
+$start = Request::getString('start');
+$end = Request::getString('end');
 
 /*-----------執行動作判斷區----------*/
 switch ($op) {

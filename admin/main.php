@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Scs\Scs_general;
 use XoopsModules\Scs\Scs_guardian;
 use XoopsModules\Scs\Scs_parents;
@@ -556,11 +557,10 @@ function scs_import_to_db($school_year = 0, $students = [])
 }
 
 /*-----------變數過濾----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$students = system_CleanVars($_REQUEST, 'students', '', 'array');
-$school_year = system_CleanVars($_REQUEST, 'school_year', '', 'int');
-$mode = system_CleanVars($_REQUEST, 'mode', '', 'string');
+$op = Request::getString('op');
+$students = Request::getArray('students');
+$school_year = Request::getInt('school_year');
+$mode = Request::getString('mode');
 
 /*-----------執行動作判斷區----------*/
 switch ($op) {
@@ -581,9 +581,9 @@ switch ($op) {
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('now_op', $op);
 $xoTheme->addStylesheet('/modules/tadtools/css/font-awesome/css/font-awesome.css');
-if ($_SEESION['bootstrap'] == 4) {
-    $xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/css/xoops_adm4.css');
-} else {
+if ($_SEESION['bootstrap'] == 3) {
     $xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/css/xoops_adm3.css');
+} else {
+    $xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/css/xoops_adm4.css');
 }
 require_once __DIR__ . '/footer.php';

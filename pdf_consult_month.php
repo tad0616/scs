@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Scs\Scs_consult;
 use XoopsModules\Scs\Tools;
 use XoopsModules\Tadtools\Utility;
@@ -26,11 +27,10 @@ require_once __DIR__ . '/header.php';
 require_once XOOPS_ROOT_PATH . '/modules/tadtools/tcpdf/tcpdf.php';
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$consult_uid = system_CleanVars($_REQUEST, 'consult_uid', '', 'string');
-$start = system_CleanVars($_REQUEST, 'start', '', 'string');
-$end = system_CleanVars($_REQUEST, 'end', '', 'string');
+$op = Request::getString('op');
+$consult_uid = Request::getInt('consult_uid');
+$start = Request::getString('start');
+$end = Request::getString('end');
 
 if (empty($consult_uid)) {
     redirect_header($_SERVER['HTTP_REFERER'], 3, '未指定教師');

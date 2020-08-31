@@ -201,6 +201,10 @@ class Scs_guardian
             return;
         }
 
+        $sql = "insert into " . $xoopsDB->prefix("scs_guardian_del") . " select *
+        from " . $xoopsDB->prefix("scs_guardian") . " where `stu_id` = '$stu_id'";
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
         $sql = "delete from `" . $xoopsDB->prefix("scs_guardian") . "`
         where `stu_id` = '{$stu_id}'";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
