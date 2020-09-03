@@ -330,7 +330,7 @@ class Tools
                 break;
 
             case 'destroy':
-                if ($_SESSION['counselor']) {
+                if ($_SESSION['scs_adm'] or $_SESSION['counselor']) {
                     return true;
                 }
                 break;
