@@ -13,6 +13,16 @@ $stu_grade = Request::getInt('stu_grade');
 $stu_id = Request::getInt('stu_id');
 
 switch ($op) {
+
+    case "get_teachers":
+        $teachers = Tools::get_school_teachers();
+        $all_teachers = [];
+        foreach ($teachers as $uid => $teacher) {
+            $all_teachers[] = array("label" => "{$teacher['name']} ({$teacher['uname']})", "value" => $uid);
+        }
+        Utility::dd($all_teachers);
+        break;
+
     case "get_stu_grade_option":
         $condition['school_year'] = $school_year;
         $arr = Tools::get_general_data_arr('scs_general', 'stu_grade', $condition);

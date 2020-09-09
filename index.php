@@ -56,9 +56,10 @@ $scs_guardian = Request::getArray('scs_guardian');
 $scs_brother_sister = Request::getArray('scs_brother_sister');
 $class = Request::getString('class');
 
-if ($class) {
+if ($class and strpos($class, '-') !== false) {
     list($school_year, $stu_grade, $stu_class) = explode('-', $class);
 }
+
 /*-----------執行動作判斷區----------*/
 switch ($op) {
 
@@ -109,7 +110,7 @@ switch ($op) {
         Scs_parents::create($stu_id);
         Scs_guardian::create($stu_id);
         Scs_brother_sister::create($stu_id);
-        Tools::menu_option($stu_id);
+        Tools::menu_option($stu_id, $school_year);
 
         $EasyResponsiveTabs = new EasyResponsiveTabs('#demoTab');
         $EasyResponsiveTabs->rander();
@@ -123,7 +124,7 @@ switch ($op) {
         }
         if (!empty($stu_id)) {
             if (!empty($_SESSION['scs_adm']) or !empty($_SESSION['counselor']) or !empty($_SESSION['tutor'])) {
-                $school_year = Tools::get_school_year();
+                $school_year = $school_year ? $school_year : Tools::get_school_year();
             } elseif (!empty($_SESSION['tea_class_arr'])) {
                 $school_year = Tools::get_school_year();
                 list($school_year, $stu_grade, $stu_class) = explode('-', $_SESSION['tea_class_arr'][$school_year]);
@@ -137,18 +138,18 @@ switch ($op) {
             Scs_parents::show($stu_id);
             Scs_guardian::show($stu_id);
             Scs_brother_sister::show($stu_id);
-            Tools::menu_option($stu_id);
+            Tools::menu_option($stu_id, $school_year);
 
             $op = 'scs_students_show';
         } else {
             if (!empty($_SESSION['scs_adm']) or !empty($_SESSION['counselor']) or !empty($_SESSION['tutor'])) {
-                $school_year = Tools::get_school_year();
+                $school_year = $school_year ? $school_year : Tools::get_school_year();
             } elseif (!empty($_SESSION['tea_class_arr'])) {
                 $school_year = Tools::get_school_year();
                 list($school_year, $stu_grade, $stu_class) = explode('-', $_SESSION['tea_class_arr'][$school_year]);
             }
             Scs_general::index($school_year, $stu_grade, $stu_class);
-            Tools::menu_option($stu_id, $stu_grade, $stu_class);
+            Tools::menu_option($stu_id, $school_year, $stu_grade, $stu_class);
             $op = 'scs_general_index';
 
         }

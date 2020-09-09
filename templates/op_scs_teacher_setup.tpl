@@ -1,4 +1,14 @@
-<h2  class="scs">
+<!-- <script type="text/javascript">
+    $(document).ready(function(){
+        console.log("<{$xoops_url}>/modules/scs/ajax.php?op=get_teachers");
+        $( ".teacher_picker" ).autocomplete({
+            source: "<{$xoops_url}>/modules/scs/ajax.php?op=get_teachers"
+        });
+    });
+</script> -->
+
+
+<h2 class="scs">
 <form class="form-inline">
     <div class="form-group">
         <select name="school_year" id="school_year" class="form-control" onchange="location.href='class.php?school_year='+this.value">
@@ -32,7 +42,8 @@
                     <{$school_year}>學年「輔導主任」
                 </label>
                 <div class="col-sm-6">
-                    <select class="form-control" name="class_teacher[counselor]">
+                    <!-- <input type="text" name="class_teacher[counselor]" id="class_teacher_counselor" placeholder="請選擇輔導主任" class="form-control teacher_picker"> -->
+                    <select class="form-control teacher_picker" name="class_teacher[counselor]">
                         <option value="">請選擇輔導主任</option>
                         <{foreach from=$teachers key=uid item=teacher}>
                             <option value="<{$uid}>" <{if $setup.counselor.0==$uid}>selected<{/if}>><{$teacher.name}>（<{$teacher.uname}>）</option>
@@ -49,7 +60,7 @@
                     <{$school_year}>學年「專任輔導教師」
                 </label>
                 <div class="col-sm-6">
-                    <select class="form-control" name="class_teacher[tutor][]" multiple size=10>
+                    <select class="form-control teacher_picker" name="class_teacher[tutor][]" multiple size=10>
                         <option value="">請選擇專任輔導教師</option>
                         <{foreach from=$teachers key=uid item=teacher}>
                             <option value="<{$uid}>" <{if $uid|in_array:$setup.tutor}>selected<{/if}>><{$teacher.name}>（<{$teacher.uname}>）</option>
@@ -95,7 +106,8 @@
                         </label>
                         <div class="col-sm-6">
                             <{assign var="class_key" value="$school_year-$stu_grade-$stu_class"}>
-                            <select class="form-control" name="class_teacher[<{$class_key}>]">
+                            <!-- <input type="text" name="class_teacher[<{$class_key}>]" id="class_teacher_<{$class_key}>" placeholder="請選擇導師" class="form-control teacher_picker"> -->
+                            <select class="form-control teacher_picker" name="class_teacher[<{$class_key}>]">
                                 <option value="">請選擇導師</option>
                                 <{foreach from=$teachers key=uid item=teacher}>
                                     <option value="<{$uid}>" <{if $setup.$class_key.0==$uid}>selected<{/if}>><{$teacher.name}>（<{$teacher.uname}>）</option>

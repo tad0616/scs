@@ -124,7 +124,7 @@ class Tools
             redirect_header(XOOPS_URL . '/modules/system/admin.php?fct=preferences&op=showmod&mod=' . $mid, 3, '請先至偏好設定，設定「教育部學校代碼」');
         }
         $sql = "select `uid`,`name`,`uname` from `" . $xoopsDB->prefix("users") . "`
-        where `user_intrest`='{$xoopsModuleConfig['school_code']}' and `user_icq`='teacher'";
+        where `user_intrest`='{$xoopsModuleConfig['school_code']}' and `user_icq`='teacher' order by `name`,`uname`";
         $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         while (list($uid, $name, $uname) = $xoopsDB->fetchRow($result)) {
             $teachers[$uid]['name'] = $name;
@@ -382,7 +382,7 @@ class Tools
     }
 
     // 給選單用
-    public static function menu_option($stu_id = '', $def_stu_grade = '', $def_stu_class = '')
+    public static function menu_option($stu_id = '', $def_school_year = '', $def_stu_grade = '', $def_stu_class = '')
     {
         global $xoopsTpl, $xoopsDB;
         $xoopsTpl->assign('stu_id', $stu_id);
@@ -421,7 +421,7 @@ class Tools
             $school_year_to_grade[$y] = $g;
         }
 
-        $school_year = self::get_school_year();
+        $school_year = $def_school_year ? $def_school_year : self::get_school_year();
         $xoopsTpl->assign('school_year', $school_year);
 
         $school_year_arr = self::get_general_data_arr('scs_general', 'school_year');
