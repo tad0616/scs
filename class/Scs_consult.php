@@ -260,7 +260,7 @@ class Scs_consult
         //上傳工具
         $TadUpFiles = new TadUpFiles("scs");
         $TadUpFiles->set_col("consult_id", $consult_id);
-        $show_consult_id_files = $TadUpFiles->show_files('up_consult_id', true, 'thumb', true, false, null, null, false);
+        $show_consult_id_files = $TadUpFiles->show_files('up_consult_id', true, 'thumb', true, false, null, XOOPS_URL . "/modules/scs/consult.php?op=tufdl&stu_id=$stu_id&consult_id=$consult_id", false, 0, false, '', false, '_blank');
         $xoopsTpl->assign('show_consult_id_files', $show_consult_id_files);
 
         $SweetAlert = new SweetAlert();
@@ -529,5 +529,14 @@ class Scs_consult
             $xoopsTpl->assign('data_arr', $data_arr);
             $xoopsTpl->assign('max_times', max(max($times)));
         }
+    }
+
+    //下載附檔
+    public static function download($files_sn, $stu_id, $consult_id)
+    {
+
+        Tools::chk_consult_power(__FILE__, __LINE__, 'show', $stu_id, $consult_id);
+        $TadUpFiles = new TadUpFiles("scs");
+        $TadUpFiles->add_file_counter($files_sn, false, true);
     }
 }

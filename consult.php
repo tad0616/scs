@@ -56,6 +56,7 @@ switch ($op) {
 
     //下載檔案
     case 'tufdl':
+        Scs_consult::download($files_sn, $stu_id, $consult_id);
         exit;
 
     //新增用表單
