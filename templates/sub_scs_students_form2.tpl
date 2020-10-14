@@ -236,6 +236,7 @@
         </label>
         <div class="col-sm-2">
             <select name="scs_guardian[guardian_title]" id="guardian_title" class="form-control " size=1>
+                <option value=""></option>
                 <{foreach from=$guardian_title_arr key=k item=title}>
                     <option value="<{$title}>" <{if $guardian.guardian_title == $title}>selected="selected"<{/if}>><{$title}></option>
                 <{/foreach}>

@@ -79,12 +79,16 @@ switch ($op) {
     case 'scs_students_update':
         Utility::xoops_security_check();
         $stu_id = Scs_students::update($stu_id, $scs_students, false, false);
-        Scs_general::update($stu_id, $scs_general, false, false);
-        Scs_parents::update($stu_id, $scs_parents, false, false);
-        Scs_guardian::update($stu_id, $scs_guardian, false, false);
-        Scs_brother_sister::update($stu_id, $scs_brother_sister, false);
-        header("location: {$_SERVER['PHP_SELF']}?stu_id=$stu_id");
-        exit;
+        if ($stu_id) {
+            Scs_general::update($stu_id, $scs_general, false, false);
+            Scs_parents::update($stu_id, $scs_parents, false, false);
+            Scs_guardian::update($stu_id, $scs_guardian, false, false);
+            Scs_brother_sister::update($stu_id, $scs_brother_sister, false);
+            header("location: {$_SERVER['PHP_SELF']}?stu_id=$stu_id");
+            exit;
+        } else {
+            redirect_header($_SERVER['PHP_SELF'], 3, "無法取得學生編號，手動新增學生失敗。");
+        }
 
     //修改用表單
     case 'scs_students_edit':

@@ -480,15 +480,16 @@ class Tools
         }
     }
 
+    // 將偏好設定轉為陣列
     public static function get_config_arr($table = '', $name = '', $col = '')
     {
         global $xoopsTpl, $xoopsModuleConfig;
 
         $def_arr = explode(';', $xoopsModuleConfig[$name]);
         $col = empty($col) ? $name : $col;
-        $db_arr = self::get_general_data_arr($table, $col);
-        $all_arr = array_merge($db_arr, $def_arr);
-        $arr = array_unique($all_arr);
+        // $db_arr = self::get_general_data_arr($table, $col);
+        // $all_arr = array_merge($def_arr, $db_arr);
+        $arr = array_unique($def_arr);
         $xoopsTpl->assign($name . '_arr', $arr);
     }
 
