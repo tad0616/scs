@@ -406,9 +406,10 @@ $pdf->Cell($col_w['編號欄'], $col_h['直系欄'], '10.', 'TB', 0, "R", false,
 $pdf->Cell($col_w['概況欄'], $col_h['直系欄'], '直系血親', 'TB', 0, "L", false, '', 1);
 $col_x['直系欄'] = $pdf->GetX();
 $col_y['直系欄'] = $pdf->GetY();
-$pdf->writeHTMLCell($col_w['概況值'], $col_h['直系欄'], '', '', "父 <span style=\"color: blue\">{$parents['f']['parent_name']}</span> [<span style=\"color: blue\">{$parents['f']['parent_survive']}</span>] <span style=\"color: blue\">{$parents['f']['parent_year']}</span> 年生 祖父 <span style=\"color: blue\">{$parents['f']['parent_gf_name']}</span> [<span style=\"color: blue\">{$parents['f']['parent_gf_survive']}</span>]<br>
-母 <span style=\"color: blue\">{$parents['m']['parent_name']}</span> [<span style=\"color: blue\">{$parents['m']['parent_survive']}</span>] <span style=\"color: blue\">{$parents['m']['parent_year']}</span> 年生 祖母 <span style=\"color: blue\">{$parents['m']['parent_gm_name']}</span> [<span style=\"color: blue\">{$parents['m']['parent_gm_survive']}</span>] ", 1, 1, false, true, '', true);
-// writeHTMLCell($w, $h, $x, $y, $html = '', $border = 0, $ln = 0, $fill = false, $reseth = true, $align = '', $autopadding = true);
+// $pdf->writeHTMLCell($col_w['概況值'], $col_h['直系欄'], '', '', "父 <span style=\"color: blue\">{$parents['f']['parent_name']}</span> [<span style=\"color: blue\">{$parents['f']['parent_survive']}</span>] <span style=\"color: blue\">{$parents['f']['parent_year']}</span> 年生 祖父 <span style=\"color: blue\">{$parents['f']['parent_gf_name']}</span> [<span style=\"color: blue\">{$parents['f']['parent_gf_survive']}</span>]<br>
+// 母 <span style=\"color: blue\">{$parents['m']['parent_name']}</span> [<span style=\"color: blue\">{$parents['m']['parent_survive']}</span>] <span style=\"color: blue\">{$parents['m']['parent_year']}</span> 年生 祖母 <span style=\"color: blue\">{$parents['m']['parent_gm_name']}</span> [<span style=\"color: blue\">{$parents['m']['parent_gm_survive']}</span>] ", 1, 1, false, true, '', true);
+$pdf->writeHTMLCell($col_w['概況值'], $col_h['直系欄'], '', '', "父 <span style=\"color: blue\">{$parents['f']['parent_name']}</span> [<span style=\"color: blue\">{$parents['f']['parent_survive']}</span>] <span style=\"color: blue\">{$parents['f']['parent_year']}</span> 年生 <br>
+母 <span style=\"color: blue\">{$parents['m']['parent_name']}</span> [<span style=\"color: blue\">{$parents['m']['parent_survive']}</span>] <span style=\"color: blue\">{$parents['m']['parent_year']}</span> 年生 ", 1, 1, false, true, '', true);
 
 // 11.父母教育程度
 $pdf->SetLineWidth(0.2);

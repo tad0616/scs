@@ -154,22 +154,22 @@ function scs_import_excel($mode = 'scs_import_excel')
                     $val = str_replace('台', '臺', $val);
                     $students[$row]['scs_students']['stu_birth_place'] = $val;
                     break;
-                case '22':
-                    // 學生身份別
-                    if (empty($students[1]['scs_students']['stu_identity'])) {
-                        $students[1]['scs_students']['stu_identity'] = '學生身份別';
-                    }
-                    list($stu_identity) = explode(',', $val);
-                    $students[$row]['scs_students']['stu_identity'] = $stu_identity;
-                    break;
-                case '27':
+                // case '22':
+                //     // 學生身份別
+                //     if (empty($students[1]['scs_students']['stu_identity'])) {
+                //         $students[1]['scs_students']['stu_identity'] = '學生身份別';
+                //     }
+                //     list($stu_identity) = explode(',', $val);
+                //     $students[$row]['scs_students']['stu_identity'] = $stu_identity;
+                //     break;
+                case '26':
                     // 畢業小學校名
                     if (empty($students[1]['scs_students']['stu_education'])) {
                         $students[1]['scs_students']['stu_education'] = '畢業小學校名';
                     }
                     $students[$row]['scs_students']['stu_education']['g_school'] = $val;
                     break;
-                case '30':
+                case '29':
                     //畢修業日期
                     if (empty($students[1]['scs_students']['stu_education'])) {
                         $students[1]['scs_students']['stu_education'] = '畢修業日期';
@@ -180,42 +180,42 @@ function scs_import_excel($mode = 'scs_import_excel')
                     $students[$row]['scs_students']['stu_education']['g_time'] = $val;
                     $students[$row]['scs_students']['stu_education']['i_time'] = $val;
                     break;
-                case '33':
+                case '32':
                     // 戶籍郵遞區號
                     if (empty($students[1]['scs_students']['stu_residence_zip'])) {
                         $students[1]['scs_students']['stu_residence_zip'] = '郵遞區號';
                     }
                     $students[$row]['scs_students']['stu_residence_zip'] = $val;
                     break;
-                case '34':
+                case '33':
                     // 戶籍縣市
                     if (empty($students[1]['scs_students']['stu_residence_county'])) {
                         $students[1]['scs_students']['stu_residence_county'] = '戶籍縣市';
                     }
                     $students[$row]['scs_students']['stu_residence_county'] = $val;
                     break;
-                case '35':
+                case '34':
                     // 戶籍鄉鎮市區
                     if (empty($students[1]['scs_students']['stu_residence_city'])) {
                         $students[1]['scs_students']['stu_residence_city'] = '戶籍鄉鎮市區';
                     }
                     $students[$row]['scs_students']['stu_residence_city'] = $val;
                     break;
-                case '36':
+                case '35':
                     // 戶籍村里
                     if (empty($students[1]['scs_students']['stu_residence_addr'])) {
                         $students[1]['scs_students']['stu_residence_addr'] = '戶籍村里地址';
                     }
                     $students[$row]['scs_students']['stu_residence_addr'] = $val;
                     break;
-                case '37':
+                case '36':
                     $students[$row]['scs_students']['stu_residence_addr'] .= $val;
                     break;
-                case '38':
+                case '37':
                     // 戶籍路
                     $students[$row]['scs_students']['stu_residence_addr'] .= $val;
                     break;
-                case '40':
+                case '39':
                     // 通訊郵遞區號
                     if (empty($students[1]['scs_students']['stu_zip'])) {
                         $students[1]['scs_students']['stu_zip'] = '通訊郵遞區號';
@@ -226,7 +226,7 @@ function scs_import_excel($mode = 'scs_import_excel')
                     $students[$row]['scs_students']['emergency_contact']['addr'] = $val;
                     $students[$row]['scs_guardian']['guardian_addr'] = $val;
                     break;
-                case '41':
+                case '40':
                     // 通訊縣市
                     if (empty($students[1]['scs_students']['stu_county'])) {
                         $students[1]['scs_students']['stu_county'] = '通訊縣市';
@@ -235,7 +235,7 @@ function scs_import_excel($mode = 'scs_import_excel')
                     $students[$row]['scs_students']['emergency_contact']['addr'] .= $val;
                     $students[$row]['scs_guardian']['guardian_addr'] .= $val;
                     break;
-                case '42':
+                case '41':
                     // 通訊鄉鎮市區
                     if (empty($students[1]['scs_students']['stu_city'])) {
                         $students[1]['scs_students']['stu_city'] = '通訊鄉鎮市區';
@@ -244,7 +244,7 @@ function scs_import_excel($mode = 'scs_import_excel')
                     $students[$row]['scs_students']['emergency_contact']['addr'] .= $val;
                     $students[$row]['scs_guardian']['guardian_addr'] .= $val;
                     break;
-                case '43':
+                case '42':
                     // 通訊村里
                     if (empty($students[1]['scs_students']['stu_addr'])) {
                         $students[1]['scs_students']['stu_addr'] = '通訊村里地址';
@@ -253,72 +253,72 @@ function scs_import_excel($mode = 'scs_import_excel')
                     $students[$row]['scs_students']['emergency_contact']['addr'] .= $val;
                     $students[$row]['scs_guardian']['guardian_addr'] .= $val;
                     break;
-                case '44':
+                case '43':
                     // 通訊鄰
                     $students[$row]['scs_students']['stu_addr'] .= $val;
                     $students[$row]['scs_students']['emergency_contact']['addr'] .= $val;
                     $students[$row]['scs_guardian']['guardian_addr'] .= $val;
                     break;
-                case '45':
+                case '44':
                     // 通訊路
                     $students[$row]['scs_students']['stu_addr'] .= $val;
                     $students[$row]['scs_students']['emergency_contact']['addr'] .= $val;
                     $students[$row]['scs_guardian']['guardian_addr'] .= $val;
                     break;
-                case '47':
-                    // 父親姓名
-                    if (empty($students[1]['scs_parents']['父'])) {
-                        $students[1]['scs_parents']['父'] = '父親資訊';
+                case '46':
+                    // 家長1姓名
+                    if (empty($students[1]['scs_parents']['家長1'])) {
+                        $students[1]['scs_parents']['家長1'] = '家長1資訊';
                     }
-                    $students[$row]['scs_parents']['父']['parent_name'] = $val;
+                    $students[$row]['scs_parents']['家長1']['parent_name'] = $val;
+                    break;
+                case '47':
+                    // 與家長1關係
+                    $students[$row]['scs_parents']['家長1']['parent_kind'] = '父';
                     break;
                 case '48':
-                    // 與父親關係
-                    $students[$row]['scs_parents']['父']['parent_kind'] = '父';
+                    //家長1存歿
+                    $students[$row]['scs_parents']['家長1']['parent_survive'] = $val;
                     break;
                 case '49':
-                    //父親存歿
-                    $students[$row]['scs_parents']['父']['parent_survive'] = $val;
+                    // 家長1職業別
+                    $students[$row]['scs_parents']['家長1']['parent_company'] = $val;
+                    $students[$row]['scs_parents']['家長1']['parent_job'] = '';
                     break;
                 case '50':
-                    // 父親職業別
-                    $students[$row]['scs_parents']['父']['parent_company'] = $val;
-                    $students[$row]['scs_parents']['父']['parent_job'] = '';
+                    // 家長1職稱
+                    $students[$row]['scs_parents']['家長1']['parent_title'] = $val;
                     break;
                 case '51':
-                    // 父親職稱
-                    $students[$row]['scs_parents']['父']['parent_title'] = $val;
-                    break;
-                case '52':
-                    // 父親服務單位
-                    if ($val and empty($students[$row]['scs_parents']['父']['parent_company'])) {
-                        $students[$row]['scs_parents']['父']['parent_company'] = $val;
+                    // 家長1服務單位
+                    if ($val and empty($students[$row]['scs_parents']['家長1']['parent_company'])) {
+                        $students[$row]['scs_parents']['家長1']['parent_company'] = $val;
                     }
 
                     break;
-                case '53':
-                    // 父親出生年
-                    $students[$row]['scs_parents']['父']['parent_year'] = $val;
+                case '52':
+                    // 家長1出生年
+                    $students[$row]['scs_parents']['家長1']['parent_year'] = $val;
                     break;
-                case '54':
-                    // 父親電話公
+                case '53':
+                    // 家長1電話公
                     if (empty($students[1]['scs_students']['stu_tel1'])) {
                         $students[1]['scs_students']['stu_tel1'] = '電話1';
                     }
                     if (substr($val, 0, 1) == 9) {
                         $val = "0{$val}";
                     }
-                    $students[$row]['scs_parents']['父']['parent_company_tel'] = $val;
+                    $students[$row]['scs_parents']['家長1']['parent_company_tel'] = $val;
                     $students[$row]['scs_students']['stu_tel1'] = $val;
 
                     break;
-                case '55':
-                    // 父親電話宅
-                    if ($val and empty($students[$row]['scs_parents']['父']['parent_company_tel'])) {
+                case '54':
+                    // 家長1電話宅
+                    if ($val and empty($students[$row]['scs_parents']['家長1']['parent_company_tel'])) {
                         if (substr($val, 0, 1) == 9) {
                             $val = "0{$val}";
                         }
-                        $students[$row]['scs_parents']['父']['parent_company_tel'] = $val;
+                        $students[$row]['scs_parents']['家長1']['parent_company_tel'] = $val;
                     }
                     if ($val and empty($students[$row]['scs_students']['stu_tel1'])) {
                         if (substr($val, 0, 1) == 9) {
@@ -327,94 +327,94 @@ function scs_import_excel($mode = 'scs_import_excel')
                         $students[$row]['scs_students']['stu_tel1'] = $val;
                     }
                     break;
-                case '56':
-                    // 父親行動電話
+                case '55':
+                    // 家長1行動電話
                     if (empty($students[1]['scs_students']['stu_tel2'])) {
                         $students[1]['scs_students']['stu_tel2'] = '電話2';
                     }
                     if (substr($val, 0, 1) == 9) {
                         $val = "0{$val}";
                     }
-                    $students[$row]['scs_parents']['父']['parent_phone'] = $val;
+                    $students[$row]['scs_parents']['家長1']['parent_phone'] = $val;
                     $students[$row]['scs_students']['stu_tel2'] = $val;
                     break;
+                case '56':
+                    // 家長1電子郵件
+                    $students[$row]['scs_parents']['家長1']['parent_email'] = $val;
+                    break;
                 case '57':
-                    // 父親電子郵件
-                    $students[$row]['scs_parents']['父']['parent_email'] = $val;
+                    // 家長2姓名
+                    if (empty($students[1]['scs_parents']['家長2'])) {
+                        $students[1]['scs_parents']['家長2'] = '家長2資料';
+                    }
+                    $students[$row]['scs_parents']['家長2']['parent_name'] = $val;
                     break;
                 case '58':
-                    // 母親姓名
-                    if (empty($students[1]['scs_parents']['母'])) {
-                        $students[1]['scs_parents']['母'] = '母親資料';
-                    }
-                    $students[$row]['scs_parents']['母']['parent_name'] = $val;
+                    // 與家長2關係
+                    $students[$row]['scs_parents']['家長2']['parent_kind'] = '母';
                     break;
                 case '59':
-                    // 與母親關係
-                    $students[$row]['scs_parents']['母']['parent_kind'] = '母';
+                    //家長2存歿
+                    $students[$row]['scs_parents']['家長2']['parent_survive'] = $val;
                     break;
                 case '60':
-                    //母親存歿
-                    $students[$row]['scs_parents']['母']['parent_survive'] = $val;
+                    // 家長2職業別
+                    $students[$row]['scs_parents']['家長2']['parent_company'] = $val;
+                    $students[$row]['scs_parents']['家長2']['parent_job'] = '';
                     break;
                 case '61':
-                    // 母親職業別
-                    $students[$row]['scs_parents']['母']['parent_company'] = $val;
-                    $students[$row]['scs_parents']['母']['parent_job'] = '';
+                    // 家長2職稱
+                    $students[$row]['scs_parents']['家長2']['parent_title'] = $val;
                     break;
                 case '62':
-                    // 母親職稱
-                    $students[$row]['scs_parents']['母']['parent_title'] = $val;
-                    break;
-                case '63':
-                    // 母親服務單位
-                    if ($val and empty($students[$row]['scs_parents']['母']['parent_company'])) {
-                        $students[$row]['scs_parents']['母']['parent_company'] = $val;
+                    // 家長2服務單位
+                    if ($val and empty($students[$row]['scs_parents']['家長2']['parent_company'])) {
+                        $students[$row]['scs_parents']['家長2']['parent_company'] = $val;
                     }
 
                     break;
-                case '64':
-                    // 母親出生年
-                    $students[$row]['scs_parents']['母']['parent_year'] = $val;
+                case '63':
+                    // 家長2出生年
+                    $students[$row]['scs_parents']['家長2']['parent_year'] = $val;
                     break;
-                case '65':
-                    // 母親電話公
+                case '64':
+                    // 家長2電話公
                     if (substr($val, 0, 1) == 9) {
                         $val = "0{$val}";
                     }
-                    $students[$row]['scs_parents']['母']['parent_company_tel'] = $val;
+                    $students[$row]['scs_parents']['家長2']['parent_company_tel'] = $val;
                     break;
-                case '66':
-                    // 母親電話宅
-                    if ($val and empty($students[$row]['scs_parents']['母']['parent_company_tel'])) {
+                case '65':
+                    // 家長2電話宅
+                    if ($val and empty($students[$row]['scs_parents']['家長2']['parent_company_tel'])) {
                         if (substr($val, 0, 1) == 9) {
                             $val = "0{$val}";
                         }
-                        $students[$row]['scs_parents']['母']['parent_company_tel'] = $val;
+                        $students[$row]['scs_parents']['家長2']['parent_company_tel'] = $val;
                     }
                     break;
-                case '67':
-                    // 母親行動電話
+                case '66':
+                    // 家長2行動電話
                     if (substr($val, 0, 1) == 9) {
                         $val = "0{$val}";
                     }
-                    $students[$row]['scs_parents']['母']['parent_phone'] = $val;
+                    $students[$row]['scs_parents']['家長2']['parent_phone'] = $val;
                     if ($val and empty($students[$row]['scs_students']['stu_tel2'])) {
                         $students[$row]['scs_students']['stu_tel2'] = $val;
                     }
                     break;
-                case '68':
-                    // 母親電子郵件
-                    $students[$row]['scs_parents']['母']['parent_email'] = $val;
+                case '67':
+                    // 家長2電子郵件
+                    $students[$row]['scs_parents']['家長2']['parent_email'] = $val;
                     break;
-                case '69':
+                case '68':
                     // 監護人姓名
                     if (empty($students[1]['scs_guardian']['guardian_name'])) {
                         $students[1]['scs_guardian']['guardian_name'] = '監護人姓名';
                     }
                     $students[$row]['scs_guardian']['guardian_name'] = $val;
                     break;
-                case '70':
+                case '69':
                     // 與監護人關係
                     if (empty($students[1]['scs_guardian']['guardian_title'])) {
                         $students[1]['scs_guardian']['guardian_title'] = '監護人關係';
@@ -423,7 +423,7 @@ function scs_import_excel($mode = 'scs_import_excel')
                     $students[$row]['scs_guardian']['guardian_title'] = $val;
                     $students[$row]['scs_guardian']['guardian_sex'] = strpos($val, '父') !== false ? '男' : '女';
                     break;
-                case '76':
+                case '75':
                     // 監護人行動電話
                     if (empty($students[1]['scs_guardian']['guardian_tel'])) {
                         $students[1]['scs_guardian']['guardian_tel'] = '監護人行動電話';
@@ -433,18 +433,18 @@ function scs_import_excel($mode = 'scs_import_excel')
                     }
                     $students[$row]['scs_guardian']['guardian_tel'] = $val;
                     break;
-                case '78':
+                case '77':
                     // 聯絡人姓名
                     if (empty($students[1]['scs_students']['emergency_contact'])) {
                         $students[1]['scs_students']['emergency_contact'] = '緊急聯絡人';
                     }
                     $students[$row]['scs_students']['emergency_contact']['name'] = $val;
                     break;
-                case '79':
+                case '78':
                     // 與聯絡人關係
                     $students[$row]['scs_students']['emergency_contact']['title'] = $val;
                     break;
-                case '80':
+                case '79':
                     // 聯絡人電話公
                     if ($val) {
                         if (substr($val, 0, 1) == 9) {
@@ -454,7 +454,7 @@ function scs_import_excel($mode = 'scs_import_excel')
                         $students[$row]['scs_students']['stu_tel1'] = $val;
                     }
                     break;
-                case '81':
+                case '80':
                     // 聯絡人電話宅
                     if ($val) {
                         if (substr($val, 0, 1) == 9) {
@@ -467,7 +467,7 @@ function scs_import_excel($mode = 'scs_import_excel')
 
                     }
                     break;
-                case '82':
+                case '81':
                     // 聯絡人行動電話
                     if ($val) {
                         if (substr($val, 0, 1) == 9) {

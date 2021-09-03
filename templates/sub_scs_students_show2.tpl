@@ -9,9 +9,9 @@
             <span class="my_value"><{$parents.f.parent_year}></span>
             <span class="my_unit">年生</span>
 
-            <span class="my_label">祖父</span>
-            <span class="my_value"><{$parents.f.parent_name}></span>
-            [<span class="my_value2"><{$parents.f.parent_survive}></span>]
+            <!-- <span class="my_label">祖父</span>
+            <span class="my_value"><{$parents.f.parent_gf_name}></span>
+            [<span class="my_value2"><{$parents.f.parent_gf_survive}></span>] -->
             <br>
             <span class="my_label">母</span>
             <span class="my_value"><{$parents.m.parent_name}></span>
@@ -19,9 +19,9 @@
             <span class="my_value"><{$parents.m.parent_year}></span>
             <span class="my_unit">年生</span>
 
-            <span class="my_label">祖母</span>
-            <span class="my_value"><{$parents.m.parent_name}></span>
-            [<span class="my_value2"><{$parents.m.parent_survive}></span>]
+            <!-- <span class="my_label">祖母</span>
+            <span class="my_value"><{$parents.m.parent_gm_name}></span>
+            [<span class="my_value2"><{$parents.m.parent_gm_survive}></span>] -->
         </td>
     </tr>
     <tr>
