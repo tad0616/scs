@@ -36,7 +36,7 @@
     <{/foreach}>
     </table>
     <input type="hidden" name="school_year" value="<{$school_year}>">
-    <input type="hidden" name="op" value="scs_import_to_db">
+    <input type="hidden" name="op" value="scs_import_to_db_jh">
     <button type="submit" class="btn btn-primary">匯入</button>
 </form>
 <{*

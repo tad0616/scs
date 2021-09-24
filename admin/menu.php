@@ -26,21 +26,27 @@ $adminmenu[$i]['desc'] = _MI_TAD_ADMIN_HOME_DESC;
 $adminmenu[$i]['icon'] = 'images/admin/home.png';
 
 $i++;
-$adminmenu[$i]['title'] = _MI_SCS_ADM_PAGE_0;
+$adminmenu[$i]['title'] = '國中匯入';
 $adminmenu[$i]['link'] = 'admin/main.php';
-$adminmenu[$i]['desc'] = _MI_SCS_ADM_PAGE_0_DESC;
+$adminmenu[$i]['desc'] = '國中學籍匯入';
 $adminmenu[$i]['icon'] = "images/admin/button.png";
 
 $i++;
-$adminmenu[$i]['title'] = _MI_SCS_ADM_PAGE_1;
+$adminmenu[$i]['title'] = '國小匯入';
+$adminmenu[$i]['link'] = 'admin/import_es.php';
+$adminmenu[$i]['desc'] = '國小學籍匯入';
+$adminmenu[$i]['icon'] = "images/admin/button.png";
+
+$i++;
+$adminmenu[$i]['title'] = '身份設定';
 $adminmenu[$i]['link'] = 'admin/class.php';
-$adminmenu[$i]['desc'] = _MI_SCS_ADM_PAGE_1_DESC;
+$adminmenu[$i]['desc'] = '身份設定';
 $adminmenu[$i]['icon'] = "images/admin/button.png";
 
 // $i++;
-// $adminmenu[$i]['title'] = _MI_SCS_ADM_PAGE_2;
+// $adminmenu[$i]['title'] = '權限管理';
 // $adminmenu[$i]['link'] = 'admin/power.php';
-// $adminmenu[$i]['desc'] = _MI_SCS_ADM_PAGE_2_DESC;
+// $adminmenu[$i]['desc'] = '權限管理';
 // $adminmenu[$i]['icon'] = "images/admin/button.png";
 
 $i++;

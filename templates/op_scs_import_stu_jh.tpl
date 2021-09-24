@@ -1,4 +1,4 @@
-<h2  class="scs">匯入臺南市學籍系統 Excel</h2>
+<h2  class="scs">匯入臺南市學籍系統 Excel（國中版）</h2>
 <div class="row">
     <div class="col-sm-6">
         <ol>
@@ -26,13 +26,13 @@
                 <div class="col-sm-8">
                     <div class="form-check">
                         <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="mode" id="scs_import_excel" value="scs_import_excel">
+                            <input type="radio" class="form-check-input" name="mode" id="scs_import_excel_jh" value="scs_import_excel">
                             預覽後再匯入（適合量小，約1000人以下）
                         </label>
                     </div>
                     <div class="form-check">
                         <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="mode" id="scs_import_to_db" value="scs_import_to_db" checked>
+                            <input type="radio" class="form-check-input" name="mode" id="scs_import_to_db_jh" value="scs_import_to_db_jh" checked>
                             直接匯入（適合量大，約1000人以上）
                         </label>
                     </div>
@@ -46,10 +46,10 @@
                     請選擇 xlsx 檔
                 </label>
                 <div class="col-sm-8">
-                    <input type="file" name="userfile" id="userfile" class="form-control validate[required]"  placeholder="請選擇 xlsx 檔">
+                    <input type="file" name="userfile" id="userfile" class="form-control validate[required]"  placeholder="請選擇 xlsx 檔" accept=".xlsx">
                 </div>
             </div>
-            <input type="hidden" name="op" value="scs_import_excel">
+            <input type="hidden" name="op" value="scs_import_excel_jh">
             <button type="submit" class="btn btn-primary">匯入</button>
         </form>
     </div>

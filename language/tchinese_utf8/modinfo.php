@@ -19,17 +19,11 @@
 
 xoops_loadLanguage('modinfo_common', 'tadtools');
 
-define('_MI_SCS_NAME', '國中輔導系統');
-define('_MI_SCS_AUTHOR', '國中輔導系統');
+define('_MI_SCS_NAME', '國中小輔導系統');
+define('_MI_SCS_AUTHOR', '國中小輔導系統');
 define('_MI_SCS_CREDITS', '南科實中');
-define('_MI_SCS_DESC', '南科實中開發的國中輔導系統');
+define('_MI_SCS_DESC', '南科實中開發的國中小輔導系統');
 define('_MI_SCS_AUTHOR_WEB', 'Tad教材網');
-define('_MI_SCS_ADM_PAGE_0', '學籍匯入');
-define('_MI_SCS_ADM_PAGE_0_DESC', '學籍匯入');
-define('_MI_SCS_ADM_PAGE_1', '身份設定');
-define('_MI_SCS_ADM_PAGE_1_DESC', '身份設定');
-define('_MI_SCS_ADM_PAGE_2', '權限管理');
-define('_MI_SCS_ADM_PAGE_2_DESC', '權限管理');
 define('_MI_SCS_PAGE_1', '個別輔導');
 
 define('_MI_SCS_SCHOOL_CODE', '教育部學校代碼');

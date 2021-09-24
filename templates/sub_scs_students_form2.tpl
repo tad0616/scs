@@ -1,12 +1,12 @@
-<h4>家長1</h4>
+<h4>父</h4>
 <div class="alert alert-success">
     <div class="form-group row custom-gutter">
         <!--姓名-->
         <label class="col-sm-1 col-form-label text-md-right control-label">
-            家長1姓名
+            父姓名
         </label>
         <div class="col-sm-2">
-            <input type="text" name="scs_parents[家長1][parent_name]" id="parent_name_f" class="form-control " value="<{$parents.f.parent_name}>" placeholder="家長1姓名">
+            <input type="text" name="scs_parents[父][parent_name]" id="parent_name_f" class="form-control " value="<{$parents.f.parent_name}>" placeholder="父姓名">
         </div>
 
         <!--存歿-->
@@ -14,7 +14,7 @@
             <{$smarty.const._MD_SCS_PARENT_SURVIVE}>
         </label>
         <div class="col-sm-2">
-            <select name="scs_parents[家長1][parent_survive]" id="parent_survive_f" class="form-control " size=1>
+            <select name="scs_parents[父][parent_survive]" id="parent_survive_f" class="form-control " size=1>
             <{foreach from=$parent_survive_arr key=k item=survive}>
                 <option value="<{$survive}>" <{if $parents.f.parent_survive == $survive}>selected="selected"<{/if}>><{$survive}></option>
             <{/foreach}>
@@ -26,7 +26,7 @@
             <{$smarty.const._MD_SCS_PARENT_YEAR}>
         </label>
         <div class="col-sm-2">
-            <input type="text" name="scs_parents[家長1][parent_year]" id="parent_year_f" class="form-control " value="<{$parents.f.parent_year}>" placeholder="<{$smarty.const._MD_SCS_PARENT_YEAR}>">
+            <input type="text" name="scs_parents[父][parent_year]" id="parent_year_f" class="form-control " value="<{$parents.f.parent_year}>" placeholder="<{$smarty.const._MD_SCS_PARENT_YEAR}>">
         </div>
 
         <!--教育程度-->
@@ -34,7 +34,7 @@
             <{$smarty.const._MD_SCS_PARENT_EDU}>
         </label>
         <div class="col-sm-2">
-            <select name="scs_parents[家長1][parent_edu]" id="parent_edu_f" class="form-control " size=1>
+            <select name="scs_parents[父][parent_edu]" id="parent_edu_f" class="form-control " size=1>
                 <{foreach from=$parent_edu_arr key=k item=edu}>
                     <option value="<{$edu}>" <{if $parents.f.parent_edu == $edu}>selected="selected"<{/if}>><{$edu}></option>
                 <{/foreach}>
@@ -48,7 +48,7 @@
             Email
         </label>
         <div class="col-sm-3">
-            <input type="text" name="scs_parents[家長1][parent_email]" id="parent_email_f" class="form-control " value="<{$parents.f.parent_email}>" placeholder="<{$smarty.const._MD_SCS_PARENT_EMAIL}>">
+            <input type="text" name="scs_parents[父][parent_email]" id="parent_email_f" class="form-control " value="<{$parents.f.parent_email}>" placeholder="<{$smarty.const._MD_SCS_PARENT_EMAIL}>">
         </div>
 
         <!--手機電話-->
@@ -56,7 +56,7 @@
             手機
         </label>
         <div class="col-sm-3">
-            <input type="text" name="scs_parents[家長1][parent_phone]" id="parent_phone_f" class="form-control " value="<{$parents.f.parent_phone}>" placeholder="<{$smarty.const._MD_SCS_PARENT_PHONE}>">
+            <input type="text" name="scs_parents[父][parent_phone]" id="parent_phone_f" class="form-control " value="<{$parents.f.parent_phone}>" placeholder="<{$smarty.const._MD_SCS_PARENT_PHONE}>">
         </div>
 
         <!--公司電話-->
@@ -64,17 +64,17 @@
             電話
         </label>
         <div class="col-sm-3">
-            <input type="text" name="scs_parents[家長1][parent_company_tel]" id="parent_company_tel_f" class="form-control " value="<{$parents.f.parent_company_tel}>" placeholder="<{$smarty.const._MD_SCS_PARENT_COMPANY_TEL}>">
+            <input type="text" name="scs_parents[父][parent_company_tel]" id="parent_company_tel_f" class="form-control " value="<{$parents.f.parent_company_tel}>" placeholder="<{$smarty.const._MD_SCS_PARENT_COMPANY_TEL}>">
         </div>
     </div>
 
     <div class="form-group row custom-gutter">
         <!--職業-->
         <label class="col-sm-1 col-form-label text-md-right control-label">
-            家長1<{$smarty.const._MD_SCS_PARENT_JOB}>
+            父<{$smarty.const._MD_SCS_PARENT_JOB}>
         </label>
         <div class="col-sm-3">
-            <input list="parent_job_f" name="scs_parents[家長1][parent_job]" class="form-control" value="<{$parents.f.parent_job}>" placeholder="可選亦可直接輸入">
+            <input list="parent_job_f" name="scs_parents[父][parent_job]" class="form-control" value="<{$parents.f.parent_job}>" placeholder="可選亦可直接輸入">
             <datalist id="parent_job_f">
                 <{foreach from=$parent_job_arr key=k item=title}>
                     <option value="<{$title}>">
@@ -87,7 +87,7 @@
             公司名
         </label>
         <div class="col-sm-3">
-            <input type="text" name="scs_parents[家長1][parent_company]" id="parent_company_f" class="form-control " value="<{$parents.f.parent_company}>" placeholder="<{$smarty.const._MD_SCS_PARENT_COMPANY}>">
+            <input type="text" name="scs_parents[父][parent_company]" id="parent_company_f" class="form-control " value="<{$parents.f.parent_company}>" placeholder="<{$smarty.const._MD_SCS_PARENT_COMPANY}>">
         </div>
 
         <!--職稱-->
@@ -95,21 +95,21 @@
             <{$smarty.const._MD_SCS_PARENT_TITLE}>
         </label>
         <div class="col-sm-3">
-            <input type="text" name="scs_parents[家長1][parent_title]" id="parent_title_f" class="form-control " value="<{$parents.f.parent_title}>" placeholder="<{$smarty.const._MD_SCS_PARENT_TITLE}>">
+            <input type="text" name="scs_parents[父][parent_title]" id="parent_title_f" class="form-control " value="<{$parents.f.parent_title}>" placeholder="<{$smarty.const._MD_SCS_PARENT_TITLE}>">
         </div>
     </div>
 </div>
 
-<h4>家長2</h4>
+<h4>母</h4>
 <div class="alert alert-info">
 
     <div class="form-group row custom-gutter">
         <!--姓名-->
         <label class="col-sm-1 col-form-label text-md-right control-label">
-            家長2姓名
+            母姓名
         </label>
         <div class="col-sm-2">
-            <input type="text" name="scs_parents[家長2][parent_name]" id="parent_name_m" class="form-control " value="<{$parents.m.parent_name}>" placeholder="家長2姓名">
+            <input type="text" name="scs_parents[母][parent_name]" id="parent_name_m" class="form-control " value="<{$parents.m.parent_name}>" placeholder="母姓名">
         </div>
 
         <!--存歿-->
@@ -117,7 +117,7 @@
             <{$smarty.const._MD_SCS_PARENT_SURVIVE}>
         </label>
         <div class="col-sm-2">
-            <select name="scs_parents[家長2][parent_survive]" id="parent_survive_m" class="form-control " size=1>
+            <select name="scs_parents[母][parent_survive]" id="parent_survive_m" class="form-control " size=1>
             <{foreach from=$parent_survive_arr key=k item=survive}>
                 <option value="<{$survive}>" <{if $parents.m.parent_survive == $survive}>selected="selected"<{/if}>><{$survive}></option>
             <{/foreach}>
@@ -129,7 +129,7 @@
             <{$smarty.const._MD_SCS_PARENT_YEAR}>
         </label>
         <div class="col-sm-2">
-            <input type="text" name="scs_parents[家長2][parent_year]" id="parent_year_m" class="form-control " value="<{$parents.m.parent_year}>" placeholder="<{$smarty.const._MD_SCS_PARENT_YEAR}>">
+            <input type="text" name="scs_parents[母][parent_year]" id="parent_year_m" class="form-control " value="<{$parents.m.parent_year}>" placeholder="<{$smarty.const._MD_SCS_PARENT_YEAR}>">
         </div>
 
         <!--教育程度-->
@@ -137,7 +137,7 @@
             <{$smarty.const._MD_SCS_PARENT_EDU}>
         </label>
         <div class="col-sm-2">
-            <select name="scs_parents[家長2][parent_edu]" id="parent_edu_m" class="form-control " size=1>
+            <select name="scs_parents[母][parent_edu]" id="parent_edu_m" class="form-control " size=1>
                 <{foreach from=$parent_edu_arr key=k item=edu}>
                     <option value="<{$edu}>" <{if $parents.m.parent_edu == $edu}>selected="selected"<{/if}>><{$edu}></option>
                 <{/foreach}>
@@ -151,14 +151,14 @@
             Email
         </label>
         <div class="col-sm-3">
-            <input type="text" name="scs_parents[家長2][parent_email]" id="parent_email_m" class="form-control " value="<{$parents.m.parent_email}>" placeholder="<{$smarty.const._MD_SCS_PARENT_EMAIL}>">
+            <input type="text" name="scs_parents[母][parent_email]" id="parent_email_m" class="form-control " value="<{$parents.m.parent_email}>" placeholder="<{$smarty.const._MD_SCS_PARENT_EMAIL}>">
         </div>
         <!--手機電話-->
         <label class="col-sm-1 col-form-label text-md-right control-label">
             手機
         </label>
         <div class="col-sm-3">
-            <input type="text" name="scs_parents[家長2][parent_phone]" id="parent_phone_m" class="form-control " value="<{$parents.m.parent_phone}>" placeholder="<{$smarty.const._MD_SCS_PARENT_PHONE}>">
+            <input type="text" name="scs_parents[母][parent_phone]" id="parent_phone_m" class="form-control " value="<{$parents.m.parent_phone}>" placeholder="<{$smarty.const._MD_SCS_PARENT_PHONE}>">
         </div>
 
         <!--公司電話-->
@@ -166,17 +166,17 @@
             電話
         </label>
         <div class="col-sm-3">
-            <input type="text" name="scs_parents[家長2][parent_company_tel]" id="parent_company_tel_m" class="form-control " value="<{$parents.m.parent_company_tel}>" placeholder="<{$smarty.const._MD_SCS_PARENT_COMPANY_TEL}>">
+            <input type="text" name="scs_parents[母][parent_company_tel]" id="parent_company_tel_m" class="form-control " value="<{$parents.m.parent_company_tel}>" placeholder="<{$smarty.const._MD_SCS_PARENT_COMPANY_TEL}>">
         </div>
     </div>
 
     <div class="form-group row custom-gutter">
         <!--職業-->
         <label class="col-sm-1 col-form-label text-md-right control-label">
-            家長2<{$smarty.const._MD_SCS_PARENT_JOB}>
+            母<{$smarty.const._MD_SCS_PARENT_JOB}>
         </label>
         <div class="col-sm-3">
-            <input list="parent_job_m" name="scs_parents[家長2][parent_job]" class="form-control" value="<{$parents.m.parent_job}>" placeholder="可選亦可直接輸入">
+            <input list="parent_job_m" name="scs_parents[母][parent_job]" class="form-control" value="<{$parents.m.parent_job}>" placeholder="可選亦可直接輸入">
             <datalist id="parent_job_m">
                 <{foreach from=$parent_job_arr key=k item=title}>
                     <option value="<{$title}>">
@@ -189,7 +189,7 @@
             公司名
         </label>
         <div class="col-sm-3">
-            <input type="text" name="scs_parents[家長2][parent_company]" id="parent_company_m" class="form-control " value="<{$parents.m.parent_company}>" placeholder="<{$smarty.const._MD_SCS_PARENT_COMPANY}>">
+            <input type="text" name="scs_parents[母][parent_company]" id="parent_company_m" class="form-control " value="<{$parents.m.parent_company}>" placeholder="<{$smarty.const._MD_SCS_PARENT_COMPANY}>">
         </div>
 
         <!--職稱-->
@@ -197,7 +197,7 @@
             <{$smarty.const._MD_SCS_PARENT_TITLE}>
         </label>
         <div class="col-sm-3">
-            <input type="text" name="scs_parents[家長2][parent_title]" id="parent_title_m" class="form-control " value="<{$parents.m.parent_title}>" placeholder="<{$smarty.const._MD_SCS_PARENT_TITLE}>">
+            <input type="text" name="scs_parents[母][parent_title]" id="parent_title_m" class="form-control " value="<{$parents.m.parent_title}>" placeholder="<{$smarty.const._MD_SCS_PARENT_TITLE}>">
         </div>
     </div>
 </div>

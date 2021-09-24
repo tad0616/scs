@@ -1,84 +1,80 @@
-學校
-年級
-班級
-座號
-識別碼
-學校代碼
-學號
-學生姓名
-學生英文姓名
-在學狀態
-證照種類
-身分證號碼
-國籍
-僑居地
-性別
-血型
-生日
-生日西元年
-出生地
-族群
-入學資格
-戶口遷入日期
-學生身份別(2021/09/01後已刪除)
-班級性質
-特殊班類別
-特殊班班別
-特殊班上課性質
-畢業小學校名
-畢業小學代碼
-畢修業別
-畢修業日期
-畢修業字
-畢修業號
-戶籍郵遞區號
-戶籍縣市
-戶籍鄉鎮市區
-戶籍村里
-戶籍鄰
-戶籍路
-戶籍地址
-通訊郵遞區號
-通訊縣市
-通訊鄉鎮市區
-通訊村里
-通訊鄰
-通訊路
-通訊地址
-父親姓名
-與父親關係
-父親存歿
-父親職業別
-父親職稱
-父親服務單位
-父親出生年
-父親電話公
-父親電話宅
-父親行動電話
-父親電子郵件
-母親姓名
-與母親關係
-母親存歿
-母親職業別
-母親職稱
-母親服務單位
-母親出生年
-母親電話公
-母親電話宅
-母親行動電話
-母親電子郵件
-監護人姓名
-與監護人關係
-監護人職業別
-監護人職稱
-監護人服務單位
-監護人電話公
-監護人電話宅
-監護人行動電話
-監護人電子郵件
-聯絡人姓名
-與聯絡人關係
-聯絡人電話公
-聯絡人電話宅
-聯絡人行動電話
-聯絡人電子郵件
+年級        $students[$row]['scs_general']['stu_grade'][$val] = $grade = $val;
+學年度      $students[$row]['scs_general']['school_year'][$grade] = $school_year;
+填寫日      $students[$row]['scs_general']['fill_date'][$grade]='';
+班級        $students[$row]['scs_general']['stu_class'][$grade] = $val;
+座號        $students[$row]['scs_general']['stu_seat_no'][$grade] = $val;
+學號        $students[$row]['scs_students']['stu_no'] = $val;
+學生姓名    $students[$row]['scs_students']['stu_name'] = $val;
+身分證號碼  $students[$row]['scs_students']['stu_pid'] = strtoupper($val);
+僑居地      $students[$row]['scs_students']['stu_residence'] = $val;
+性別        $students[$row]['scs_students']['stu_sex'] = $val;
+血型        $students[$row]['scs_students']['stu_blood'] = $val;
+生日西元年   $students[$row]['scs_students']['stu_birthday'] = $val;
+出生地       $students[$row]['scs_students']['stu_birth_place'] = str_replace('台', '臺', $val);
+畢業小學校名 $students[$row]['scs_students']['stu_education']['g_school'] = $val;
+畢修業日期   $students[$row]['scs_students']['stu_education']['g_time'] = $val;
+            $students[$row]['scs_students']['stu_education']['i_time'] = $val;
+戶籍郵遞區號 $students[$row]['scs_students']['stu_residence_zip'] = $val;
+戶籍縣市     $students[$row]['scs_students']['stu_residence_county'] = $val;
+戶籍鄉鎮市區 $students[$row]['scs_students']['stu_residence_city'] = $val;
+戶籍村里     $students[$row]['scs_students']['stu_residence_addr'] = $val;
+通訊郵遞區號 $students[$row]['scs_students']['stu_zip'] = $val;
+            $students[$row]['scs_students']['emergency_contact']['addr'] = $val;
+            $students[$row]['scs_guardian']['guardian_addr'] = $val;
+通訊縣市     $students[$row]['scs_students']['stu_county'] = $val;
+            $students[$row]['scs_students']['emergency_contact']['addr'] .= $val;
+            $students[$row]['scs_guardian']['guardian_addr'] .= $val;
+通訊鄉鎮市區 $students[$row]['scs_students']['stu_city'] = $val;
+            $students[$row]['scs_students']['emergency_contact']['addr'] .= $val;
+            $students[$row]['scs_guardian']['guardian_addr'] .= $val;
+通訊村里    $students[$row]['scs_students']['stu_addr'] = $val;
+            $students[$row]['scs_students']['emergency_contact']['addr'] .= $val;
+            $students[$row]['scs_guardian']['guardian_addr'] .= $val;
+通訊鄰      $students[$row]['scs_students']['stu_addr'] .= $val;
+            $students[$row]['scs_students']['emergency_contact']['addr'] .= $val;
+            $students[$row]['scs_guardian']['guardian_addr'] .= $val;
+通訊路      $students[$row]['scs_students']['stu_addr'] .= $val;
+            $students[$row]['scs_students']['emergency_contact']['addr'] .= $val;
+            $students[$row]['scs_guardian']['guardian_addr'] .= $val;
+家長1姓名    $students[$row]['scs_parents']['父']['parent_name'] = $val;
+與家長1關係  $students[$row]['scs_parents']['父']['parent_kind'] = '父';
+家長1存歿    $students[$row]['scs_parents']['父']['parent_survive'] = $val;
+家長1職業別  $students[$row]['scs_parents']['父']['parent_company'] = $val;
+            $students[$row]['scs_parents']['父']['parent_job'] = '';
+家長1職稱    $students[$row]['scs_parents']['父']['parent_title'] = $val;
+家長1服務單位$students[$row]['scs_parents']['父']['parent_company'] = $val;
+家長1出生年  $students[$row]['scs_parents']['父']['parent_year'] = $val;
+家長1電話公  $students[$row]['scs_parents']['父']['parent_company_tel'] = $val;
+            $students[$row]['scs_students']['stu_tel1'] = $val;
+家長1電話宅  $students[$row]['scs_parents']['父']['parent_company_tel'] = $val;
+            $students[$row]['scs_students']['stu_tel1'] = $val;
+家長1行動電話$students[$row]['scs_parents']['父']['parent_phone'] = $val;
+            $students[$row]['scs_students']['stu_tel2'] = $val;
+家長1電子郵件$students[$row]['scs_parents']['父']['parent_email'] = $val;
+家長2姓名    $students[$row]['scs_parents']['父']['parent_name'] = $val;
+與家長2關係  $students[$row]['scs_parents']['父']['parent_kind'] = '母';
+家長2存歿    $students[$row]['scs_parents']['父']['parent_survive'] = $val;
+家長2職業別  $students[$row]['scs_parents']['父']['parent_company'] = $val;
+            $students[$row]['scs_parents']['父']['parent_job'] = '';
+家長2職稱    $students[$row]['scs_parents']['父']['parent_title'] = $val;
+家長2服務單位$students[$row]['scs_parents']['父']['parent_company'] = $val;
+家長2出生年  $students[$row]['scs_parents']['父']['parent_year'] = $val;
+家長2電話公  $students[$row]['scs_parents']['父']['parent_company_tel'] = $val;
+            $students[$row]['scs_students']['stu_tel1'] = $val;
+家長2電話宅  $students[$row]['scs_parents']['父']['parent_company_tel'] = $val;
+            $students[$row]['scs_students']['stu_tel1'] = $val;
+家長2行動電話$students[$row]['scs_parents']['父']['parent_phone'] = $val;
+            $students[$row]['scs_students']['stu_tel2'] = $val;
+家長2電子郵件$students[$row]['scs_parents']['父']['parent_email'] = $val;
+監護人姓名   $students[$row]['scs_guardian']['guardian_name'] = $val;
+與監護人關係 $students[$row]['scs_guardian']['guardian_title'] = $val;
+            $students[$row]['scs_guardian']['guardian_sex'] = strpos($val, '父') !== false ? '男' : '女';
+監護人行動電話$students[$row]['scs_guardian']['guardian_tel'] = $val;
+聯絡人姓名   $students[$row]['scs_students']['emergency_contact']['name'] = $val;
+與聯絡人關係 $students[$row]['scs_students']['emergency_contact']['title'] = $val;
+聯絡人電話公 $students[$row]['scs_students']['emergency_contact']['tel'] = $val;
+            $students[$row]['scs_students']['stu_tel1'] = $val;
+聯絡人電話宅 $students[$row]['scs_students']['emergency_contact']['tel'] = $val;
+            $students[$row]['scs_students']['stu_tel1'] = $val;
+聯絡人行動電話$students[$row]['scs_students']['emergency_contact']['tel'] = $val;
+            $students[$row]['scs_students']['stu_tel2'] = $val;
