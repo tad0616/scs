@@ -27,7 +27,7 @@ define('_MI_SCS_AUTHOR_WEB', 'Tad教材網');
 define('_MI_SCS_PAGE_1', '個別輔導');
 
 define('_MI_SCS_SCHOOL_CODE', '教育部學校代碼');
-define('_MI_SCS_SCHOOL_CODE_DESC', '用來篩選學校教職員用，可至 <a href="http://203.68.32.190/code_new.aspx" target="_blank">http://203.68.32.190/code_new.aspx</a> 查詢');
+define('_MI_SCS_SCHOOL_CODE_DESC', '用來篩選學校教職員用，可至 <a href="http://203.68.32.190/code_new.aspx" target="_blank">http://203.68.32.190/code_new.aspx</a> 查詢，多個代碼請用 ; 隔開，勿有空白');
 
 define('_MI_SCS_SCHOOL_NAME', '學校名稱');
 define('_MI_SCS_SCHOOL_NAME_DESC', '用於輸出綜合資料紀錄表標題用');

@@ -8,21 +8,13 @@
                     <th>我目前遇到最大的困難是</th>
                     <th>我目前最需要協助的是</th>
                 </tr>
-                <tr>
-                    <th class="c3">一年級</th>
-                    <td><span class="my_value"><{$general.1.stu_difficult}></span></td>
-                    <td><span class="my_value"><{$general.1.stu_need_help}></span></td>
-                </tr>
-                <tr>
-                    <th class="c3">二年級</th>
-                    <td><span class="my_value"><{$general.2.stu_difficult}></span></td>
-                    <td><span class="my_value"><{$general.2.stu_need_help}></span></td>
-                </tr>
-                <tr>
-                    <th class="c3">三年級</th>
-                    <td><span class="my_value"><{$general.3.stu_difficult}></span></td>
-                    <td><span class="my_value"><{$general.3.stu_need_help}></span></td>
-                </tr>
+                <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
+                    <tr>
+                        <th class="c3"><{$year}>年級</th>
+                        <td><span class="my_value"><{$general.$stage.stu_difficult}></span></td>
+                        <td><span class="my_value"><{$general.$stage.stu_need_help}></span></td>
+                    </tr>
+                <{/foreach}>
             </table>
         </td>
     </tr>

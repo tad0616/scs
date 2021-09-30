@@ -51,6 +51,11 @@ if (empty($stu)) {
     redirect_header($_SERVER['HTTP_REFERER'], 3, '無資料');
 }
 
+$now_grade = Tools::array_key_last($general);
+$fill_grade = ($now_grade >= 7) ? 7 : 1;
+
+$stage_arr = ($now_grade >= 7) ? ['七' => 7, '八' => 8, '九' => 9] : ['一' => 1, '二' => 2, '三' => 3, '四' => 4, '五' => 5, '六' => 6];
+
 $pdf_title = " {$xoopsModuleConfig['school_name']}綜合資料紀錄表(A)";
 
 $pdf = new TCPDF("P", "mm", "A4", true, 'UTF-8', false);
@@ -70,8 +75,14 @@ $pdf->AddPage('P', 'A4');
 
 $pdf->SetFont('twkai98_1', 'B', 18);
 $pdf->Cell(180, 10, $pdf_title, 0, 1, "C", false, '', 1);
-
+$cell_6 = 6;
 $cell_10 = 10;
+
+// 年級數
+$stage_count = count($stage_arr);
+
+$class_h = ($stage_count > 3) ? 6 : 7;
+$basic_h = ($class_h * ($stage_count + 1)) / 3;
 $col_y['最上列'] = $pdf->getY();
 $pdf->SetFont('twkai98_1', '', 12);
 // 左上第一列的標題寬
@@ -80,26 +91,26 @@ $col_w['學號欄'] = 25;
 $col_w['學號值'] = 55;
 $col_w['學號欄1'] = 15;
 $col_w['學號值1'] = $col_w['學號值'] - $col_w['學號欄'] - $col_w['學號欄1'];
-$pdf->Cell($col_w['學號欄'], $cell_10, '學    號', 1, 0, "C", false, '', 1);
+$pdf->Cell($col_w['學號欄'], $basic_h, '學    號', 1, 0, "C", false, '', 1);
 $pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['學號值'], $cell_10, $stu['stu_no'], 1, 1, "C", false, '', 1);
+$pdf->Cell($col_w['學號值'], $basic_h, $stu['stu_no'], 1, 1, "C", false, '', 1);
 $pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['學號欄'], $cell_10, '姓    名', 1, 0, "C", false, '', 1);
+$pdf->Cell($col_w['學號欄'], $basic_h, '姓    名', 1, 0, "C", false, '', 1);
 $pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['學號欄'], $cell_10, $stu['stu_name'], 1, 0, "C", false, '', 1);
+$pdf->Cell($col_w['學號欄'], $basic_h, $stu['stu_name'], 1, 0, "C", false, '', 1);
 $pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['學號欄1'], $cell_10, '性別', 1, 0, "C", false, '', 1);
+$pdf->Cell($col_w['學號欄1'], $basic_h, '性別', 1, 0, "C", false, '', 1);
 $pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['學號值1'], $cell_10, $stu['stu_sex'], 1, 1, "C", false, '', 1);
+$pdf->Cell($col_w['學號值1'], $basic_h, $stu['stu_sex'], 1, 1, "C", false, '', 1);
 $pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['學號欄'], $cell_10, '初填日期', 1, 0, "C", false, '', 1);
+$pdf->Cell($col_w['學號欄'], $basic_h, '初填日期', 1, 0, "C", false, '', 1);
 $pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['學號值'], $cell_10, $general[1]['fill_date'], 1, 1, "C", false, '', 1);
+$pdf->Cell($col_w['學號值'], $basic_h, $general[$fill_grade]['fill_date'], 1, 1, "C", false, '', 1);
 
 // 補個粗框線
 $pdf->setXY($col_w['左邊界'], $col_y['最上列']);
 $col_w['學號框'] = $col_w['學號欄'] + $col_w['學號值'];
-$col_h['學號框'] = $cell_10 * 3;
+$col_h['學號框'] = $class_h * ($stage_count + 1);
 $pdf->SetLineWidth(0.5);
 $pdf->Cell($col_w['學號框'], $col_h['學號框'], '', 1, 0, "C", false, '', 1);
 $pdf->SetLineWidth(0.2);
@@ -107,7 +118,7 @@ $pdf->SetLineWidth(0.2);
 // 計算班級的x位置
 $col_x['班級左'] = $col_w['左邊界'] + $col_w['學號欄'] + $col_w['學號值'];
 $pdf->setXY($col_x['班級左'], $col_y['最上列']);
-$cell_6 = 6;
+
 // 班級寬
 $col_w['班級寬'] = 18;
 // 座號寬
@@ -115,51 +126,29 @@ $col_w['座號寬'] = 12;
 // 導師寬
 $col_w['導師寬'] = 20;
 $pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['班級寬'], $cell_6, '班級', 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['座號寬'], $cell_6, '座號', 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['班級寬'], $cell_6, '班級', 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['座號寬'], $cell_6, '座號', 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['導師寬'], $cell_6, '導師姓名', 1, 1, "C", false, '', 1);
+$pdf->Cell($col_w['班級寬'], $class_h, '班級', 1, 0, "C", false, '', 1);
+$pdf->Cell($col_w['座號寬'], $class_h, '座號', 1, 0, "C", false, '', 1);
+$pdf->Cell($col_w['班級寬'], $class_h, '班級', 1, 0, "C", false, '', 1);
+$pdf->Cell($col_w['座號寬'], $class_h, '座號', 1, 0, "C", false, '', 1);
+$pdf->Cell($col_w['導師寬'], $class_h, '導師姓名', 1, 1, "C", false, '', 1);
 
-$pdf->setX(85);
 $pdf->SetTextColor(0, 0, 255);
-$stu_grade_class = !empty($general[1]['stu_class']) ? "{$general[1]['stu_grade']}-{$general[1]['stu_class']}" : '';
-$pdf->Cell($col_w['班級寬'], $cell_6, $stu_grade_class, 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['座號寬'], $cell_6, $general[1]['stu_seat_no'], 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['班級寬'], $cell_6, $stu_grade_class, 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['座號寬'], $cell_6, $general[1]['stu_seat_no'], 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['導師寬'], $cell_6, $general[1]['class_tea'], 1, 1, "C", false, '', 1);
-
-$pdf->setX(85);
-$stu_grade_class = !empty($general[2]['stu_class']) ? "{$general[2]['stu_grade']}-{$general[2]['stu_class']}" : '';
-$pdf->Cell($col_w['班級寬'], $cell_6, $stu_grade_class, 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['座號寬'], $cell_6, $general[2]['stu_seat_no'], 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['班級寬'], $cell_6, $stu_grade_class, 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['座號寬'], $cell_6, $general[2]['stu_seat_no'], 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['導師寬'], $cell_6, $general[2]['class_tea'], 1, 1, "C", false, '', 1);
-
-$pdf->setX(85);
-$stu_grade_class = !empty($general[3]['stu_class']) ? "{$general[3]['stu_grade']}-{$general[3]['stu_class']}" : '';
-$pdf->Cell($col_w['班級寬'], $cell_6, $stu_grade_class, 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['座號寬'], $cell_6, $general[3]['stu_seat_no'], 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['班級寬'], $cell_6, $stu_grade_class, 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['座號寬'], $cell_6, $general[3]['stu_seat_no'], 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['導師寬'], $cell_6, $general[3]['class_tea'], 1, 1, "C", false, '', 1);
-
-$pdf->setX(85);
-$stu_grade_class = !empty($general[4]['stu_class']) ? "{$general[4]['stu_grade']}-{$general[4]['stu_class']}" : '';
-$pdf->Cell($col_w['班級寬'], $cell_6, $stu_grade_class, 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['座號寬'], $cell_6, $general[4]['stu_seat_no'], 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['班級寬'], $cell_6, $stu_grade_class, 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['座號寬'], $cell_6, $general[4]['stu_seat_no'], 1, 0, "C", false, '', 1);
-$pdf->Cell($col_w['導師寬'], $cell_6, $general[4]['class_tea'], 1, 1, "C", false, '', 1);
+foreach ($stage_arr as $year => $stage) {
+    $pdf->setX(85);
+    $stu_grade_class = !empty($general[$stage]['stu_class']) ? "{$general[$stage]['stu_grade']}-{$general[$stage]['stu_class']}" : '';
+    $pdf->Cell($col_w['班級寬'], $class_h, $stu_grade_class, 1, 0, "C", false, '', 1);
+    $pdf->Cell($col_w['座號寬'], $class_h, $general[$stage]['stu_seat_no'], 1, 0, "C", false, '', 1);
+    $pdf->Cell($col_w['班級寬'], $class_h, $stu_grade_class, 1, 0, "C", false, '', 1);
+    $pdf->Cell($col_w['座號寬'], $class_h, $general[$stage]['stu_seat_no'], 1, 0, "C", false, '', 1);
+    $pdf->Cell($col_w['導師寬'], $class_h, $general[$stage]['class_tea'], 1, 1, "C", false, '', 1);
+}
 
 $col_y['概況列'] = $pdf->getY();
 
 // 補個粗框線
 $pdf->setXY($col_x['班級左'], $col_y['最上列']);
 $col_w['班級框'] = ($col_w['班級寬'] + $col_w['座號寬']) * 2 + $col_w['導師寬'];
-$col_h['班級框'] = $cell_6 * 5;
+$col_h['班級框'] = $class_h * ($stage_count + 1);
 $pdf->SetLineWidth(0.5);
 $pdf->Cell($col_w['班級框'], $col_h['班級框'], '', 1, 0, "C", false, '', 1);
 
@@ -167,7 +156,7 @@ $pdf->Cell($col_w['班級框'], $col_h['班級框'], '', 1, 0, "C", false, '', 1
 $col_x['相片左'] = $col_x['班級左'] + $col_w['班級框'];
 $pdf->setXY($col_x['相片左'], $col_y['最上列']);
 $col_w['相片框'] = $col_w['文件寬'] - $col_w['左邊界'] - $col_w['學號框'] - $col_w['班級框'] - $col_w['右邊界'];
-$col_h['相片框'] = $cell_6 * 8;
+$col_h['相片框'] = $class_h * ($stage_count + 1) + $cell_6 * 3;
 $pdf->SetLineWidth(0.5);
 if ($stu['photo']) {
     $pdf->Image($stu['photo'], $col_x['相片左'], $col_y['最上列'], $col_w['相片框'], $col_h['相片框'], '', '', '', true, 600, '', false, false, 0, true, false, false, false);
@@ -308,44 +297,36 @@ $pdf->SetLineWidth(0.2);
 $pdf->SetTextColor(0, 0, 0);
 $col_w['身高寬'] = 12;
 $col_w['年級寬'] = 7;
-$col_w['剩餘寬'] = ($col_w['概況值'] - $col_w['身高寬'] * 2 - $col_w['年級寬'] * 6) / 6;
+$col_w['剩餘寬'] = ($col_w['概況值'] - $col_w['身高寬'] * 2 - $col_w['年級寬'] * ($stage_count * 2)) / ($stage_count * 2);
 $pdf->SetX($col_x['概況欄']);
 $pdf->Cell($col_w['編號欄'], $cell_6, '7.', 'TB', 0, "R", false, '', 1);
 $pdf->Cell($col_w['概況欄'], $cell_6, '身高及體重', 'TB', 0, "L", false, '', 1);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($col_w['身高寬'], $cell_6, '身高', 1, 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '一', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$stu_height = $general[1]['stu_height'] ? "{$general[1]['stu_height']}公分" : '';
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $stu_height, 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '二', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$stu_height = $general[2]['stu_height'] ? "{$general[2]['stu_height']}公分" : '';
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $stu_height, 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '三', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$stu_height = $general[3]['stu_height'] ? "{$general[3]['stu_height']}公分" : '';
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $stu_height, 'TB', 0, "C", false, '', 1);
+
+foreach ($stage_arr as $year => $stage) {
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->Cell($col_w['年級寬'], $cell_6, $year, 'TB', 0, "C", false, '', 1);
+    $pdf->SetTextColor(0, 0, 255);
+    $unit = ($now_grade >= 7) ? '公分' : '';
+    $stu_height = $general[$stage]['stu_height'] ? "{$general[$stage]['stu_height']}{$unit}" : '';
+    $pdf->Cell($col_w['剩餘寬'], $cell_6, $stu_height, 'TB', 0, "C", false, '', 1);
+}
+
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($col_w['身高寬'], $cell_6, '體重', 1, 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '一', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$stu_weight = $general[1]['stu_weight'] ? "{$general[1]['stu_weight']}公斤" : '';
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $stu_weight, 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '二', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$stu_weight = $general[2]['stu_weight'] ? "{$general[2]['stu_weight']}公斤" : '';
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $stu_weight, 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '三', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$stu_weight = $general[3]['stu_weight'] ? "{$general[3]['stu_weight']}公斤" : '';
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $stu_weight, 'TBR', 1, "C", false, '', 1);
+
+$i = 1;
+foreach ($stage_arr as $year => $stage) {
+    $new_line = $i == $stage_count ? 1 : 0;
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->Cell($col_w['年級寬'], $cell_6, $year, 'TB', 0, "C", false, '', 1);
+    $pdf->SetTextColor(0, 0, 255);
+    $unit = ($now_grade >= 7) ? '公斤' : '';
+    $stu_weight = $general[$stage]['stu_weight'] ? "{$general[$stage]['stu_weight']}{$unit}" : '';
+    $pdf->Cell($col_w['剩餘寬'], $cell_6, $stu_weight, 'TB', $new_line, "C", false, '', 1);
+    $i++;
+}
 
 // 8.生理缺陷
 $pdf->SetLineWidth(0.2);
@@ -597,125 +578,128 @@ $pdf->Cell($col_w['備註寬'], $cell_6, $brother_sister[6]['bs_note'], 1, 1, "C
 
 // 15.父母關係
 $col_w['年級寬'] = 8;
-$col_w['剩餘寬'] = ($col_w['概況值'] - $col_w['年級寬'] * 3) / 3;
+$col_w['剩餘寬'] = ($col_w['概況值'] - $col_w['年級寬'] * $stage_count) / $stage_count;
 $pdf->SetX($col_x['概況欄']);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($col_w['編號欄'], $cell_6, '15.', 'TB', 0, "R", false, '', 1);
 $pdf->Cell($col_w['概況欄'], $cell_6, '父母關係', 'TB', 0, "L", false, '', 1);
-$pdf->Cell($col_w['年級寬'], $cell_6, '一', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $general[1]['parental_relationship'], 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '二', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $general[2]['parental_relationship'], 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '三', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $general[3]['parental_relationship'], 'TBR', 2, "C", false, '', 1);
+
+$i = 1;
+foreach ($stage_arr as $year => $stage) {
+    $new_line = $i == $stage_count ? 2 : 0;
+    $border = $i == $stage_count ? 'TBR' : 'TB';
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->Cell($col_w['年級寬'], $cell_6, $year, 'TB', 0, "C", false, '', 1);
+    $pdf->SetTextColor(0, 0, 255);
+    $pdf->Cell($col_w['剩餘寬'], $cell_6, $general[$stage]['parental_relationship'], $border, $new_line, "C", false, '', 1);
+    $i++;
+}
 
 // 16.家庭氣氛
 $pdf->SetX($col_x['概況欄']);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($col_w['編號欄'], $cell_6, '16.', 'TB', 0, "R", false, '', 1);
 $pdf->Cell($col_w['概況欄'], $cell_6, '家庭氣氛', 'TB', 0, "L", false, '', 1);
-$pdf->Cell($col_w['年級寬'], $cell_6, '一', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $general[1]['family_atmosphere'], 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '二', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $general[2]['family_atmosphere'], 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '三', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $general[3]['family_atmosphere'], 'TBR', 2, "C", false, '', 1);
+
+$i = 1;
+foreach ($stage_arr as $year => $stage) {
+    $new_line = $i == $stage_count ? 2 : 0;
+    $border = $i == $stage_count ? 'TBR' : 'TB';
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->Cell($col_w['年級寬'], $cell_6, $year, 'TB', 0, "C", false, '', 1);
+    $pdf->SetTextColor(0, 0, 255);
+    $pdf->Cell($col_w['剩餘寬'], $cell_6, $general[$stage]['family_atmosphere'], $border, $new_line, "C", false, '', 1);
+    $i++;
+}
 
 // 17.父母管教方式
 $pdf->SetX($col_x['概況欄']);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($col_w['編號欄'], $cell_6, '17.', 'TB', 0, "R", false, '', 1);
 $pdf->Cell($col_w['概況欄'], $cell_6, '父母管教方式', 'TB', 0, "L", false, '', 1);
-$pdf->Cell($col_w['年級寬'], $cell_6, '一', 'TB', 0, "C", false, '', 1);
-$v1 = empty($general[1]['father_discipline']) ? '' : "父：<span style=\"color: blue\">{$general[1]['father_discipline']}</span> 母：<span style=\"color: blue\">{$general[1]['mother_discipline']}</span>";
-$pdf->writeHTMLCell($col_w['剩餘寬'], $cell_6, '', '', $v1, 'TB', 0, false, true, '', true);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '二', 'TB', 0, "C", false, '', 1);
-$v2 = empty($general[2]['father_discipline']) ? '' : "父：<span style=\"color: blue\">{$general[2]['father_discipline']}</span> 母：<span style=\"color: blue\">{$general[2]['mother_discipline']}</span>";
-$pdf->writeHTMLCell($col_w['剩餘寬'], $cell_6, '', '', $v2, 'TB', 0, false, true, '', true);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '三', 'TB', 0, "C", false, '', 1);
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $general[3]['father_discipline'], 'TBR', 2, "C", false, '', 1);
-$v3 = empty($general[3]['father_discipline']) ? '' : "父：<span style=\"color: blue\">{$general[3]['father_discipline']}</span> 母：<span style=\"color: blue\">{$general[3]['mother_discipline']}</span>";
-$pdf->writeHTMLCell($col_w['剩餘寬'], $cell_6, '', '', $v3, 'TBR', 0, false, true, '', true);
+
+$i = 1;
+foreach ($stage_arr as $year => $stage) {
+    $new_line = $i == $stage_count ? 2 : 0;
+    $border = $i == $stage_count ? 'TBR' : 'TB';
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->Cell($col_w['年級寬'], $cell_6, $year, 'TB', 0, "C", false, '', 1);
+    $v = empty($general[$stage]['father_discipline']) ? '' : "父：<span style=\"color: blue\">{$general[$stage]['father_discipline']}</span> 母：<span style=\"color: blue\">{$general[$stage]['mother_discipline']}</span>";
+    $pdf->writeHTMLCell($col_w['剩餘寬'], $cell_6, '', '', $v, $border, $new_line, false, true, '', true);
+    $i++;
+}
 
 // 18.居住環境
 $pdf->SetX($col_x['概況欄']);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($col_w['編號欄'], $cell_6, '18.', 'TB', 0, "R", false, '', 1);
 $pdf->Cell($col_w['概況欄'], $cell_6, '居住環境', 'TB', 0, "L", false, '', 1);
-$pdf->Cell($col_w['年級寬'], $cell_6, '一', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $general[1]['environment'], 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '二', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $general[2]['environment'], 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '三', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $general[3]['environment'], 'TBR', 2, "C", false, '', 1);
+
+$i = 1;
+foreach ($stage_arr as $year => $stage) {
+    $new_line = $i == $stage_count ? 2 : 0;
+    $border = $i == $stage_count ? 'TBR' : 'TB';
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->Cell($col_w['年級寬'], $cell_6, $year, 'TB', 0, "C", false, '', 1);
+    $pdf->SetTextColor(0, 0, 255);
+    $pdf->Cell($col_w['剩餘寬'], $cell_6, $general[$stage]['environment'], $border, $new_line, "C", false, '', 1);
+
+    $i++;
+}
 
 // 19.本人住宿
 $pdf->SetX($col_x['概況欄']);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($col_w['編號欄'], $cell_6, '19.', 'TB', 0, "R", false, '', 1);
 $pdf->Cell($col_w['概況欄'], $cell_6, '本人住宿', 'TB', 0, "L", false, '', 1);
-$pdf->Cell($col_w['年級寬'], $cell_6, '一', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $general[1]['accommodation'], 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '二', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $general[2]['accommodation'], 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '三', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $general[3]['accommodation'], 'TBR', 2, "C", false, '', 1);
+
+$i = 1;
+foreach ($stage_arr as $year => $stage) {
+    $new_line = $i == $stage_count ? 2 : 0;
+    $border = $i == $stage_count ? 'TBR' : 'TB';
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->Cell($col_w['年級寬'], $cell_6, $year, 'TB', 0, "C", false, '', 1);
+    $pdf->SetTextColor(0, 0, 255);
+    $pdf->Cell($col_w['剩餘寬'], $cell_6, $general[$stage]['accommodation'], $border, $new_line, "C", false, '', 1);
+
+    $i++;
+}
 
 // 20.經濟狀況
 $pdf->SetX($col_x['概況欄']);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($col_w['編號欄'], $cell_6, '20.', 'TB', 0, "R", false, '', 1);
 $pdf->Cell($col_w['概況欄'], $cell_6, '經濟狀況', 'TB', 0, "L", false, '', 1);
-$pdf->Cell($col_w['年級寬'], $cell_6, '一', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $general[1]['economic'], 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '二', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $general[2]['economic'], 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '三', 'TB', 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->Cell($col_w['剩餘寬'], $cell_6, $general[3]['economic'], 'TBR', 2, "C", false, '', 1);
+
+$i = 1;
+foreach ($stage_arr as $year => $stage) {
+    $new_line = $i == $stage_count ? 2 : 0;
+    $border = $i == $stage_count ? 'TBR' : 'TB';
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->Cell($col_w['年級寬'], $cell_6, $year, 'TB', 0, "C", false, '', 1);
+    $pdf->SetTextColor(0, 0, 255);
+    $pdf->Cell($col_w['剩餘寬'], $cell_6, $general[$stage]['economic'], $border, $new_line, "C", false, '', 1);
+
+    $i++;
+}
 
 // 21.每週零用錢約
 $pdf->SetX($col_x['概況欄']);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($col_w['編號欄'], $cell_6, '21.', 'TB', 0, "R", false, '', 1);
 $pdf->Cell($col_w['概況欄'], $cell_6, '每週零用錢約', 'TB', 0, "L", false, '', 1);
-$pdf->Cell($col_w['年級寬'], $cell_6, '一', 'TB', 0, "C", false, '', 1);
-$v1 = empty($general[1]['money']) ? '' : "<span style=\"color: blue\">{$general[1]['money']}</span> 我覺得 <span style=\"color: blue\">{$general[1]['feel']}</span>";
-$pdf->writeHTMLCell($col_w['剩餘寬'], $cell_6, '', '', $v1, 'TB', 0, false, true, '', true);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '二', 'TB', 0, "C", false, '', 1);
-$v2 = empty($general[2]['money']) ? '' : "<span style=\"color: blue\">{$general[2]['money']}</span> 我覺得 <span style=\"color: blue\">{$general[2]['feel']}</span>";
-$pdf->writeHTMLCell($col_w['剩餘寬'], $cell_6, '', '', $v2, 'TB', 0, false, true, '', true);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $cell_6, '三', 'TB', 0, "C", false, '', 1);
-$v3 = empty($general[3]['money']) ? '' : "<span style=\"color: blue\">{$general[3]['money']}</span> 我覺得 <span style=\"color: blue\">{$general[3]['feel']}</span>";
-$pdf->writeHTMLCell($col_w['剩餘寬'], $cell_6, '', '', $v3, 'TBR', 2, false, true, '', true);
+
+$i = 1;
+foreach ($stage_arr as $year => $stage) {
+    $new_line = $i == $stage_count ? 2 : 0;
+    $border = $i == $stage_count ? 'TBR' : 'TB';
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->Cell($col_w['年級寬'], $cell_6, $year, 'TB', 0, "C", false, '', 1);
+    $v = empty($general[$stage]['money']) ? '' : "<span style=\"color: blue\">{$general[$stage]['money']}</span> 我覺得 <span style=\"color: blue\">{$general[$stage]['feel']}</span>";
+    $pdf->writeHTMLCell($col_w['剩餘寬'], $cell_6, '', '', $v, $border, $new_line, false, true, '', true);
+
+    $i++;
+}
 
 // 補個粗框線
 $pdf->setXY($col_x['概況欄'], $col_y['直系欄']);
@@ -740,20 +724,18 @@ $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($col_w['編號欄'], $col_h['學科欄'], '22.', 'TB', 0, "R", false, '', 1);
 $pdf->Cell($col_w['概況欄'], $col_h['學科欄'], '最喜歡的學科', 'TB', 0, "L", false, '', 1);
 $col_y['學科欄'] = $pdf->GetY();
-$pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], '一年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 255);
-$favorite_subject = implode('、', $general[1]['favorite_subject']);
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['學科欄'], $favorite_subject, '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 0);
-$pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], '二年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 255);
-$favorite_subject = implode('、', $general[2]['favorite_subject']);
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['學科欄'], $favorite_subject, '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 0);
-$pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], '三年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 255);
-$favorite_subject = implode('、', $general[3]['favorite_subject']);
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['學科欄'], $favorite_subject, '1', 'C', false, 1, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
+
+$i = 1;
+foreach ($stage_arr as $year => $stage) {
+    $new_line = $i == $stage_count ? 1 : 0;
+    $border = $i == $stage_count ? 'TBR' : 'TB';
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], $year . '年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
+    $pdf->SetTextColor(0, 0, 255);
+    $favorite_subject = implode('、', $general[$stage]['favorite_subject']);
+    $pdf->MultiCell($col_w['剩餘寬'], $col_h['學科欄'], $favorite_subject, '1', 'C', false, $new_line, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
+    $i++;
+}
 
 // 23.最感困難的學科
 $pdf->SetLineWidth(0.2);
@@ -762,20 +744,19 @@ $col_h['學科欄'] = $cell_6 * 2;
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($col_w['編號欄'], $col_h['學科欄'], '23.', 'TB', 0, "R", false, '', 1);
 $pdf->Cell($col_w['概況欄'], $col_h['學科欄'], '最感困難的學科', 'TB', 0, "L", false, '', 1);
-$pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], '一年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 255);
-$difficult_subject = implode('、', $general[1]['difficult_subject']);
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['學科欄'], $difficult_subject, '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 0);
-$pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], '二年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 255);
-$difficult_subject = implode('、', $general[2]['difficult_subject']);
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['學科欄'], $difficult_subject, '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 0);
-$pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], '三年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 255);
-$difficult_subject = implode('、', $general[3]['difficult_subject']);
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['學科欄'], $difficult_subject, '1', 'C', false, 1, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
+
+$i = 1;
+foreach ($stage_arr as $year => $stage) {
+    $new_line = $i == $stage_count ? 1 : 0;
+    $border = $i == $stage_count ? 'TBR' : 'TB';
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], $year . '年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
+    $pdf->SetTextColor(0, 0, 255);
+    $difficult_subject = implode('、', $general[$stage]['difficult_subject']);
+    $pdf->MultiCell($col_w['剩餘寬'], $col_h['學科欄'], $difficult_subject, '1', 'C', false, $new_line, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
+
+    $i++;
+}
 
 // 24.特殊專長
 $pdf->SetLineWidth(0.2);
@@ -784,20 +765,18 @@ $col_h['學科欄'] = $cell_6 * 2;
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($col_w['編號欄'], $col_h['學科欄'], '24.', 'TB', 0, "R", false, '', 1);
 $pdf->Cell($col_w['概況欄'], $col_h['學科欄'], '特殊專長', 'TB', 0, "L", false, '', 1);
-$pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], '一年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 255);
-$expertise = implode('、', $general[1]['expertise']);
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['學科欄'], $expertise, '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 0);
-$pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], '二年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 255);
-$expertise = implode('、', $general[2]['expertise']);
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['學科欄'], $expertise, '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 0);
-$pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], '三年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 255);
-$expertise = implode('、', $general[3]['expertise']);
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['學科欄'], $expertise, '1', 'C', false, 1, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
+
+$i = 1;
+foreach ($stage_arr as $year => $stage) {
+    $new_line = $i == $stage_count ? 1 : 0;
+    $border = $i == $stage_count ? 'TBR' : 'TB';
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], $year . '年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
+    $pdf->SetTextColor(0, 0, 255);
+    $expertise = implode('、', $general[$stage]['expertise']);
+    $pdf->MultiCell($col_w['剩餘寬'], $col_h['學科欄'], $expertise, '1', 'C', false, $new_line, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
+    $i++;
+}
 
 // 25.休閒興趣
 $pdf->SetLineWidth(0.2);
@@ -806,20 +785,18 @@ $col_h['學科欄'] = $cell_6 * 2;
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Cell($col_w['編號欄'], $col_h['學科欄'], '25.', 'TB', 0, "R", false, '', 1);
 $pdf->Cell($col_w['概況欄'], $col_h['學科欄'], '休閒興趣', 'TB', 0, "L", false, '', 1);
-$pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], '一年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 255);
-$interest = implode('、', $general[1]['interest']);
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['學科欄'], $interest, '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 0);
-$pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], '二年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 255);
-$interest = implode('、', $general[2]['interest']);
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['學科欄'], $interest, '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 0);
-$pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], '三年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$pdf->SetTextColor(0, 0, 255);
-$interest = implode('、', $general[3]['interest']);
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['學科欄'], $interest, '1', 'C', false, 1, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
+
+$i = 1;
+foreach ($stage_arr as $year => $stage) {
+    $new_line = $i == $stage_count ? 1 : 0;
+    $border = $i == $stage_count ? 'TBR' : 'TB';
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], $year . '年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
+    $pdf->SetTextColor(0, 0, 255);
+    $interest = implode('、', $general[$stage]['interest']);
+    $pdf->MultiCell($col_w['剩餘寬'], $col_h['學科欄'], $interest, '1', 'C', false, $new_line, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
+    $i++;
+}
 
 // 26.參加校內社團擔任班級幹部
 $pdf->SetLineWidth(0.2);
@@ -830,17 +807,18 @@ $pdf->Cell($col_w['編號欄'], $cell_6, '26.', 'T', 0, "R", false, '', 1);
 $pdf->Cell($col_w['概況欄'], $cell_6, '參加校內社團及', 'T', 0, "L", false, '', 1);
 $col_y['社團欄'] = $pdf->GetY() + $cell_6;
 // $pdf->MultiCell($col_w['概況欄'], $col_h['學科欄'], "參加校內社團及\n擔任班級幹部", 'TB', 'L', false, 0, '', '', true, 1, false, true, $col_h['學科欄'], 'M', true);
-$pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], '一年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$v1 = empty($general[1]['club']) ? '' : "社團：<span style=\"color: blue\">{$general[1]['club']}</span><br>幹部：<span style=\"color: blue\">{$general[1]['cadre']}</span>";
-$pdf->writeHTMLCell($col_w['剩餘寬'], $col_h['學科欄'], '', '', $v1, '1', 0, false, true, '', true);
 
-$pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], '二年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$v2 = empty($general[2]['club']) ? '' : "社團：<span style=\"color: blue\">{$general[2]['club']}</span><br>幹部：<span style=\"color: blue\">{$general[2]['cadre']}</span>";
-$pdf->writeHTMLCell($col_w['剩餘寬'], $col_h['學科欄'], '', '', $v2, '1', 0, false, true, '', true);
+$i = 1;
+foreach ($stage_arr as $year => $stage) {
+    $new_line = $i == $stage_count ? 1 : 0;
+    $border = $i == $stage_count ? 'TBR' : 'TB';
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], $year . '年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
+    $v = empty($general[$stage]['club']) ? '' : "社團：<span style=\"color: blue\">{$general[$stage]['club']}</span><br>幹部：<span style=\"color: blue\">{$general[$stage]['cadre']}</span>";
+    $pdf->writeHTMLCell($col_w['剩餘寬'], $col_h['學科欄'], '', '', $v, '1', $new_line, false, true, '', true);
 
-$pdf->MultiCell($col_w['年級寬'], $col_h['學科欄'], '三年', '1', 'C', false, 0, '', '', true, 0, false, true, $col_h['學科欄'], 'M');
-$v3 = empty($general[3]['club']) ? '' : "社團：<span style=\"color: blue\">{$general[3]['club']}</span><br>幹部：<span style=\"color: blue\">{$general[3]['cadre']}</span>";
-$pdf->writeHTMLCell($col_w['剩餘寬'], $col_h['學科欄'], '', '', $v3, '1', 1, false, true, '', true);
+    $i++;
+}
 
 $pdf->SetXY($col_x['概況欄'], $col_y['社團欄']);
 $pdf->Cell($col_w['編號欄'], $cell_6, '', '0', 0, "R", false, '', 1);
@@ -951,7 +929,9 @@ $pdf->Cell($col_w['編號欄'], $cell_6, '15.', 'TB', 0, "R", false, '', 1);
 $pdf->writeHTMLCell($col_w['長概況'], $cell_6, '', '', "我最難忘的一件事是： <span style=\"color: blue\">{$stu['stu_autobiography']['memorable']}</span>", 'TB', 1, false, true, '', true);
 
 // 五、自我認識
-$col_h['認識框'] = $cell_6 * 7;
+$line = $stage_count > 3 ? 1 : 2;
+$col_h['認識欄'] = $cell_6 * $line;
+$col_h['認識框'] = $cell_6 * ($stage_count * $line) + $cell_6;
 
 $pdf->SetTextColor(0, 0, 0);
 $pdf->SetLineWidth(0.5);
@@ -967,7 +947,7 @@ $col_w['優點寬'] = 40;
 $col_w['改進寬'] = 40;
 $col_w['日期寬'] = 28;
 $col_w['剩餘寬'] = $col_w['編號欄'] + $col_w['長概況'] - $col_w['年級寬'] - $col_w['優點寬'] - $col_w['改進寬'] - $col_w['日期寬'];
-$col_h['認識欄'] = $cell_6 * 2;
+
 $pdf->setX($col_x['瞭解我']);
 $pdf->Cell($col_w['年級寬'], $cell_6, '年級', 1, 0, "C", false, '', 1);
 $pdf->Cell($col_w['剩餘寬'], $cell_6, '我的個性（如：溫和、急躁）', 1, 0, "C", false, '', 1);
@@ -975,35 +955,26 @@ $pdf->Cell($col_w['優點寬'], $cell_6, '我的優點', 1, 0, "C", false, '', 1
 $pdf->Cell($col_w['改進寬'], $cell_6, '我需要改進的地方', 1, 0, "C", false, '', 1);
 $pdf->Cell($col_w['日期寬'], $cell_6, '填寫日期', 1, 1, "C", false, '', 1);
 
-$pdf->SetX($col_x['瞭解我']);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $col_h['認識欄'], '一年級', 1, 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['認識欄'], $general[1]['stu_personality'], 1, 'L', false, 0, '', '', true, 0, false, true, $col_h['認識欄'], 'M');
-$pdf->MultiCell($col_w['優點寬'], $col_h['認識欄'], $general[1]['stu_advantage'], 1, 'L', false, 0, '', '', true, 0, false, true, $col_h['認識欄'], 'M');
-$pdf->MultiCell($col_w['改進寬'], $col_h['認識欄'], $general[1]['stu_improve'], 1, 'L', false, 0, '', '', true, 0, false, true, $col_h['認識欄'], 'M');
-$pdf->Cell($col_w['日期寬'], $col_h['認識欄'], $general[1]['fill_date'], 1, 1, "C", false, '', 1);
+$i = 1;
+foreach ($stage_arr as $year => $stage) {
+    $new_line = $i == $stage_count ? 1 : 0;
+    $border = $i == $stage_count ? 'TBR' : 'TB';
+    $pdf->SetX($col_x['瞭解我']);
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->Cell($col_w['年級寬'], $col_h['認識欄'], $year . '年級', 1, 0, "C", false, '', 1);
+    $pdf->SetTextColor(0, 0, 255);
 
-$pdf->SetX($col_x['瞭解我']);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $col_h['認識欄'], '二年級', 1, 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['認識欄'], $general[2]['stu_personality'], 1, 'L', false, 0, '', '', true, 0, false, true, $col_h['認識欄'], 'M');
-$pdf->MultiCell($col_w['優點寬'], $col_h['認識欄'], $general[2]['stu_advantage'], 1, 'L', false, 0, '', '', true, 0, false, true, $col_h['認識欄'], 'M');
-$pdf->MultiCell($col_w['改進寬'], $col_h['認識欄'], $general[2]['stu_improve'], 1, 'L', false, 0, '', '', true, 0, false, true, $col_h['認識欄'], 'M');
-$pdf->Cell($col_w['日期寬'], $col_h['認識欄'], $general[2]['fill_date'], 1, 1, "C", false, '', 1);
-
-$pdf->SetX($col_x['瞭解我']);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $col_h['認識欄'], '三年級', 1, 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['認識欄'], $general[3]['stu_personality'], 1, 'L', false, 0, '', '', true, 0, false, true, $col_h['認識欄'], 'M');
-$pdf->MultiCell($col_w['優點寬'], $col_h['認識欄'], $general[3]['stu_advantage'], 1, 'L', false, 0, '', '', true, 0, false, true, $col_h['認識欄'], 'M');
-$pdf->MultiCell($col_w['改進寬'], $col_h['認識欄'], $general[3]['stu_improve'], 1, 'L', false, 0, '', '', true, 0, false, true, $col_h['認識欄'], 'M');
-$pdf->Cell($col_w['日期寬'], $col_h['認識欄'], $general[3]['fill_date'], 1, 1, "C", false, '', 1);
+    $pdf->MultiCell($col_w['剩餘寬'], $col_h['認識欄'], $general[$stage]['stu_personality'], 1, 'L', false, 0, '', '', true, 0, false, true, null, 'M');
+    $pdf->MultiCell($col_w['優點寬'], $col_h['認識欄'], $general[$stage]['stu_advantage'], 1, 'L', false, 0, '', '', true, 0, false, true, null, 'M');
+    $pdf->MultiCell($col_w['改進寬'], $col_h['認識欄'], $general[$stage]['stu_improve'], 1, 'L', false, 0, '', '', true, 0, false, true, null, 'M');
+    $pdf->Cell($col_w['日期寬'], $col_h['認識欄'], $general[$stage]['fill_date'], 1, 1, "C", false, '', 1);
+    $i++;
+}
 
 // 六、生活感想
-$col_h['認識框'] = $cell_6 * 7;
+$line = $stage_count > 3 ? 1 : 2;
+$col_h['認識欄'] = $cell_6 * $line;
+$col_h['認識框'] = $cell_6 * ($stage_count * $line) + $cell_6;
 
 $pdf->SetTextColor(0, 0, 0);
 $pdf->SetLineWidth(0.5);
@@ -1016,32 +987,24 @@ $pdf->SetLineWidth(0.2);
 
 $col_w['年級寬'] = 20;
 $col_w['剩餘寬'] = ($col_w['編號欄'] + $col_w['長概況'] - $col_w['年級寬']) / 2;
-$col_h['認識欄'] = $cell_6 * 2;
+
 $pdf->setX($col_x['瞭解我']);
 $pdf->Cell($col_w['年級寬'], $cell_6, '年級', 1, 0, "C", false, '', 1);
 $pdf->Cell($col_w['剩餘寬'], $cell_6, '我目前遇到最大的困難是', 1, 0, "C", false, '', 1);
 $pdf->Cell($col_w['剩餘寬'], $cell_6, '我目前最需要協助的是', 1, 1, "C", false, '', 1);
 
-$pdf->SetX($col_x['瞭解我']);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $col_h['認識欄'], '一年級', 1, 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['認識欄'], $general[1]['stu_difficult'], 1, 'L', false, 0, '', '', true, 0, false, true, $col_h['認識欄'], 'M');
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['認識欄'], $general[1]['stu_need_help'], 1, 'L', false, 1, '', '', true, 0, false, true, $col_h['認識欄'], 'M');
-
-$pdf->SetX($col_x['瞭解我']);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $col_h['認識欄'], '二年級', 1, 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['認識欄'], $general[2]['stu_difficult'], 1, 'L', false, 0, '', '', true, 0, false, true, $col_h['認識欄'], 'M');
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['認識欄'], $general[2]['stu_need_help'], 1, 'L', false, 1, '', '', true, 0, false, true, $col_h['認識欄'], 'M');
-
-$pdf->SetX($col_x['瞭解我']);
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Cell($col_w['年級寬'], $col_h['認識欄'], '三年級', 1, 0, "C", false, '', 1);
-$pdf->SetTextColor(0, 0, 255);
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['認識欄'], $general[3]['stu_difficult'], 1, 'L', false, 0, '', '', true, 0, false, true, $col_h['認識欄'], 'M');
-$pdf->MultiCell($col_w['剩餘寬'], $col_h['認識欄'], $general[3]['stu_need_help'], 1, 'L', false, 1, '', '', true, 0, false, true, $col_h['認識欄'], 'M');
+$i = 1;
+foreach ($stage_arr as $year => $stage) {
+    $new_line = $i == $stage_count ? 1 : 0;
+    $border = $i == $stage_count ? 'TBR' : 'TB';
+    $pdf->SetX($col_x['瞭解我']);
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->Cell($col_w['年級寬'], $col_h['認識欄'], $year . '年級', 1, 0, "C", false, '', 1);
+    $pdf->SetTextColor(0, 0, 255);
+    $pdf->MultiCell($col_w['剩餘寬'], $col_h['認識欄'], $general[$stage]['stu_difficult'], 1, 'L', false, 0, '', '', true, 0, false, true, null, 'M');
+    $pdf->MultiCell($col_w['剩餘寬'], $col_h['認識欄'], $general[$stage]['stu_need_help'], 1, 'L', false, 1, '', '', true, 0, false, true, null, 'M');
+    $i++;
+}
 
 // 七、畢業後計畫
 $col_h['畢業後'] = $cell_6 * 8;
@@ -1115,6 +1078,6 @@ $pdf->setX($col_x['瞭解我']);
 $pdf->SetTextColor(0, 0, 255);
 $pdf->MultiCell($col_w['剩餘寬'], $col_h['備註欄'], $stu['note'], 1, 'L', false, 1, '', '', true, 0, false, true, $col_h['備註欄'], 'M');
 
-$pdf_title = iconv("UTF-8", "Big5", $pdf_title . "-{$stu['stu_no']}-{$stu['stu_name']}");
+$pdf_title = $pdf_title . "-{$stu['stu_no']}-{$stu['stu_name']}";
 $pdf->Output($pdf_title . '.pdf', "D");
 // $pdf->Output();

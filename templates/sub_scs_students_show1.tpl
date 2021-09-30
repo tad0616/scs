@@ -82,25 +82,18 @@
         <td class="c2">7.身高及體重</td>
         <td colspan=3>
             <span class="my_label">身高</span>
-            一
-            <span class="my_value"><{$general.1.stu_height}></span>
-            <span class="my_unit">公分</span>
-            二
-            <span class="my_value"><{$general.2.stu_height}></span>
-            <span class="my_unit">公分</span>
-            三
-            <span class="my_value"><{$general.3.stu_height}></span>
-            <span class="my_unit">公分</span>
+            <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
+                <{$year}>
+                <span class="my_value"><{$general.$stage.stu_height}></span>
+                <span class="my_unit">公分</span>
+            <{/foreach}>
+
             <span class="my_label">體重</span>
-            一
-            <span class="my_value"><{$general.1.stu_weight}></span>
-            <span class="my_unit">公斤</span>
-            二
-            <span class="my_value"><{$general.2.stu_weight}></span>
-            <span class="my_unit">公斤</span>
-            三
-            <span class="my_value"><{$general.3.stu_weight}></span>
-            <span class="my_unit">公斤</span>
+            <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
+                <{$year}>
+                <span class="my_value"><{$general.$stage.stu_weight}></span>
+                <span class="my_unit">公斤</span>
+            <{/foreach}>
         </td>
     </tr>
     <tr>

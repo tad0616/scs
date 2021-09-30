@@ -10,27 +10,15 @@
                     <th>我需要改進的地方</th>
                     <th>填寫日期</th>
                 </tr>
-                <tr>
-                    <th class="c3">一年級</th>
-                    <td><span class="my_value"><{$general.1.stu_personality}></span></td>
-                    <td><span class="my_value"><{$general.1.stu_advantage}></span></td>
-                    <td><span class="my_value"><{$general.1.stu_improve}></span></td>
-                    <td><span class="my_value"><{$general.1.fill_date}></span></td>
-                </tr>
-                <tr>
-                    <th class="c3">二年級</th>
-                    <td><span class="my_value"><{$general.2.stu_personality}></span></td>
-                    <td><span class="my_value"><{$general.2.stu_advantage}></span></td>
-                    <td><span class="my_value"><{$general.2.stu_improve}></span></td>
-                    <td><span class="my_value"><{$general.2.fill_date}></span></td>
-                </tr>
-                <tr>
-                    <th class="c3">三年級</th>
-                    <td><span class="my_value"><{$general.3.stu_personality}></span></td>
-                    <td><span class="my_value"><{$general.3.stu_advantage}></span></td>
-                    <td><span class="my_value"><{$general.3.stu_improve}></span></td>
-                    <td><span class="my_value"><{$general.3.fill_date}></span></td>
-                </tr>
+                <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
+                    <tr>
+                        <th class="c3"><{$year}>年級</th>
+                        <td><span class="my_value"><{$general.$stage.stu_personality}></span></td>
+                        <td><span class="my_value"><{$general.$stage.stu_advantage}></span></td>
+                        <td><span class="my_value"><{$general.$stage.stu_improve}></span></td>
+                        <td><span class="my_value"><{$general.$stage.fill_date}></span></td>
+                    </tr>
+                <{/foreach}>
             </table>
         </td>
     </tr>

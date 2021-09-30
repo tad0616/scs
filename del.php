@@ -4,6 +4,8 @@ use XoopsModules\Tadtools\Utility;
 include_once "../../mainfile.php";
 include_once "header.php";
 
+// 新增國小修正 xx_scs_data_center 用
+
 $sql = "select * from `xx_scs_data_center` where `col_name`='school_year_class'";
 $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 

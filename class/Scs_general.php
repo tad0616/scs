@@ -31,6 +31,10 @@ class Scs_general
     public static function index($school_year = '', $stu_grade = '', $stu_class = '')
     {
         global $xoopsDB, $xoopsTpl;
+        if ($stu_grade) {
+            $_SESSION['stu_stage'] = ($stu_grade >= 7) ? '國中' : '國小';
+            $_SESSION['stages'] = ($stu_grade >= 7) ? ['七' => 7, '八' => 8, '九' => 9] : ['一' => 1, '二' => 2, '三' => 3, '四' => 4, '五' => 5, '六' => 6];
+        }
 
         Tools::chk_scs_power(__FILE__, __LINE__, 'index', '', $school_year, $stu_grade, $stu_class);
 
@@ -92,35 +96,53 @@ class Scs_general
     //scs_general編輯表單
     public static function create($stu_id = '')
     {
-        global $xoopsDB, $xoopsTpl, $xoopsUser, $xoopsModuleConfig;
+        global $xoopsTpl;
         Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id);
+
+        $form2_other_arr = [
+            '父母關係' => ['var_name' => 'parental_relationship', 'type' => 'select'],
+            '家庭氣氛' => ['var_name' => 'family_atmosphere', 'type' => 'select'],
+            '父管教方式' => ['var_name' => 'father_discipline', 'type' => 'select', 'opt' => 'discipline'],
+            '母管教方式' => ['var_name' => 'mother_discipline', 'type' => 'select', 'opt' => 'discipline'],
+            '居住環境' => ['var_name' => 'environment', 'type' => 'select'],
+            '本人住宿' => ['var_name' => 'accommodation', 'type' => 'select'],
+            '經濟狀況' => ['var_name' => 'economic', 'type' => 'select'],
+            '每星期零用錢約' => ['var_name' => 'money', 'type' => 'input'],
+            '覺得零用錢' => ['var_name' => 'feel', 'type' => 'select'],
+        ];
+        $xoopsTpl->assign('form2_other_arr', $form2_other_arr);
 
         //抓取預設值
         $DBV = !empty($stu_id) ? self::get($stu_id) : [];
 
+        $_SESSION['stu_stage'] = (Tools::array_key_last($DBV) >= 7) ? '國中' : '國小';
+        $_SESSION['stages'] = (Tools::array_key_last($DBV) >= 7) ? ['七' => 7, '八' => 8, '九' => 9] : ['一' => 1, '二' => 2, '三' => 3, '四' => 4, '五' => 5, '六' => 6];
+
         $xoopsTpl->assign('general', $DBV);
         //預設值設定
+        foreach ($form2_other_arr as $other) {
+            if ($other['type'] == 'select') {
+                if (!empty($other['opt'])) {
+                    $other_arr[$other['var_name']] = Tools::get_config_arr('return', $other['opt'], $other['var_name']);
+                } else {
+                    $other_arr[$other['var_name']] = Tools::get_config_arr('return', $other['var_name']);
+                }
+            }
+        }
 
-        Tools::get_config_arr('scs_general', 'parental_relationship');
-        Tools::get_config_arr('scs_general', 'family_atmosphere');
-        Tools::get_config_arr('scs_general', 'discipline', 'father_discipline');
-        Tools::get_config_arr('scs_general', 'discipline', 'mother_discipline');
-        Tools::get_config_arr('scs_general', 'environment');
-        Tools::get_config_arr('scs_general', 'accommodation');
-        Tools::get_config_arr('scs_general', 'economic');
-        Tools::get_config_arr('scs_general', 'feel');
+        $xoopsTpl->assign('other_arr', $other_arr);
+
         Tools::get_config_arr('scs_general', 'favorite_subject');
         Tools::get_config_arr('scs_general', 'difficult_subject');
         Tools::get_config_arr('scs_general', 'expertise');
         Tools::get_config_arr('scs_general', 'interest');
         Tools::get_config_arr('scs_general', 'cadre');
-
     }
 
     //新增資料到scs_general中
     public static function store($stu_id, $school_year, $data = [], $check = true)
     {
-        global $xoopsDB, $xoopsUser;
+        global $xoopsDB;
 
         //XOOPS表單安全檢查
         if ($check) {
@@ -363,8 +385,14 @@ class Scs_general
             $arr[$g]['grade_class'] = $grade_class = "{$y}-{$g}-{$data['stu_class']}";
             $school_year_to_grade[$y] = $g;
 
-            $TadDataCenter->set_col('teacher_name', $y);
-            $arr[$g]['class_tea'] = $TadDataCenter->getData($grade_class, 0);
+            $TadDataCenter->set_col('school_year_class', $y);
+            $tea_uid = $TadDataCenter->getData($grade_class, 0);
+
+            $uid_name = \XoopsUser::getUnameFromId($tea_uid, 1);
+            if (empty($uid_name)) {
+                $uid_name = \XoopsUser::getUnameFromId($tea_uid, 0);
+            }
+            $arr[$g]['class_tea'] = $tea_uid ? $uid_name : '';
         }
 
         if ($get_year) {

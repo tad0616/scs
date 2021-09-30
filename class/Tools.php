@@ -3,6 +3,7 @@ namespace XoopsModules\Scs;
 
 use XoopsModules\Scs\Scs_general;
 use XoopsModules\Tadtools\TadDataCenter;
+use XoopsModules\Tadtools\Utility;
 
 /**
  * Scs module
@@ -35,9 +36,10 @@ class Tools
             $email = $xoopsUser->email();
             $name = $xoopsUser->name();
             $stu_grade = $xoopsUser->user_from();
-            // if ($stu_grade >= 7) {
-            //     $stu_grade -= 6;
-            // }
+            if ($stu_grade) {
+                $_SESSION['stu_stage'] = ($stu_grade >= 7) ? '國中' : '國小';
+                $_SESSION['stages'] = ($stu_grade >= 7) ? ['七' => 7, '八' => 8, '九' => 9] : ['一' => 1, '二' => 2, '三' => 3, '四' => 4, '五' => 5, '六' => 6];
+            }
             $stu_class = $xoopsUser->user_sig();
             $school_year = self::get_school_year();
             if ($email) {
@@ -113,9 +115,9 @@ class Tools
 
     public static function get_school_teachers()
     {
-        global $xoopsUser, $xoopsDB, $xoopsModuleConfig, $xoopsModule;
+        global $xoopsDB, $xoopsModuleConfig, $xoopsModule;
 
-        if (empty($xoopsModuleConfig['school_code'])) {
+        if (!isset($xoopsModuleConfig)) {
             $modhandler = xoops_gethandler('module');
             $xoopsModule = $modhandler->getByDirname("scs");
             $config_handler = xoops_gethandler('config');
@@ -126,12 +128,18 @@ class Tools
             $mid = $xoopsModule->mid();
             redirect_header(XOOPS_URL . '/modules/system/admin.php?fct=preferences&op=showmod&mod=' . $mid, 3, '請先至偏好設定，設定「教育部學校代碼」');
         }
-        $sql = "select `uid`,`name`,`uname` from `" . $xoopsDB->prefix("users") . "`
-        where `user_intrest`='{$xoopsModuleConfig['school_code']}' and `user_icq`='teacher' order by `name`,`uname`";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-        while (list($uid, $name, $uname) = $xoopsDB->fetchRow($result)) {
-            $teachers[$uid]['name'] = $name;
-            $teachers[$uid]['uname'] = $uname;
+
+        $teachers = [];
+        $schools = explode(';', $xoopsModuleConfig['school_code']);
+        foreach ($schools as $school_code) {
+            $sql = "select `uid`,`name`,`uname` from `" . $xoopsDB->prefix("users") . "`
+            where `user_intrest`='{$school_code}' and `user_icq`='teacher' order by `name`,`uname`";
+            $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            while (list($uid, $name, $uname) = $xoopsDB->fetchRow($result)) {
+                $teachers[$uid]['name'] = $name;
+                $teachers[$uid]['uname'] = $uname;
+            }
+
         }
 
         return $teachers;
@@ -163,8 +171,10 @@ class Tools
                     return true;
                 } elseif ($_SESSION['tea_class_arr']) {
                     $stu = Scs_general::get($stu_id);
-                    if (in_array($stu[1]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[2]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[3]['grade_class'], $_SESSION['tea_class_arr'])) {
-                        return true;
+                    foreach ($stu as $student) {
+                        if (in_array($student['grade_class'], $_SESSION['tea_class_arr'])) {
+                            return true;
+                        }
                     }
                 } elseif ($_SESSION['stu_id'] and $_SESSION['stu_id'] == $stu_id) {
                     return true;
@@ -176,8 +186,10 @@ class Tools
                     return true;
                 } elseif ($_SESSION['tea_class_arr']) {
                     $stu = Scs_general::get($stu_id);
-                    if (in_array($stu[1]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[2]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[3]['grade_class'], $_SESSION['tea_class_arr'])) {
-                        return true;
+                    foreach ($stu as $student) {
+                        if (in_array($student['grade_class'], $_SESSION['tea_class_arr'])) {
+                            return true;
+                        }
                     }
                 } elseif ($_SESSION['stu_id'] and $_SESSION['stu_id'] == $stu_id and self::stu_edit_able()) {
                     return true;
@@ -189,8 +201,10 @@ class Tools
                     return true;
                 } elseif ($_SESSION['tea_class_arr']) {
                     $stu = Scs_general::get($stu_id);
-                    if (in_array($stu[1]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[2]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[3]['grade_class'], $_SESSION['tea_class_arr'])) {
-                        return true;
+                    foreach ($stu as $student) {
+                        if (in_array($student['grade_class'], $_SESSION['tea_class_arr'])) {
+                            return true;
+                        }
                     }
                 } elseif ($_SESSION['stu_id'] and $_SESSION['stu_id'] == $stu_id and self::stu_edit_able()) {
                     return true;
@@ -230,8 +244,10 @@ class Tools
                     return true;
                 } elseif ($_SESSION['tea_class_arr']) {
                     $stu = Scs_general::get($stu_id);
-                    if (in_array($stu[1]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[2]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[3]['grade_class'], $_SESSION['tea_class_arr'])) {
-                        return true;
+                    foreach ($stu as $student) {
+                        if (in_array($student['grade_class'], $_SESSION['tea_class_arr'])) {
+                            return true;
+                        }
                     }
                 }
                 break;
@@ -263,13 +279,16 @@ class Tools
                     $stu = Scs_general::get($stu_id);
                     $consult = Scs_consult::get($consult_id);
                     $now_uid = $xoopsUser->uid();
-                    if (in_array($stu[1]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[2]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[3]['grade_class'], $_SESSION['tea_class_arr'])) {
-                        if ($consult['consult_uid'] == $now_uid) {
-                            return true;
-                        } else {
-                            // 若之前的發布者是舊班導，那也可以看，但無法刪或編輯
-                            if (self::isTeacher('', $consult['consult_uid'], false)) {
+
+                    foreach ($stu as $student) {
+                        if (in_array($student['grade_class'], $_SESSION['tea_class_arr'])) {
+                            if ($consult['consult_uid'] == $now_uid) {
                                 return true;
+                            } else {
+                                // 若之前的發布者是舊班導，那也可以看，但無法刪或編輯
+                                if (self::isTeacher('', $consult['consult_uid'], false)) {
+                                    return true;
+                                }
                             }
                         }
                     }
@@ -281,8 +300,10 @@ class Tools
                     return true;
                 } elseif ($_SESSION['tea_class_arr']) {
                     $stu = Scs_general::get($stu_id);
-                    if (in_array($stu[1]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[2]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[3]['grade_class'], $_SESSION['tea_class_arr'])) {
-                        return true;
+                    foreach ($stu as $student) {
+                        if (in_array($student['grade_class'], $_SESSION['tea_class_arr'])) {
+                            return true;
+                        }
                     }
                 }
                 break;
@@ -300,8 +321,8 @@ class Tools
                     $stu = Scs_general::get($stu_id);
                     $consult = Scs_consult::get($consult_id);
                     $now_uid = $xoopsUser->uid();
-                    if (in_array($stu[1]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[2]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[3]['grade_class'], $_SESSION['tea_class_arr'])) {
-                        if ($consult['consult_uid'] == $now_uid) {
+                    foreach ($stu as $student) {
+                        if (in_array($student['grade_class'], $_SESSION['tea_class_arr'])) {
                             return true;
                         }
                     }
@@ -326,8 +347,10 @@ class Tools
                     return true;
                 } elseif ($_SESSION['tea_class_arr']) {
                     $stu = Scs_general::get($stu_id);
-                    if (in_array($stu[1]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[2]['grade_class'], $_SESSION['tea_class_arr']) or in_array($stu[3]['grade_class'], $_SESSION['tea_class_arr'])) {
-                        return true;
+                    foreach ($stu as $student) {
+                        if (in_array($student['grade_class'], $_SESSION['tea_class_arr'])) {
+                            return true;
+                        }
                     }
                 }
                 break;
@@ -469,7 +492,7 @@ class Tools
             where a.stu_seat_no > {$stu_seat_no} and a.school_year='{$school_year}' and a.stu_grade='{$stu_grade}' and a.stu_class='{$stu_class}'
             order by a.`stu_seat_no`  LIMIT 0,1";
             $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-            list($next['stu_id'], $next['stu_seat_no'], $next['stu_name']) = $xoopsDB->fetchRow($result);
+            $next = $xoopsDB->fetchArray($result);
             $xoopsTpl->assign('next', $next);
 
             // 上一筆
@@ -478,13 +501,13 @@ class Tools
             where a.stu_seat_no < {$stu_seat_no} and a.school_year='{$school_year}' and a.stu_grade='{$stu_grade}' and a.stu_class='{$stu_class}'
             order by a.`stu_seat_no` DESC LIMIT 0,1";
             $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-            list($previous['stu_id'], $previous['stu_seat_no'], $previous['stu_name']) = $xoopsDB->fetchRow($result);
+            $previous = $xoopsDB->fetchArray($result);
             $xoopsTpl->assign('previous', $previous);
         }
     }
 
     // 將偏好設定轉為陣列
-    public static function get_config_arr($table = '', $name = '', $col = '')
+    public static function get_config_arr($mode = 'assign', $name = '', $col = '')
     {
         global $xoopsTpl, $xoopsModuleConfig;
 
@@ -493,7 +516,11 @@ class Tools
         // $db_arr = self::get_general_data_arr($table, $col);
         // $all_arr = array_merge($def_arr, $db_arr);
         $arr = array_unique($def_arr);
-        $xoopsTpl->assign($name . '_arr', $arr);
+        if ($mode == 'return') {
+            return $arr;
+        } else {
+            $xoopsTpl->assign($name . '_arr', $arr);
+        }
     }
 
     //轉為民國
@@ -535,4 +562,20 @@ class Tools
         return $arr;
     }
 
+    public static function array_key_last($array)
+    {
+        if (!is_array($array) || empty($array)) {
+            return null;
+        }
+
+        return array_keys($array)[count($array) - 1];
+    }
+
+    public static function array_key_first(array $arr)
+    {
+        foreach ($arr as $key => $unused) {
+            return $key;
+        }
+        return null;
+    }
 }

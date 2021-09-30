@@ -48,6 +48,11 @@ $stu_id_parent_kind = Request::getString('stu_id_parent_kind');
 $stu_id_school_year = Request::getString('stu_id_school_year');
 $stu_id_bs_relationship = Request::getString('stu_id_bs_relationship');
 $stu_grade = Request::getInt('stu_grade');
+if ($stu_grade) {
+    $_SESSION['stu_stage'] = ($stu_grade >= 7) ? '國中' : '國小';
+    $_SESSION['stages'] = ($stu_grade >= 7) ? ['七' => 7, '八' => 8, '九' => 9] : ['一' => 1, '二' => 2, '三' => 3, '四' => 4, '五' => 5, '六' => 6];
+}
+
 $stu_class = Request::getInt('stu_class');
 $scs_students = Request::getArray('scs_students');
 $scs_general = Request::getArray('scs_general');
@@ -100,7 +105,7 @@ switch ($op) {
                 redirect_header($_SERVER['PHP_SELF'], 3, '尚未開放填寫');
             }
             $readonly = 'readonly';
-            $edit_grade = [1 => 'readonly', 'readonly', 'readonly'];
+            $edit_grade = [1 => 'readonly', 'readonly', 'readonly', 'readonly', 'readonly', 'readonly', 'readonly', 'readonly', 'readonly'];
             $school_year = Tools::get_school_year();
             $year_arr = Scs_general::get($stu_id, '', true);
             $grade = $year_arr[$school_year];
@@ -132,6 +137,9 @@ switch ($op) {
             } elseif (!empty($_SESSION['tea_class_arr'])) {
                 $school_year = Tools::get_school_year();
                 list($school_year, $stu_grade, $stu_class) = explode('-', $_SESSION['tea_class_arr'][$school_year]);
+
+                $_SESSION['stu_stage'] = ($stu_grade >= 7) ? '國中' : '國小';
+                $_SESSION['stages'] = ($stu_grade >= 7) ? ['七' => 7, '八' => 8, '九' => 9] : ['一' => 1, '二' => 2, '三' => 3, '四' => 4, '五' => 5, '六' => 6];
                 $stu_arr = Scs_general::get($stu_id);
                 if (!in_array($stu_arr[$stu_grade]['grade_class'], $_SESSION['tea_class_arr'])) {
                     redirect_header($_SERVER['PHP_SELF'], 3, "該學生並非您任教的學生，故無法管理。");

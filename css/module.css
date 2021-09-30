@@ -120,11 +120,18 @@ th.c3 {
 }
 
 .s {
-    width: 1em;
+    width: 1rem;
 }
 
 .sv {
+    min-width: 3rem;
+}
+
+.sv3 {
     width: 33%;
+}
+.sv6 {
+    width: 16%;
 }
 
 .bar {

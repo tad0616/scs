@@ -73,9 +73,9 @@ $pdf->Cell(20, $col_h['行高'], "會談日期", 'TB', 0, "C", false);
 $pdf->Cell(18, $col_h['行高'], '會談時間', 'TB', 0, "C", false);
 $pdf->Cell(18, $col_h['行高'], '輔導員', 'TB', 0, "C", false);
 $pdf->Cell(18, $col_h['行高'], '來談動機', 'TB', 0, "C", false);
-$pdf->Cell(18, $col_h['行高'], '問題類別', 'TB', 0, "C", false);
-$pdf->Cell(46, $col_h['行高'], '主要原因', 'TB', 0, "C", false);
-$pdf->Cell(18, $col_h['行高'], '處理方式', 'TB', 1, "C", false);
+$pdf->Cell(41, $col_h['行高'], '問題類別', 'TB', 0, "C", false);
+// $pdf->Cell(46, $col_h['行高'], '主要原因', 'TB', 0, "C", false);
+$pdf->Cell(41, $col_h['行高'], '處理方式', 'TB', 1, "C", false);
 
 foreach ($stu_all_data as $c) {
 
@@ -87,24 +87,31 @@ foreach ($stu_all_data as $c) {
         $pdf->Cell(18, $col_h['行高'], $c['consult_start'], 'TB', 0, "C", false);
         $pdf->Cell(18, $col_h['行高'], $c['consult_name'], 'TB', 0, "C", false);
         $pdf->Cell(18, $col_h['行高'], $c['consult_motivation'], 'TB', 0, "C", false);
-        $pdf->Cell(18, $col_h['行高'], $c['consult_kind'], 'TB', 0, "C", false);
-        $pdf->Cell(46, $col_h['行高'], $c['consult_reason'], 'TB', 0, "C", false);
-        $pdf->Cell(18, $col_h['行高'], $c['consult_method'], 'TB', 1, "C", false);
+        $pdf->Cell(41, $col_h['行高'], $c['consult_kind'], 'TB', 0, "C", false);
+        // $pdf->Cell(46, $col_h['行高'], '', 'TB', 0, "C", false);
+        $pdf->Cell(41, $col_h['行高'], $c['consult_method'], 'TB', 1, "C", false);
+
+        $pdf->Cell(18, $col_h['行高'], '主要原因：', 0, 0, "C", false);
+        // $pdf->MultiCell(176, $col_h['行高'], $c['consult_reason'], 0, 'L', false, 1, '', '', true, 0, false, true, 0, 'T', false);
+        $pdf->Cell(176, $col_h['行高'], $c['consult_reason'], 0, 1, "L", false);
 
         $pdf->Cell(18, $col_h['行高'], '會談紀錄：', 0, 0, "C", false);
-        $pdf->MultiCell(176, $col_h['行高'], $c['consult_note'], 0, 'J', false, 1, '', '', true, 0, false, true, 0, 'T', false);
+        $pdf->MultiCell(176, $col_h['行高'], $c['consult_note'], 0, 'L', false, 1, '', '', true, 0, false, true, 0, 'T', false);
     }
 }
 
 $date = $start_txt = $end_txt = "";
 if ($start) {
     $start_txt = "{$start}起";
-}if ($end) {
+}
+
+if ($end) {
     $end_txt = "{$end}止";
 }
+
 if ($start or $end) {
     $date = "（{$start_txt}{$end_txt}）";
 }
-$pdf_title = iconv("UTF-8", "Big5", $pdf_title . "-{$stu['stu_name']}{$date}");
-$pdf->Output($pdf_title . '.pdf', "D");
+
+$pdf->Output(" {$pdf_title}-{$stu['stu_name']}{$date}.pdf", "D");
 // $pdf->Output();

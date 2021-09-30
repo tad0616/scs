@@ -10,6 +10,10 @@ include_once "header.php";
 $op = Request::getString('op');
 $school_year = Request::getInt('school_year');
 $stu_grade = Request::getInt('stu_grade');
+if ($stu_grade) {
+    $_SESSION['stu_stage'] = ($stu_grade >= 7) ? '國中' : '國小';
+    $_SESSION['stages'] = ($stu_grade >= 7) ? ['七' => 7, '八' => 8, '九' => 9] : ['一' => 1, '二' => 2, '三' => 3, '四' => 4, '五' => 5, '六' => 6];
+}
 $stu_id = Request::getInt('stu_id');
 
 switch ($op) {

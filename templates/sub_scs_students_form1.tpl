@@ -268,46 +268,22 @@
 <h4>7.身高及體重</h4>
 <div class="alert alert-warning">
     <!--身高-->
-    <div class="form-group row custom-gutter">
-        <label class="col-sm-2 col-form-label text-md-right control-label">
-            一年級<{$smarty.const._MD_SCS_STU_HEIGHT}>
-        </label>
-        <div class="col-sm-2">
-            <input type="text" name="scs_general[stu_height][1]" id="stu_height1" class="form-control <{$edit_grade.1}>" value="<{$general.1.stu_height}>" placeholder="" <{$edit_grade.1}>>
-        </div>
-        <label class="col-sm-2 col-form-label text-md-right control-label">
-            二年級<{$smarty.const._MD_SCS_STU_HEIGHT}>
-        </label>
-        <div class="col-sm-2">
-            <input type="text" name="scs_general[stu_height][2]" id="stu_height2" class="form-control <{$edit_grade.2}>" value="<{$general.2.stu_height}>" placeholder="" <{$edit_grade.2}>>
-        </div>
-        <label class="col-sm-2 col-form-label text-md-right control-label">
-            三年級<{$smarty.const._MD_SCS_STU_HEIGHT}>
-        </label>
-        <div class="col-sm-2">
-            <input type="text" name="scs_general[stu_height][3]" id="stu_height3" class="form-control <{$edit_grade.3}>" value="<{$general.3.stu_height}>" placeholder="" <{$edit_grade.3}>>
-        </div>
+    <div class="input-group">
+        <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
+            <div class="input-group-prepend input-group-addon">
+                <span class="input-group-text"><{$year}>年級<{$smarty.const._MD_SCS_STU_HEIGHT}></span>
+            </div>
+            <input type="number" name="scs_general[stu_height][<{$stage}>]" id="stu_height<{$stage}>" class="form-control validate[custom[integer]] <{$edit_grade.$stage}>" value="<{$general.$stage.stu_height}>" placeholder="幾公分" <{$edit_grade.$stage}>>
+        <{/foreach}>
     </div>
-        <!--體重-->
-    <div class="form-group row custom-gutter">
-        <label class="col-sm-2 col-form-label text-md-right control-label">
-            一年級<{$smarty.const._MD_SCS_STU_WEIGHT}>
-        </label>
-        <div class="col-sm-2">
-            <input type="text" name="scs_general[stu_weight][1]" id="stu_weight1" class="form-control <{$edit_grade.1}>" value="<{$general.1.stu_weight}>" placeholder="" <{$edit_grade.1}>>
-        </div>
-        <label class="col-sm-2 col-form-label text-md-right control-label">
-            二年級<{$smarty.const._MD_SCS_STU_WEIGHT}>
-        </label>
-        <div class="col-sm-2">
-            <input type="text" name="scs_general[stu_weight][2]" id="stu_weight2" class="form-control <{$edit_grade.2}>" value="<{$general.2.stu_weight}>" placeholder="" <{$edit_grade.2}>>
-        </div>
-        <label class="col-sm-2 col-form-label text-md-right control-label">
-            三年級<{$smarty.const._MD_SCS_STU_WEIGHT}>
-        </label>
-        <div class="col-sm-2">
-            <input type="text" name="scs_general[stu_weight][3]" id="stu_weight3" class="form-control <{$edit_grade.3}>" value="<{$general.3.stu_weight}>" placeholder="" <{$edit_grade.3}>>
-        </div>
+    <!--體重-->
+    <div class="input-group" style="margin-top: 0.6rem;">
+        <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
+            <div class="input-group-prepend input-group-addon">
+                <span class="input-group-text"><{$year}>年級<{$smarty.const._MD_SCS_STU_WEIGHT}></span>
+            </div>
+            <input type="number" name="scs_general[stu_weight][<{$stage}>]" id="stu_weight<{$stage}>" class="form-control validate[custom[integer]] <{$edit_grade.$stage}>" value="<{$general.$stage.stu_weight}>" placeholder="幾公斤" <{$edit_grade.$stage}>>
+        <{/foreach}>
     </div>
 </div>
 

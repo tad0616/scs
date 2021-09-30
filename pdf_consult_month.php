@@ -90,13 +90,13 @@ foreach ($consult['data_arr'] as $c) {
 $date = $start_txt = $end_txt = "";
 if ($start) {
     $start_txt = "{$start}起";
-}if ($end) {
+}
+if ($end) {
     $end_txt = "{$end}止";
 }
 if ($start or $end) {
     $date = "（{$start_txt}{$end_txt}）";
 }
 
-$pdf_title = iconv("UTF-8", "Big5", $pdf_title . "-{$consult['consult_name']}{$date}");
-$pdf->Output($pdf_title . '.pdf', "D");
+$pdf->Output(" {$pdf_title}-{$consult['consult_name']}{$date}.pdf", "D");
 // $pdf->Output();
