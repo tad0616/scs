@@ -7,7 +7,7 @@
                 <{$year}>年級
             </label>
             <div class="col-sm-11">
-                <input type="text" name="scs_general[stu_difficult][<{$stage}>]" id="stu_difficult1" class="form-control <{$edit_grade.$stage}>" value="<{$general.$stage.stu_difficult}>" placeholder="" <{$edit_grade.1}>>
+                <input type="text" name="scs_general[stu_difficult][<{$stage}>]" id="stu_difficult1" class="form-control <{$edit_grade.$stage}>" value="<{$general.$stage.stu_difficult}>" placeholder="" <{$edit_grade.$stage}>>
             </div>
         </div>
     <{/foreach}>
@@ -21,7 +21,7 @@
             <{$year}>年級
         </label>
         <div class="col-sm-11">
-            <input type="text" name="scs_general[stu_need_help][<{$stage}>]" id="stu_need_help1" class="form-control <{$edit_grade.$stage}>" value="<{$general.$stage.stu_need_help}>" placeholder=""<{$edit_grade.1}>>
+            <input type="text" name="scs_general[stu_need_help][<{$stage}>]" id="stu_need_help1" class="form-control <{$edit_grade.$stage}>" value="<{$general.$stage.stu_need_help}>" placeholder="" <{$edit_grade.$stage}>>
         </div>
     </div>
     <{/foreach}>

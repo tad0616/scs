@@ -273,7 +273,7 @@
             <div class="input-group-prepend input-group-addon">
                 <span class="input-group-text"><{$year}>年級<{$smarty.const._MD_SCS_STU_HEIGHT}></span>
             </div>
-            <input type="number" name="scs_general[stu_height][<{$stage}>]" id="stu_height<{$stage}>" class="form-control validate[custom[integer]] <{$edit_grade.$stage}>" value="<{$general.$stage.stu_height}>" placeholder="幾公分" <{$edit_grade.$stage}>>
+            <input type="number" name="scs_general[stu_height][<{$stage}>]" id="stu_height<{$stage}>" class="form-control validate[custom[number]] <{$edit_grade.$stage}>" value="<{$general.$stage.stu_height}>" placeholder="幾公分" <{$edit_grade.$stage}>>
         <{/foreach}>
     </div>
     <!--體重-->
@@ -282,7 +282,7 @@
             <div class="input-group-prepend input-group-addon">
                 <span class="input-group-text"><{$year}>年級<{$smarty.const._MD_SCS_STU_WEIGHT}></span>
             </div>
-            <input type="number" name="scs_general[stu_weight][<{$stage}>]" id="stu_weight<{$stage}>" class="form-control validate[custom[integer]] <{$edit_grade.$stage}>" value="<{$general.$stage.stu_weight}>" placeholder="幾公斤" <{$edit_grade.$stage}>>
+            <input type="number" name="scs_general[stu_weight][<{$stage}>]" id="stu_weight<{$stage}>" class="form-control validate[custom[number]] <{$edit_grade.$stage}>" value="<{$general.$stage.stu_weight}>" placeholder="幾公斤" <{$edit_grade.$stage}>>
         <{/foreach}>
     </div>
 </div>
