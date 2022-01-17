@@ -39,7 +39,7 @@ $_SESSION['scs_adm'] = true;
 //匯入 Excel（國中版）
 function scs_import_excel_jh($mode = 'scs_import_excel')
 {
-    global $zip_arr, $xoopsTpl, $xoopsModuleConfig;
+    global $xoopsTpl, $xoopsModuleConfig;
 
     $stu_blood_arr = explode(';', $xoopsModuleConfig['stu_blood']);
 
@@ -58,8 +58,6 @@ function scs_import_excel_jh($mode = 'scs_import_excel')
     preg_match_all('/\d+/', $val, $matches, PREG_OFFSET_CAPTURE);
     $school_year = $matches[0][0][0];
     $semester = $matches[0][1][0];
-
-    $now = date("Y-m-d");
 
     $myts = MyTextSanitizer::getInstance();
     $data = $students = array();
@@ -486,7 +484,7 @@ function scs_import_excel_jh($mode = 'scs_import_excel')
     }
 
     if ($mode == 'scs_import_to_db_jh') {
-        scs_import_to_db_jh($school_year, $students);
+        scs_import_to_db_jh($students);
 
     } else {
         $xoopsTpl->assign('school_year', $school_year);
@@ -539,7 +537,6 @@ function scs_import_to_db_jh($students = [])
         }
 
         $stu = Scs_students::get('', $stud['stu_pid']);
-
         $stu_id = $stu['stu_id'];
         $stu_id = Scs_students::update($stu_id, $stud, false);
 

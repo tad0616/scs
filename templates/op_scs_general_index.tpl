@@ -7,7 +7,7 @@
     <{if $stu_class}>
         <{$stu_class}>班
     <{/if}>
-    所有學生
+    所有學生（共 <{$total}> 人）
     </h2>
 
     <div class="alert alert-info">

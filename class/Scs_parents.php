@@ -178,7 +178,7 @@ class Scs_parents
     //更新scs_parents某一筆資料
     public static function update($stu_id = '', $data = [], $check = true, $pass_empty = true)
     {
-        global $xoopsDB, $xoopsUser;
+        global $xoopsDB;
 
         //XOOPS表單安全檢查
         if ($check) {
@@ -209,7 +209,7 @@ class Scs_parents
             INSERT INTO `" . $xoopsDB->prefix("scs_parents") . "`(
                 `stu_id`, `parent_kind`, `parent_name`, `parent_year`, `parent_job`, `parent_title`, `parent_phone`, `parent_survive`, `parent_company`, `parent_company_tel`, `parent_edu`, `parent_email`
             ) VALUES(
-                '{$stu_id}', '{$kind}', '{$name}', '{$parent_year[$kind]}', '{$parent_job[$kind]}', '{$parent_title[$kind]}', '{$parent_phone[$kind]}', '{$parent_survive[$kind]}', '{$parent_company[$kind]}', '{$parent_company_tel[$kind]}', '{$parent_edu[$kind]}', '{$parent_email[$kind]}'
+                '{$stu_id}', '{$parent_kind[$kind]}', '{$name}', '{$parent_year[$kind]}', '{$parent_job[$kind]}', '{$parent_title[$kind]}', '{$parent_phone[$kind]}', '{$parent_survive[$kind]}', '{$parent_company[$kind]}', '{$parent_company_tel[$kind]}', '{$parent_edu[$kind]}', '{$parent_email[$kind]}'
                 )
             ON DUPLICATE KEY UPDATE
             $update_sql";

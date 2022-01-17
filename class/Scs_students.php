@@ -1,7 +1,6 @@
 <?php
 namespace XoopsModules\Scs;
 
-use XoopsModules\Scs\Scs_students;
 use XoopsModules\Scs\Tools;
 use XoopsModules\Tadtools\DataList;
 use XoopsModules\Tadtools\FormValidator;
@@ -330,7 +329,6 @@ class Scs_students
         INSERT INTO `" . $xoopsDB->prefix("scs_students") . "`($insert_col) VALUES($insert_val)
         ON DUPLICATE KEY UPDATE
         $update_sql";
-
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
         //取得最後新增資料的流水編號
