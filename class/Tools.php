@@ -115,14 +115,12 @@ class Tools
 
     public static function get_school_teachers()
     {
-        global $xoopsDB, $xoopsModuleConfig, $xoopsModule;
+        global $xoopsDB, $xoopsModule;
 
-        if (!isset($xoopsModuleConfig)) {
-            $modhandler = xoops_gethandler('module');
-            $xoopsModule = $modhandler->getByDirname("scs");
-            $config_handler = xoops_gethandler('config');
-            $xoopsModuleConfig = $config_handler->getConfigsByCat(0, $xoopsModule->mid());
-        }
+        $modhandler = xoops_gethandler('module');
+        $xoopsModule = $modhandler->getByDirname("scs");
+        $config_handler = xoops_gethandler('config');
+        $xoopsModuleConfig = $config_handler->getConfigsByCat(0, $xoopsModule->mid());
 
         if (empty($xoopsModuleConfig['school_code'])) {
             $mid = $xoopsModule->mid();
