@@ -9,6 +9,7 @@ CREATE TABLE `scs_brother_sister` (
   PRIMARY KEY (`stu_id`,`bs_relationship`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+
 CREATE TABLE `scs_brother_sister_del` (
   `stu_id` mediumint(9) unsigned NOT NULL COMMENT '學生編號',
   `bs_relationship` varchar(255) NOT NULL DEFAULT '' COMMENT '稱謂',
@@ -39,6 +40,7 @@ CREATE TABLE `scs_consult` (
   KEY `stu_id` (`stu_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+
 CREATE TABLE `scs_consult_del` (
   `consult_id` mediumint(9) unsigned NOT NULL AUTO_INCREMENT COMMENT '輔導編號',
   `stu_id` mediumint(9) unsigned NOT NULL DEFAULT '0' COMMENT '學生編號',
@@ -67,7 +69,7 @@ CREATE TABLE `scs_data_center` (
   `data_value` text NOT NULL COMMENT '儲存值',
   `data_sort` mediumint(9) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
   `col_id` varchar(100) NOT NULL COMMENT '辨識字串',
-  `sort` mediumint(9) unsigned COMMENT '顯示順序',
+  `sort` mediumint(9) unsigned DEFAULT NULL COMMENT '顯示順序',
   `update_time` datetime NOT NULL COMMENT '更新時間',
   PRIMARY KEY (`mid`,`col_name`,`col_sn`,`data_name`,`data_sort`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -126,6 +128,7 @@ CREATE TABLE `scs_general` (
   PRIMARY KEY (`stu_id`,`stu_grade`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+
 CREATE TABLE `scs_general_del` (
   `stu_id` mediumint(9) unsigned NOT NULL COMMENT '學生編號',
   `school_year` tinyint(3) unsigned NOT NULL,
@@ -159,7 +162,6 @@ CREATE TABLE `scs_general_del` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
-
 CREATE TABLE `scs_guardian` (
   `stu_id` mediumint(9) unsigned NOT NULL COMMENT '學生編號',
   `guardian_name` varchar(255) DEFAULT '' COMMENT '姓名',
@@ -169,6 +171,7 @@ CREATE TABLE `scs_guardian` (
   `guardian_addr` varchar(255) DEFAULT '' COMMENT '通訊處',
   PRIMARY KEY (`stu_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 CREATE TABLE `scs_guardian_del` (
   `stu_id` mediumint(9) unsigned NOT NULL COMMENT '學生編號',
@@ -196,6 +199,7 @@ CREATE TABLE `scs_parents` (
   `parent_edu` varchar(255) DEFAULT '' COMMENT '教育程度',
   PRIMARY KEY (`stu_id`,`parent_kind`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 CREATE TABLE `scs_parents_del` (
   `stu_id` mediumint(9) unsigned NOT NULL COMMENT '學生編號',
@@ -248,6 +252,7 @@ CREATE TABLE `scs_students` (
   UNIQUE KEY `stu_pid` (`stu_pid`),
   KEY `stu_no` (`stu_no`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 CREATE TABLE `scs_students_del` (
   `stu_id` mediumint(9) unsigned NOT NULL AUTO_INCREMENT COMMENT '學生編號',

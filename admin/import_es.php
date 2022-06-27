@@ -464,7 +464,7 @@ function scs_import_excel_es($school_year = '', $semester = '', $mode = 'scs_imp
     }
 
     if ($mode == 'scs_import_to_db_es') {
-        scs_import_to_db_es($school_year, $students);
+        scs_import_to_db_es($students);
 
     } else {
         $xoopsTpl->assign('school_year', $school_year);
