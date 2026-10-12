@@ -296,8 +296,12 @@ class Scs_general
         }
 
         $update_item = [];
+        $allowed_cols = ['stu_grade', 'stu_class', 'stu_seat_no', 'stu_height', 'stu_weight', 'parental_relationship', 'family_atmosphere', 'father_discipline', 'mother_discipline', 'environment', 'accommodation', 'economic', 'money', 'feel', 'favorite_subject', 'difficult_subject', 'expertise', 'interest', 'club', 'cadre', 'stu_personality', 'stu_advantage', 'stu_improve', 'fill_date', 'stu_difficult', 'stu_need_help'];
         // Utility::dd($data);
         foreach ($data as $col => $arr) {
+            if (!in_array($col, $allowed_cols, true)) {
+                continue;
+            }
             if (!isset($fields[$col])) {
                 $fields[$col] = [];
             }
@@ -464,6 +468,10 @@ class Scs_general
         $where = "";
         if ($condition) {
             foreach ($condition as $k => $v) {
+                if (!preg_match('/^[A-Za-z0-9_]+$/', (string) $k)) {
+                    return [];
+                }
+                $v = $xoopsDB->escape((string) $v);
                 $where_condition[] = "a.`{$k}`='{$v}'";
             }
             $where = "where " . implode(' and ', $where_condition);

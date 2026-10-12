@@ -39,6 +39,11 @@ $consult_uid = Request::getInt('consult_uid');
 $start       = Request::getString('start');
 $end         = Request::getString('end');
 
+if (($start !== '' && !preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $start)) || ($end !== '' && !preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $end))) {
+    http_response_code(400);
+    exit;
+}
+
 /*-----------執行動作判斷區----------*/
 switch ($op) {
 

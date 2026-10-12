@@ -538,11 +538,17 @@ class Tools
     public static function get_general_data_arr($table = '', $col = 'school_year', $condition = [])
     {
         global $xoopsDB;
+        if (!preg_match('/^[A-Za-z0-9_]+$/', (string) $table) || !preg_match('/^[A-Za-z0-9_]+$/', (string) $col)) {
+            return [];
+        }
         $arr   = $where_condition   = $params   = [];
         $types = '';
         $where = '';
         if ($condition) {
             foreach ($condition as $k => $v) {
+                if (!preg_match('/^[A-Za-z0-9_]+$/', (string) $k)) {
+                    return [];
+                }
                 $where_condition[] = "`{$k}`=?";
                 $types .= is_int($v) ? 'i' : 's';
                 $params[] = $v;

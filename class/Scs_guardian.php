@@ -159,7 +159,11 @@ class Scs_guardian
 
         $myts        = \MyTextSanitizer::getInstance();
         $update_item = [];
+        $allowed_cols = ['guardian_name', 'guardian_sex', 'guardian_title', 'guardian_tel', 'guardian_addr'];
         foreach ($data as $col => $val) {
+            if (!in_array($col, $allowed_cols, true)) {
+                continue;
+            }
             if (empty($val) and $pass_empty) {
                 continue;
             }

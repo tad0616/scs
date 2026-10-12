@@ -305,7 +305,11 @@ class Scs_students
 
         $myts        = \MyTextSanitizer::getInstance();
         $update_item = $col_arr = $val_arr = [];
+        $allowed_cols = ['stu_no', 'stu_name', 'stu_pid', 'stu_sex', 'stu_birthday', 'stu_blood', 'stu_religion', 'stu_residence', 'stu_birth_place', 'stu_email', 'stu_residence_zip', 'stu_residence_county', 'stu_residence_city', 'stu_residence_addr', 'stu_zip', 'stu_county', 'stu_city', 'stu_addr', 'stu_tel1', 'stu_tel2', 'stu_identity', 'stu_education', 'stu_autobiography', 'post_graduation_plan', 'note', 'emergency_contact', 'physiological_defect', 'special_disease', 'ys'];
         foreach ($data as $col => $val) {
+            if (!in_array($col, $allowed_cols, true)) {
+                continue;
+            }
             if (empty($val) and $pass_empty) {
                 continue;
             }

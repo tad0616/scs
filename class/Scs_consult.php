@@ -97,7 +97,15 @@ class Scs_consult
         if (empty($stu_id)) {
             redirect_header('index.php', 3, '未指定學生');
         }
-        Tools::chk_consult_power(__FILE__, __LINE__, 'create', $stu_id);
+        if ($consult_id) {
+            $existing = self::get($consult_id);
+            if (empty($existing) || (int) $existing['stu_id'] !== (int) $stu_id) {
+                redirect_header('consult.php', 3, _TAD_PERMISSION_DENIED);
+            }
+            Tools::chk_consult_power(__FILE__, __LINE__, 'update', $stu_id, $consult_id);
+        } else {
+            Tools::chk_consult_power(__FILE__, __LINE__, 'create', $stu_id);
+        }
         $xoopsTpl->assign('consult_id', $consult_id);
 
         //抓取預設值
@@ -279,7 +287,12 @@ class Scs_consult
         $myts = \MyTextSanitizer::getInstance();
 
         $consult_id  = (int) $_POST['consult_id'];
-        $stu_id      = (int) $_POST['stu_id'];
+        $posted_stu_id = (int) $_POST['stu_id'];
+        $existing = self::get($consult_id);
+        if (empty($existing) || (int) $existing['stu_id'] !== $posted_stu_id) {
+            redirect_header('consult.php', 3, _TAD_PERMISSION_DENIED);
+        }
+        $stu_id      = (int) $existing['stu_id'];
         $stu_grade   = (int) $_POST['stu_grade'];
         $stu_class   = (int) $_POST['stu_class'];
         $stu_seat_no = (int) $_POST['stu_seat_no'];
