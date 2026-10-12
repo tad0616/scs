@@ -38,9 +38,9 @@ class Scs_students
 
         //Utility::getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
         $PageBar = Utility::getPageBar($sql, 20, 10);
-        $bar = $PageBar['bar'];
-        $sql = $PageBar['sql'];
-        $total = $PageBar['total'];
+        $bar     = $PageBar['bar'];
+        $sql     = $PageBar['sql'];
+        $total   = $PageBar['total'];
         $xoopsTpl->assign('bar', $bar);
         $xoopsTpl->assign('total', $total);
 
@@ -49,36 +49,36 @@ class Scs_students
         $all_scs_students = [];
         while ($all = $xoopsDB->fetchArray($result)) {
             //過濾讀出的變數值
-            $all['stu_id'] = (int) $all['stu_id'];
-            $all['stu_no'] = $myts->htmlSpecialChars($all['stu_no']);
-            $all['stu_name'] = $myts->htmlSpecialChars($all['stu_name']);
-            $all['stu_pid'] = $myts->htmlSpecialChars($all['stu_pid']);
-            $all['stu_sex'] = $myts->htmlSpecialChars($all['stu_sex']);
-            $all['stu_birthday'] = $myts->htmlSpecialChars($all['stu_birthday']);
-            $all['stu_blood'] = $myts->htmlSpecialChars($all['stu_blood']);
-            $all['stu_religion'] = $myts->htmlSpecialChars($all['stu_religion']);
-            $all['stu_residence'] = $myts->htmlSpecialChars($all['stu_residence']);
-            $all['stu_birth_place'] = $myts->htmlSpecialChars($all['stu_birth_place']);
-            $all['stu_email'] = $myts->htmlSpecialChars($all['stu_email']);
-            $all['stu_residence_zip'] = $myts->htmlSpecialChars($all['stu_residence_zip']);
+            $all['stu_id']               = (int) $all['stu_id'];
+            $all['stu_no']               = $myts->htmlSpecialChars($all['stu_no']);
+            $all['stu_name']             = $myts->htmlSpecialChars($all['stu_name']);
+            $all['stu_pid']              = $myts->htmlSpecialChars($all['stu_pid']);
+            $all['stu_sex']              = $myts->htmlSpecialChars($all['stu_sex']);
+            $all['stu_birthday']         = $myts->htmlSpecialChars($all['stu_birthday']);
+            $all['stu_blood']            = $myts->htmlSpecialChars($all['stu_blood']);
+            $all['stu_religion']         = $myts->htmlSpecialChars($all['stu_religion']);
+            $all['stu_residence']        = $myts->htmlSpecialChars($all['stu_residence']);
+            $all['stu_birth_place']      = $myts->htmlSpecialChars($all['stu_birth_place']);
+            $all['stu_email']            = $myts->htmlSpecialChars($all['stu_email']);
+            $all['stu_residence_zip']    = $myts->htmlSpecialChars($all['stu_residence_zip']);
             $all['stu_residence_county'] = $myts->htmlSpecialChars($all['stu_residence_county']);
-            $all['stu_residence_city'] = $myts->htmlSpecialChars($all['stu_residence_city']);
-            $all['stu_residence_addr'] = $myts->htmlSpecialChars($all['stu_residence_addr']);
-            $all['stu_zip'] = $myts->htmlSpecialChars($all['stu_zip']);
-            $all['stu_county'] = $myts->htmlSpecialChars($all['stu_county']);
-            $all['stu_city'] = $myts->htmlSpecialChars($all['stu_city']);
-            $all['stu_addr'] = $myts->htmlSpecialChars($all['stu_addr']);
-            $all['stu_tel1'] = $myts->htmlSpecialChars($all['stu_tel1']);
-            $all['stu_tel2'] = $myts->htmlSpecialChars($all['stu_tel2']);
-            $all['stu_identity'] = $myts->htmlSpecialChars($all['stu_identity']);
-            $all['stu_education'] = $myts->displayTarea($all['stu_education'], 0, 1, 0, 1, 1);
-            $all['stu_autobiography'] = $myts->displayTarea($all['stu_autobiography'], 0, 1, 0, 1, 1);
+            $all['stu_residence_city']   = $myts->htmlSpecialChars($all['stu_residence_city']);
+            $all['stu_residence_addr']   = $myts->htmlSpecialChars($all['stu_residence_addr']);
+            $all['stu_zip']              = $myts->htmlSpecialChars($all['stu_zip']);
+            $all['stu_county']           = $myts->htmlSpecialChars($all['stu_county']);
+            $all['stu_city']             = $myts->htmlSpecialChars($all['stu_city']);
+            $all['stu_addr']             = $myts->htmlSpecialChars($all['stu_addr']);
+            $all['stu_tel1']             = $myts->htmlSpecialChars($all['stu_tel1']);
+            $all['stu_tel2']             = $myts->htmlSpecialChars($all['stu_tel2']);
+            $all['stu_identity']         = $myts->htmlSpecialChars($all['stu_identity']);
+            $all['stu_education']        = $myts->displayTarea($all['stu_education'], 0, 1, 0, 1, 1);
+            $all['stu_autobiography']    = $myts->displayTarea($all['stu_autobiography'], 0, 1, 0, 1, 1);
             $all['post_graduation_plan'] = $myts->displayTarea($all['post_graduation_plan'], 0, 1, 0, 1, 1);
-            $all['note'] = $myts->displayTarea($all['note'], 0, 1, 0, 1, 1);
-            $all['emergency_contact'] = $myts->displayTarea($all['emergency_contact'], 0, 1, 0, 1, 1);
+            $all['note']                 = $myts->displayTarea($all['note'], 0, 1, 0, 1, 1);
+            $all['emergency_contact']    = $myts->displayTarea($all['emergency_contact'], 0, 1, 0, 1, 1);
             $all['physiological_defect'] = $myts->displayTarea($all['physiological_defect'], 0, 1, 0, 1, 1);
-            $all['special_disease'] = $myts->displayTarea($all['special_disease'], 0, 1, 0, 1, 1);
-            $all['ys'] = $myts->htmlSpecialChars($all['ys']);
+            $all['special_disease']      = $myts->displayTarea($all['special_disease'], 0, 1, 0, 1, 1);
+            $all['ys']                   = $myts->htmlSpecialChars($all['ys']);
 
             $all_scs_students[] = $all;
         }
@@ -93,10 +93,11 @@ class Scs_students
     }
 
     //scs_students編輯表單
-    public static function create($stu_id = '')
+    public static function create($stu_id = '', $school_year = '')
     {
-        global $xoopsDB, $xoopsTpl, $xoopsUser, $xoopsModuleConfig;
-        Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id);
+        global $xoopsTpl;
+
+        Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id, $school_year);
 
         //抓取預設值
         $DBV = !empty($stu_id) ? self::get($stu_id) : [];
@@ -104,10 +105,10 @@ class Scs_students
         $xoopsTpl->assign('student', $DBV);
         //預設值設定
 
-        Tools::get_config_arr('scs_students', 'stu_blood');
-        Tools::get_config_arr('scs_students', 'stu_religion');
-        Tools::get_config_arr('scs_students', 'stu_birth_place');
-        Tools::get_config_arr('scs_students', 'stu_identity');
+        Tools::get_config_arr('stu_blood');
+        Tools::get_config_arr('stu_religion');
+        Tools::get_config_arr('stu_birth_place');
+        Tools::get_config_arr('stu_identity');
 
         $op = empty($stu_id) ? "scs_students_store" : "scs_students_update";
 
@@ -125,7 +126,7 @@ class Scs_students
 
         //加入Token安全機制
         include_once XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
-        $token = new \XoopsFormHiddenToken();
+        $token      = new \XoopsFormHiddenToken();
         $token_form = $token->render();
         $xoopsTpl->assign("token_form", $token_form);
         $xoopsTpl->assign('action', $_SERVER["PHP_SELF"]);
@@ -134,120 +135,120 @@ class Scs_students
         DataList::render();
     }
 
-    //新增資料到scs_students中
-    public static function store($data = [], $check = true)
-    {
-        global $xoopsDB, $xoopsUser;
+    // //新增資料到scs_students中
+    // public static function store($data = [], $check = true)
+    // {
+    //     global $xoopsDB, $xoopsUser;
 
-        //XOOPS表單安全檢查
-        if ($check) {
-            Tools::chk_scs_power(__FILE__, __LINE__, 'create');
-            Utility::xoops_security_check();
-        }
+    //     //XOOPS表單安全檢查
+    //     if ($check) {
+    //         Tools::chk_scs_power(__FILE__, __LINE__, 'create');
+    //         Utility::xoops_security_check();
+    //     }
 
-        $myts = \MyTextSanitizer::getInstance();
+    //     $myts = \MyTextSanitizer::getInstance();
 
-        $stu_no = $myts->addSlashes($data['stu_no']);
-        $stu_name = $myts->addSlashes($data['stu_name']);
-        $stu_pid = $myts->addSlashes($data['stu_pid']);
-        $stu_sex = $myts->addSlashes($data['stu_sex']);
-        $stu_birthday = $myts->addSlashes($data['stu_birthday']);
-        $stu_blood = $myts->addSlashes($data['stu_blood']);
-        $stu_religion = $myts->addSlashes($data['stu_religion']);
-        $stu_residence = $myts->addSlashes($data['stu_residence']);
-        $stu_birth_place = $myts->addSlashes($data['stu_birth_place']);
-        $stu_email = $myts->addSlashes($data['stu_email']);
-        $stu_residence_zip = $myts->addSlashes($data['stu_residence_zip']);
-        $stu_residence_county = $myts->addSlashes($data['stu_residence_county']);
-        $stu_residence_city = $myts->addSlashes($data['stu_residence_city']);
-        $stu_residence_addr = $myts->addSlashes($data['stu_residence_addr']);
-        $stu_zip = $myts->addSlashes($data['stu_zip']);
-        $stu_county = $myts->addSlashes($data['stu_county']);
-        $stu_city = $myts->addSlashes($data['stu_city']);
-        $stu_addr = $myts->addSlashes($data['stu_addr']);
-        $stu_tel1 = $myts->addSlashes($data['stu_tel1']);
-        $stu_tel2 = $myts->addSlashes($data['stu_tel2']);
-        $stu_identity = $myts->addSlashes($data['stu_identity']);
-        $stu_education = json_encode($data['stu_education'], 256);
-        $stu_autobiography = json_encode($data['stu_autobiography'], 256);
-        $post_graduation_plan = json_encode($data['post_graduation_plan'], 256);
-        $note = $myts->addSlashes($data['note']);
-        $emergency_contact = json_encode($data['emergency_contact'], 256);
-        $physiological_defect = json_encode($data['physiological_defect'], 256);
-        $special_disease = json_encode($data['special_disease'], 256);
+    //     $stu_no               = addslashes($data['stu_no']);
+    //     $stu_name             = addslashes($data['stu_name']);
+    //     $stu_pid              = addslashes($data['stu_pid']);
+    //     $stu_sex              = addslashes($data['stu_sex']);
+    //     $stu_birthday         = addslashes($data['stu_birthday']);
+    //     $stu_blood            = addslashes($data['stu_blood']);
+    //     $stu_religion         = addslashes($data['stu_religion']);
+    //     $stu_residence        = addslashes($data['stu_residence']);
+    //     $stu_birth_place      = addslashes($data['stu_birth_place']);
+    //     $stu_email            = addslashes($data['stu_email']);
+    //     $stu_residence_zip    = addslashes($data['stu_residence_zip']);
+    //     $stu_residence_county = addslashes($data['stu_residence_county']);
+    //     $stu_residence_city   = addslashes($data['stu_residence_city']);
+    //     $stu_residence_addr   = addslashes($data['stu_residence_addr']);
+    //     $stu_zip              = addslashes($data['stu_zip']);
+    //     $stu_county           = addslashes($data['stu_county']);
+    //     $stu_city             = addslashes($data['stu_city']);
+    //     $stu_addr             = addslashes($data['stu_addr']);
+    //     $stu_tel1             = addslashes($data['stu_tel1']);
+    //     $stu_tel2             = addslashes($data['stu_tel2']);
+    //     $stu_identity         = addslashes($data['stu_identity']);
+    //     $stu_education        = json_encode($data['stu_education'], 256);
+    //     $stu_autobiography    = json_encode($data['stu_autobiography'], 256);
+    //     $post_graduation_plan = json_encode($data['post_graduation_plan'], 256);
+    //     $note                 = addslashes($data['note']);
+    //     $emergency_contact    = json_encode($data['emergency_contact'], 256);
+    //     $physiological_defect = json_encode($data['physiological_defect'], 256);
+    //     $special_disease      = json_encode($data['special_disease'], 256);
 
-        $sql = "replace into `" . $xoopsDB->prefix("scs_students") . "` (
-        `stu_no`,
-        `stu_name`,
-        `stu_pid`,
-        `stu_sex`,
-        `stu_birthday`,
-        `stu_blood`,
-        `stu_religion`,
-        `stu_residence`,
-        `stu_birth_place`,
-        `stu_email`,
-        `stu_residence_zip`,
-        `stu_residence_county`,
-        `stu_residence_city`,
-        `stu_residence_addr`,
-        `stu_zip`,
-        `stu_county`,
-        `stu_city`,
-        `stu_addr`,
-        `stu_tel1`,
-        `stu_tel2`,
-        `stu_identity`,
-        `stu_education`,
-        `stu_autobiography`,
-        `post_graduation_plan`,
-        `note`,
-        `emergency_contact`,
-        `physiological_defect`,
-        `special_disease`
-        ) values(
-        '{$stu_no}',
-        '{$stu_name}',
-        '{$stu_pid}',
-        '{$stu_sex}',
-        '{$stu_birthday}',
-        '{$stu_blood}',
-        '{$stu_religion}',
-        '{$stu_residence}',
-        '{$stu_birth_place}',
-        '{$stu_email}',
-        '{$stu_residence_zip}',
-        '{$stu_residence_county}',
-        '{$stu_residence_city}',
-        '{$stu_residence_addr}',
-        '{$stu_zip}',
-        '{$stu_county}',
-        '{$stu_city}',
-        '{$stu_addr}',
-        '{$stu_tel1}',
-        '{$stu_tel2}',
-        '{$stu_identity}',
-        '{$stu_education}',
-        '{$stu_autobiography}',
-        '{$post_graduation_plan}',
-        '{$note}',
-        '{$emergency_contact}',
-        '{$physiological_defect}',
-        '{$special_disease}'
-        )";
-        $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    //     $sql = "replace into `" . $xoopsDB->prefix("scs_students") . "` (
+    //     `stu_no`,
+    //     `stu_name`,
+    //     `stu_pid`,
+    //     `stu_sex`,
+    //     `stu_birthday`,
+    //     `stu_blood`,
+    //     `stu_religion`,
+    //     `stu_residence`,
+    //     `stu_birth_place`,
+    //     `stu_email`,
+    //     `stu_residence_zip`,
+    //     `stu_residence_county`,
+    //     `stu_residence_city`,
+    //     `stu_residence_addr`,
+    //     `stu_zip`,
+    //     `stu_county`,
+    //     `stu_city`,
+    //     `stu_addr`,
+    //     `stu_tel1`,
+    //     `stu_tel2`,
+    //     `stu_identity`,
+    //     `stu_education`,
+    //     `stu_autobiography`,
+    //     `post_graduation_plan`,
+    //     `note`,
+    //     `emergency_contact`,
+    //     `physiological_defect`,
+    //     `special_disease`
+    //     ) values(
+    //     '{$stu_no}',
+    //     '{$stu_name}',
+    //     '{$stu_pid}',
+    //     '{$stu_sex}',
+    //     '{$stu_birthday}',
+    //     '{$stu_blood}',
+    //     '{$stu_religion}',
+    //     '{$stu_residence}',
+    //     '{$stu_birth_place}',
+    //     '{$stu_email}',
+    //     '{$stu_residence_zip}',
+    //     '{$stu_residence_county}',
+    //     '{$stu_residence_city}',
+    //     '{$stu_residence_addr}',
+    //     '{$stu_zip}',
+    //     '{$stu_county}',
+    //     '{$stu_city}',
+    //     '{$stu_addr}',
+    //     '{$stu_tel1}',
+    //     '{$stu_tel2}',
+    //     '{$stu_identity}',
+    //     '{$stu_education}',
+    //     '{$stu_autobiography}',
+    //     '{$post_graduation_plan}',
+    //     '{$note}',
+    //     '{$emergency_contact}',
+    //     '{$physiological_defect}',
+    //     '{$special_disease}'
+    //     )";
+    //     $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
-        //取得最後新增資料的流水編號
-        $stu_id = $xoopsDB->getInsertId();
+    //     //取得最後新增資料的流水編號
+    //     $stu_id = $xoopsDB->getInsertId();
 
-        $TadUpFiles = new TadUpFiles("scs");
-        $TadUpFiles->set_col("stu_id", $stu_id);
-        $TadUpFiles->upload_file('up_stu_id', '', '', '', '', true, false);
-        return $stu_id;
-    }
+    //     $TadUpFiles = new TadUpFiles("scs");
+    //     $TadUpFiles->set_col("stu_id", $stu_id);
+    //     $TadUpFiles->upload_file('up_stu_id', '', '', '', '', true, false);
+    //     return $stu_id;
+    // }
 
-    //以流水號秀出某筆scs_students資料內容
-    public static function show($stu_id = '')
+    //以流水號秀出某筆scs_students::show資料內容
+    public static function show($stu_id = '', $school_year = '')
     {
         global $xoopsDB, $xoopsTpl;
 
@@ -256,7 +257,7 @@ class Scs_students
         } else {
             $stu_id = (int) $stu_id;
         }
-        Tools::chk_scs_power(__FILE__, __LINE__, 'show', $stu_id);
+        Tools::chk_scs_power(__FILE__, __LINE__, 'show', $stu_id, $school_year);
 
         $myts = \MyTextSanitizer::getInstance();
 
@@ -292,17 +293,17 @@ class Scs_students
     }
 
     //更新scs_students某一筆資料
-    public static function update($stu_id = '', $data = [], $check = true, $pass_empty = true)
+    public static function update($stu_id = '', $school_year = '', $data = [], $check = true, $pass_empty = true)
     {
         global $xoopsDB, $xoopsUser;
 
         //XOOPS表單安全檢查
         if ($check) {
-            Tools::chk_scs_power(__FILE__, __LINE__, 'update', $stu_id);
+            Tools::chk_scs_power(__FILE__, __LINE__, 'update', $stu_id, $school_year);
             Utility::xoops_security_check();
         }
 
-        $myts = \MyTextSanitizer::getInstance();
+        $myts        = \MyTextSanitizer::getInstance();
         $update_item = $col_arr = $val_arr = [];
         foreach ($data as $col => $val) {
             if (empty($val) and $pass_empty) {
@@ -311,14 +312,14 @@ class Scs_students
             if (is_array($val)) {
                 $arr = [];
                 foreach ($val as $k => $v) {
-                    $arr[$k] = $myts->addSlashes($v);
+                    $arr[$k] = addslashes($v);
                 }
                 $val = json_encode($arr, 256);
             } else {
-                $val = $myts->addSlashes($val);
+                $val = addslashes($val);
             }
-            $col_arr[] = "`{$col}`";
-            $val_arr[] = "'{$val}'";
+            $col_arr[]     = "`{$col}`";
+            $val_arr[]     = "'{$val}'";
             $update_item[] = "`$col` = '{$val}'";
         }
         $insert_col = implode(", ", $col_arr);
@@ -343,16 +344,16 @@ class Scs_students
     }
 
     //刪除scs_students某筆資料資料
-    public static function destroy($stu_id = '')
+    public static function destroy($stu_id = '', $school_year = '')
     {
         global $xoopsDB;
-        Tools::chk_scs_power(__FILE__, __LINE__, 'destroy', $stu_id);
+        Tools::chk_scs_power(__FILE__, __LINE__, 'destroy', $stu_id, $school_year);
 
         if (empty($stu_id)) {
             return;
         }
 
-        $sql = "insert into " . $xoopsDB->prefix("scs_students_del") . " select *
+        $sql = "replace into " . $xoopsDB->prefix("scs_students_del") . " select *
         from " . $xoopsDB->prefix("scs_students") . " where `stu_id` = '{$stu_id}'";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
@@ -378,15 +379,15 @@ class Scs_students
         $sql = "select * from `" . $xoopsDB->prefix("scs_students") . "`
         $where";
         $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-        $data = $xoopsDB->fetchArray($result);
+        $data   = $xoopsDB->fetchArray($result);
 
-        $data['stu_education'] = $data['stu_education'] ? json_decode($data['stu_education'], true) : [];
-        $data['emergency_contact'] = $data['emergency_contact'] ? json_decode($data['emergency_contact'], true) : [];
+        $data['stu_education']        = $data['stu_education'] ? json_decode($data['stu_education'], true) : [];
+        $data['emergency_contact']    = $data['emergency_contact'] ? json_decode($data['emergency_contact'], true) : [];
         $data['physiological_defect'] = $data['physiological_defect'] ? json_decode($data['physiological_defect'], true) : [];
-        $data['special_disease'] = $data['special_disease'] ? json_decode($data['special_disease'], true) : [];
-        $data['stu_autobiography'] = $data['stu_autobiography'] ? json_decode($data['stu_autobiography'], true) : [];
+        $data['special_disease']      = $data['special_disease'] ? json_decode($data['special_disease'], true) : [];
+        $data['stu_autobiography']    = $data['stu_autobiography'] ? json_decode($data['stu_autobiography'], true) : [];
         $data['post_graduation_plan'] = $data['post_graduation_plan'] ? json_decode($data['post_graduation_plan'], true) : [];
-        $data['tw_birthday'] = Tools::tw_birthday($data['stu_birthday']);
+        $data['tw_birthday']          = Tools::tw_birthday($data['stu_birthday'], $data['stu_id']);
 
         return $data;
     }
@@ -395,11 +396,11 @@ class Scs_students
     public static function get_all()
     {
         global $xoopsDB;
-        $sql = "select * from `" . $xoopsDB->prefix("scs_students") . "`";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql      = "select * from `" . $xoopsDB->prefix("scs_students") . "`";
+        $result   = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $data_arr = [];
         while ($data = $xoopsDB->fetchArray($result)) {
-            $stu_id = $data['stu_id'];
+            $stu_id            = $data['stu_id'];
             $data_arr[$stu_id] = $data;
         }
         return $data_arr;

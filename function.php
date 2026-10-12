@@ -28,9 +28,9 @@ function vv($array = [])
     Utility::dd($array);
 }
 
-function have_scs_power($kind = '', $stu_id = '')
+function have_scs_power($kind = '', $stu_id = '', $school_year = '')
 {
-    return Tools::chk_scs_power(__FILE__, __LINE__, $kind, $stu_id, '', '', '', 'return');
+    return Tools::chk_scs_power(__FILE__, __LINE__, $kind, $stu_id, $school_year, '', '', 'return');
 }
 
 function have_consult_power($kind = '', $stu_id = '', $consult_id = '', $consult_uid = '')

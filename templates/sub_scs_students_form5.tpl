@@ -4,9 +4,9 @@
     <div class="input-group">
         <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
             <div class="input-group-prepend input-group-addon">
-                <span class="input-group-text"><{$year}>年級</span>
+                <span class="input-group-text"><{$year|default:''}>年級</span>
             </div>
-            <input type="text" name="scs_general[stu_personality][<{$stage}>]" id="stu_personality<{$stage}>" class="form-control <{$edit_grade.$stage}>" value="<{$general.$stage.stu_personality}>" placeholder="" <{$edit_grade.$stage}>>
+            <input type="text" name="scs_general[stu_personality][<{$stage|default:''}>]" id="stu_personality<{$stage|default:''}>" class="form-control <{$edit_grade.$stage}>" value="<{$general.$stage.stu_personality}>" placeholder="" <{$edit_grade.$stage}>>
         <{/foreach}>
     </div>
 </div>
@@ -16,9 +16,9 @@
     <div class="input-group">
         <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
             <div class="input-group-prepend input-group-addon">
-                <span class="input-group-text"><{$year}>年級</span>
+                <span class="input-group-text"><{$year|default:''}>年級</span>
             </div>
-            <input type="text" name="scs_general[stu_advantage][<{$stage}>]" id="stu_advantage<{$stage}>" class="form-control <{$edit_grade.$stage}>" value="<{$general.$stage.stu_advantage}>" placeholder="" <{$edit_grade.$stage}>>
+            <input type="text" name="scs_general[stu_advantage][<{$stage|default:''}>]" id="stu_advantage<{$stage|default:''}>" class="form-control <{$edit_grade.$stage}>" value="<{$general.$stage.stu_advantage}>" placeholder="" <{$edit_grade.$stage}>>
         <{/foreach}>
     </div>
 </div>
@@ -28,9 +28,9 @@
     <div class="input-group">
         <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
             <div class="input-group-prepend input-group-addon">
-                <span class="input-group-text"><{$year}>年級</span>
+                <span class="input-group-text"><{$year|default:''}>年級</span>
             </div>
-            <input type="text" name="scs_general[stu_improve][<{$stage}>]" id="stu_improve<{$stage}>" class="form-control <{$edit_grade.$stage}>" value="<{$general.$stage.stu_improve}>" placeholder="" <{$edit_grade.$stage}>>
+            <input type="text" name="scs_general[stu_improve][<{$stage|default:''}>]" id="stu_improve<{$stage|default:''}>" class="form-control <{$edit_grade.$stage}>" value="<{$general.$stage.stu_improve}>" placeholder="" <{$edit_grade.$stage}>>
         <{/foreach}>
     </div>
 </div>
@@ -40,9 +40,9 @@
     <div class="input-group">
         <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
             <div class="input-group-prepend input-group-addon">
-                <span class="input-group-text"><{$year}>年級</span>
+                <span class="input-group-text"><{$year|default:''}>年級</span>
             </div>
-            <input type="text" name="scs_general[fill_date][<{$stage}>]" id="fill_date<{$stage}>" class="form-control <{$edit_grade.$stage}>" value="<{$general.$stage.fill_date}>" placeholder="" <{$edit_grade.$stage}>>
+            <input type="text" name="scs_general[fill_date][<{$stage|default:''}>]" id="fill_date<{$stage|default:''}>" class="form-control <{$edit_grade.$stage}>" value="<{$general.$stage.fill_date}>" placeholder="" <{$edit_grade.$stage}>>
         <{/foreach}>
     </div>
 </div>

@@ -1,7 +1,6 @@
 <?php
 namespace XoopsModules\Scs;
 
-use XoopsModules\Scs\Scs_parents;
 use XoopsModules\Scs\Tools;
 use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
@@ -36,9 +35,9 @@ class Scs_parents
 
         //Utility::getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
         $PageBar = Utility::getPageBar($sql, 20, 10);
-        $bar = $PageBar['bar'];
-        $sql = $PageBar['sql'];
-        $total = $PageBar['total'];
+        $bar     = $PageBar['bar'];
+        $sql     = $PageBar['sql'];
+        $total   = $PageBar['total'];
         $xoopsTpl->assign('bar', $bar);
         $xoopsTpl->assign('total', $total);
 
@@ -47,18 +46,18 @@ class Scs_parents
         $all_scs_parents = [];
         while ($all = $xoopsDB->fetchArray($result)) {
             //過濾讀出的變數值
-            $all['stu_id'] = (int) $all['stu_id'];
-            $all['parent_kind'] = $myts->htmlSpecialChars($all['parent_kind']);
-            $all['parent_name'] = $myts->htmlSpecialChars($all['parent_name']);
-            $all['parent_year'] = $myts->htmlSpecialChars($all['parent_year']);
-            $all['parent_job'] = $myts->htmlSpecialChars($all['parent_job']);
-            $all['parent_title'] = $myts->htmlSpecialChars($all['parent_title']);
-            $all['parent_phone'] = $myts->htmlSpecialChars($all['parent_phone']);
-            $all['parent_survive'] = $myts->htmlSpecialChars($all['parent_survive']);
-            $all['parent_company'] = $myts->htmlSpecialChars($all['parent_company']);
+            $all['stu_id']             = (int) $all['stu_id'];
+            $all['parent_kind']        = $myts->htmlSpecialChars($all['parent_kind']);
+            $all['parent_name']        = $myts->htmlSpecialChars($all['parent_name']);
+            $all['parent_year']        = $myts->htmlSpecialChars($all['parent_year']);
+            $all['parent_job']         = $myts->htmlSpecialChars($all['parent_job']);
+            $all['parent_title']       = $myts->htmlSpecialChars($all['parent_title']);
+            $all['parent_phone']       = $myts->htmlSpecialChars($all['parent_phone']);
+            $all['parent_survive']     = $myts->htmlSpecialChars($all['parent_survive']);
+            $all['parent_company']     = $myts->htmlSpecialChars($all['parent_company']);
             $all['parent_company_tel'] = $myts->htmlSpecialChars($all['parent_company_tel']);
-            $all['parent_edu'] = $myts->htmlSpecialChars($all['parent_edu']);
-            $all['parent_email'] = $myts->htmlSpecialChars($all['parent_email']);
+            $all['parent_edu']         = $myts->htmlSpecialChars($all['parent_edu']);
+            $all['parent_email']       = $myts->htmlSpecialChars($all['parent_email']);
 
             $all_scs_parents[] = $all;
         }
@@ -73,78 +72,78 @@ class Scs_parents
     }
 
     //scs_parents編輯表單
-    public static function create($stu_id = '')
+    public static function create($stu_id = '', $school_year = '')
     {
         global $xoopsDB, $xoopsTpl, $xoopsUser, $xoopsModuleConfig;
-        Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id);
+        Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id, $school_year);
 
         //抓取預設值
         $DBV = !empty($stu_id) ? self::get($stu_id) : [];
 
         $xoopsTpl->assign('parents', $DBV);
 
-        Tools::get_config_arr('scs_parents', 'parent_survive');
-        Tools::get_config_arr('scs_parents', 'parent_edu');
-        Tools::get_config_arr('scs_parents', 'parent_job');
+        Tools::get_config_arr('parent_survive');
+        Tools::get_config_arr('parent_edu');
+        Tools::get_config_arr('parent_job');
     }
 
-    //新增資料到scs_parents中
-    public static function store($stu_id, $parent_kind = '', $data = [], $check = true)
-    {
-        global $xoopsDB, $xoopsUser;
+    // //新增資料到scs_parents中
+    // public static function store($stu_id, $parent_kind = '', $data = [], $check = true)
+    // {
+    //     global $xoopsDB, $xoopsUser;
 
-        //XOOPS表單安全檢查
-        if ($check) {
-            Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id);
-            Utility::xoops_security_check();
-        }
+    //     //XOOPS表單安全檢查
+    //     if ($check) {
+    //         Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id);
+    //         Utility::xoops_security_check();
+    //     }
 
-        $myts = \MyTextSanitizer::getInstance();
+    //     $myts = \MyTextSanitizer::getInstance();
 
-        $parent_kind = $myts->addSlashes($parent_kind);
-        $parent_name = $myts->addSlashes($data['parent_name']);
-        $parent_year = $myts->addSlashes($data['parent_year']);
-        $parent_job = $myts->addSlashes($data['parent_job']);
-        $parent_title = $myts->addSlashes($data['parent_title']);
-        $parent_phone = $myts->addSlashes($data['parent_phone']);
-        $parent_survive = $myts->addSlashes($data['parent_survive']);
-        $parent_company = $myts->addSlashes($data['parent_company']);
-        $parent_company_tel = $myts->addSlashes($data['parent_company_tel']);
-        $parent_edu = $myts->addSlashes($data['parent_edu']);
-        $parent_email = $myts->addSlashes($data['parent_email']);
+    //     $parent_kind        = addslashes($parent_kind);
+    //     $parent_name        = addslashes($data['parent_name']);
+    //     $parent_year        = addslashes($data['parent_year']);
+    //     $parent_job         = addslashes($data['parent_job']);
+    //     $parent_title       = addslashes($data['parent_title']);
+    //     $parent_phone       = addslashes($data['parent_phone']);
+    //     $parent_survive     = addslashes($data['parent_survive']);
+    //     $parent_company     = addslashes($data['parent_company']);
+    //     $parent_company_tel = addslashes($data['parent_company_tel']);
+    //     $parent_edu         = addslashes($data['parent_edu']);
+    //     $parent_email       = addslashes($data['parent_email']);
 
-        $sql = "replace into `" . $xoopsDB->prefix("scs_parents") . "` (
-        `stu_id`,
-        `parent_kind`,
-        `parent_name`,
-        `parent_year`,
-        `parent_job`,
-        `parent_title`,
-        `parent_phone`,
-        `parent_survive`,
-        `parent_company`,
-        `parent_company_tel`,
-        `parent_edu`,
-        `parent_email`
-        ) values(
-        '{$stu_id}',
-        '{$parent_kind}',
-        '{$parent_name}',
-        '{$parent_year}',
-        '{$parent_job}',
-        '{$parent_title}',
-        '{$parent_phone}',
-        '{$parent_survive}',
-        '{$parent_company}',
-        '{$parent_company_tel}',
-        '{$parent_edu}',
-        '{$parent_email}'
-        )";
-        $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-    }
+    //     $sql = "replace into `" . $xoopsDB->prefix("scs_parents") . "` (
+    //     `stu_id`,
+    //     `parent_kind`,
+    //     `parent_name`,
+    //     `parent_year`,
+    //     `parent_job`,
+    //     `parent_title`,
+    //     `parent_phone`,
+    //     `parent_survive`,
+    //     `parent_company`,
+    //     `parent_company_tel`,
+    //     `parent_edu`,
+    //     `parent_email`
+    //     ) values(
+    //     '{$stu_id}',
+    //     '{$parent_kind}',
+    //     '{$parent_name}',
+    //     '{$parent_year}',
+    //     '{$parent_job}',
+    //     '{$parent_title}',
+    //     '{$parent_phone}',
+    //     '{$parent_survive}',
+    //     '{$parent_company}',
+    //     '{$parent_company_tel}',
+    //     '{$parent_edu}',
+    //     '{$parent_email}'
+    //     )";
+    //     $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    // }
 
     //以流水號秀出某筆scs_parents資料內容
-    public static function show($stu_id = '')
+    public static function show($stu_id = '', $school_year = '')
     {
         global $xoopsDB, $xoopsTpl;
 
@@ -153,7 +152,7 @@ class Scs_parents
         } else {
             $stu_id = (int) $stu_id;
         }
-        Tools::chk_scs_power(__FILE__, __LINE__, 'show', $stu_id);
+        Tools::chk_scs_power(__FILE__, __LINE__, 'show', $stu_id, $school_year);
 
         $myts = \MyTextSanitizer::getInstance();
 
@@ -161,6 +160,7 @@ class Scs_parents
 
         //以下會產生這些變數： $stu_id, $parent_kind, $parent_name, $parent_year, $parent_job, $parent_title, $parent_phone, $parent_survive, $parent_company, $parent_company_tel, $parent_edu, $parent_email
         $arr = [];
+
         foreach ($all as $parent_kind => $parent) {
             foreach ($parent as $k => $v) {
                 if (is_array($v)) {
@@ -172,30 +172,32 @@ class Scs_parents
                 }
             }
         }
+        Utility::test($arr, 'parents', 'dd');
         $xoopsTpl->assign('parents', $arr);
     }
 
     //更新scs_parents某一筆資料
-    public static function update($stu_id = '', $data = [], $check = true, $pass_empty = true)
+    public static function update($stu_id = '', $school_year = '', $data = [], $check = true, $pass_empty = true)
     {
         global $xoopsDB;
 
         //XOOPS表單安全檢查
         if ($check) {
-            Tools::chk_scs_power(__FILE__, __LINE__, 'update', $stu_id);
+            Tools::chk_scs_power(__FILE__, __LINE__, 'update', $stu_id, $school_year);
             Utility::xoops_security_check();
         }
 
         $myts = \MyTextSanitizer::getInstance();
-        $update_item = [];
+        // $update_item = [];
         foreach ($data as $kind => $arr) {
+            // $update_item[$kind][] = "`parent_kind` = '{$kind}'";
             foreach ($arr as $col => $val) {
                 if (empty($val) and $pass_empty) {
                     continue;
                 }
-                $$col[$kind] = $val = $myts->addSlashes($val);
+                $$col[$kind] = $val = addslashes($val);
 
-                $update_item[$kind][] = "`$col` = '{$val}'";
+                // $update_item[$kind][] = "`$col` = '{$val}'";
 
             }
         }
@@ -204,25 +206,33 @@ class Scs_parents
             if (empty($name)) {
                 continue;
             }
-            $update_sql = implode(', ', $update_item[$kind]);
+            // $update_sql = implode(', ', $update_item[$kind]);
             $sql = "
-            INSERT INTO `" . $xoopsDB->prefix("scs_parents") . "`(
-                `stu_id`, `parent_kind`, `parent_name`, `parent_year`, `parent_job`, `parent_title`, `parent_phone`, `parent_survive`, `parent_company`, `parent_company_tel`, `parent_edu`, `parent_email`
+            REPLACE INTO `" . $xoopsDB->prefix("scs_parents") . "`(
+                `stu_id`, `parent_kind`, `parent_name`, `parent_job`, `parent_company`, `parent_title`, `parent_company_tel`, `parent_phone`, `parent_email`, `parent_year`, `parent_survive`, `parent_edu`
             ) VALUES(
-                '{$stu_id}', '{$parent_kind[$kind]}', '{$name}', '{$parent_year[$kind]}', '{$parent_job[$kind]}', '{$parent_title[$kind]}', '{$parent_phone[$kind]}', '{$parent_survive[$kind]}', '{$parent_company[$kind]}', '{$parent_company_tel[$kind]}', '{$parent_edu[$kind]}', '{$parent_email[$kind]}'
-                )
-            ON DUPLICATE KEY UPDATE
-            $update_sql";
-            // $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+                '{$stu_id}', '{$kind}', '{$name}', '{$parent_job[$kind]}', '{$parent_company[$kind]}', '{$parent_title[$kind]}', '{$parent_company_tel[$kind]}', '{$parent_phone[$kind]}', '{$parent_email[$kind]}', '{$parent_year[$kind]}', '{$parent_survive[$kind]}', '{$parent_edu[$kind]}'
+                )";
+
+            // $update_sql = implode(', ', $update_item[$kind]);
+            // $sql = "
+            // REPLACE INTO `" . $xoopsDB->prefix("scs_parents") . "`(
+            //     `stu_id`, `parent_kind`, `parent_name`, `parent_year`, `parent_job`, `parent_title`, `parent_phone`, `parent_survive`, `parent_company`, `parent_company_tel`, `parent_edu`, `parent_email`
+            // ) VALUES(
+            //     '{$stu_id}', '{$parent_kind[$kind]}', '{$name}', '{$parent_year[$kind]}', '{$parent_job[$kind]}', '{$parent_title[$kind]}', '{$parent_phone[$kind]}', '{$parent_survive[$kind]}', '{$parent_company[$kind]}', '{$parent_company_tel[$kind]}', '{$parent_edu[$kind]}', '{$parent_email[$kind]}'
+            //     )
+            // ON DUPLICATE KEY UPDATE
+            // $update_sql";
+            // die($sql);
             $xoopsDB->queryF($sql) or die($sql);
         }
     }
 
     //刪除scs_parents某筆資料資料
-    public static function destroy($stu_id = '', $parent_kind = '')
+    public static function destroy($stu_id = '', $school_year = '', $parent_kind = '')
     {
         global $xoopsDB;
-        Tools::chk_scs_power(__FILE__, __LINE__, 'destroy', $stu_id);
+        Tools::chk_scs_power(__FILE__, __LINE__, 'destroy', $stu_id, $school_year);
 
         if (empty($stu_id) or empty($parent_kind)) {
             return;
@@ -230,7 +240,7 @@ class Scs_parents
 
         $and_parent_kind = !empty($parent_kind) ? "and `parent_kind` = '$parent_kind'" : '';
 
-        $sql = "insert into " . $xoopsDB->prefix("scs_parents_del") . " select *
+        $sql = "replace into " . $xoopsDB->prefix("scs_parents_del") . " select *
         from " . $xoopsDB->prefix("scs_parents") . " where `stu_id` = '{$stu_id}' $and_parent_kind";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
@@ -253,11 +263,12 @@ class Scs_parents
 
         $sql = "select * from `" . $xoopsDB->prefix("scs_parents") . "`
         where `stu_id` = '{$stu_id}' {$and_parent_kind}";
+
         $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
         $data_arr = [];
         while ($data = $xoopsDB->fetchArray($result)) {
-            $kind = $data['parent_kind'] == '父' ? 'f' : 'm';
+            $kind            = $data['parent_kind'] == '家長1' ? 'f' : 'm';
             $data_arr[$kind] = $data;
         }
         return $data_arr;
@@ -267,12 +278,12 @@ class Scs_parents
     public static function get_all()
     {
         global $xoopsDB;
-        $sql = "select * from `" . $xoopsDB->prefix("scs_parents") . "`";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql      = "select * from `" . $xoopsDB->prefix("scs_parents") . "`";
+        $result   = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $data_arr = [];
         while ($data = $xoopsDB->fetchArray($result)) {
-            $stu_id = $data['stu_id'];
-            $parent_kind = $data['parent_kind'];
+            $stu_id                          = $data['stu_id'];
+            $parent_kind                     = $data['parent_kind'];
             $data_arr[$stu_id][$parent_kind] = $data;
         }
         return $data_arr;

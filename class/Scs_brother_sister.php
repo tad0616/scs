@@ -1,7 +1,6 @@
 <?php
 namespace XoopsModules\Scs;
 
-use XoopsModules\Scs\Scs_brother_sister;
 use XoopsModules\Scs\Tools;
 use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
@@ -36,9 +35,9 @@ class Scs_brother_sister
 
         //Utility::getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
         $PageBar = Utility::getPageBar($sql, 20, 10);
-        $bar = $PageBar['bar'];
-        $sql = $PageBar['sql'];
-        $total = $PageBar['total'];
+        $bar     = $PageBar['bar'];
+        $sql     = $PageBar['sql'];
+        $total   = $PageBar['total'];
         $xoopsTpl->assign('bar', $bar);
         $xoopsTpl->assign('total', $total);
 
@@ -47,12 +46,12 @@ class Scs_brother_sister
         $all_scs_brother_sister = [];
         while ($all = $xoopsDB->fetchArray($result)) {
             //過濾讀出的變數值
-            $all['stu_id'] = (int) $all['stu_id'];
-            $all['bs_name'] = $myts->htmlSpecialChars($all['bs_name']);
+            $all['stu_id']          = (int) $all['stu_id'];
+            $all['bs_name']         = $myts->htmlSpecialChars($all['bs_name']);
             $all['bs_relationship'] = $myts->htmlSpecialChars($all['bs_relationship']);
-            $all['bs_year'] = $myts->htmlSpecialChars($all['bs_year']);
-            $all['bs_school'] = $myts->htmlSpecialChars($all['bs_school']);
-            $all['bs_note'] = $myts->htmlSpecialChars($all['bs_note']);
+            $all['bs_year']         = $myts->htmlSpecialChars($all['bs_year']);
+            $all['bs_school']       = $myts->htmlSpecialChars($all['bs_school']);
+            $all['bs_note']         = $myts->htmlSpecialChars($all['bs_note']);
 
             $all_scs_brother_sister[] = $all;
         }
@@ -67,10 +66,10 @@ class Scs_brother_sister
     }
 
     //scs_brother_sister編輯表單
-    public static function create($stu_id)
+    public static function create($stu_id, $school_year = '')
     {
-        global $xoopsDB, $xoopsTpl, $xoopsUser;
-        Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id);
+        global $xoopsTpl;
+        Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id, $school_year);
 
         //抓取預設值
         $DBV = !empty($stu_id) ? self::get($stu_id) : [];
@@ -80,45 +79,45 @@ class Scs_brother_sister
         $xoopsTpl->assign('bs_relationship_arr', ['', '兄', '弟', '姊', '妹']);
     }
 
-    //新增資料到scs_brother_sister中
-    public static function store($stu_id, $data = [], $check = true)
-    {
-        global $xoopsDB, $xoopsUser;
+    // //新增資料到scs_brother_sister::store中
+    // public static function store($stu_id, $data = [], $check = true)
+    // {
+    //     global $xoopsDB, $xoopsUser;
 
-        //XOOPS表單安全檢查
-        if ($check) {
-            Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id);
-            Utility::xoops_security_check();
-        }
+    //     //XOOPS表單安全檢查
+    //     if ($check) {
+    //         Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id);
+    //         Utility::xoops_security_check();
+    //     }
 
-        $myts = \MyTextSanitizer::getInstance();
+    //     $myts = \MyTextSanitizer::getInstance();
 
-        $bs_name = $myts->addSlashes($data['bs_name']);
-        $bs_relationship = $myts->addSlashes($data['bs_relationship']);
-        $bs_year = $myts->addSlashes($data['bs_year']);
-        $bs_school = $myts->addSlashes($data['bs_school']);
-        $bs_note = $myts->addSlashes($data['bs_note']);
+    //     $bs_name         = addslashes($data['bs_name']);
+    //     $bs_relationship = addslashes($data['bs_relationship']);
+    //     $bs_year         = addslashes($data['bs_year']);
+    //     $bs_school       = addslashes($data['bs_school']);
+    //     $bs_note         = addslashes($data['bs_note']);
 
-        $sql = "replace into `" . $xoopsDB->prefix("scs_brother_sister") . "` (
-        `stu_id`,
-        `bs_name`,
-        `bs_relationship`,
-        `bs_year`,
-        `bs_school`,
-        `bs_note`
-        ) values(
-        '{$stu_id}',
-        '{$bs_name}',
-        '{$bs_relationship}',
-        '{$bs_year}',
-        '{$bs_school}',
-        '{$bs_note}'
-        )";
-        $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-    }
+    //     $sql = "replace into `" . $xoopsDB->prefix("scs_brother_sister") . "` (
+    //     `stu_id`,
+    //     `bs_name`,
+    //     `bs_relationship`,
+    //     `bs_year`,
+    //     `bs_school`,
+    //     `bs_note`
+    //     ) values(
+    //     '{$stu_id}',
+    //     '{$bs_name}',
+    //     '{$bs_relationship}',
+    //     '{$bs_year}',
+    //     '{$bs_school}',
+    //     '{$bs_note}'
+    //     )";
+    //     $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    // }
 
     //以流水號秀出某筆scs_brother_sister資料內容
-    public static function show($stu_id = '')
+    public static function show($stu_id = '', $school_year = '')
     {
         global $xoopsDB, $xoopsTpl;
 
@@ -127,10 +126,10 @@ class Scs_brother_sister
         } else {
             $stu_id = (int) $stu_id;
         }
-        Tools::chk_scs_power(__FILE__, __LINE__, 'show', $stu_id);
+        Tools::chk_scs_power(__FILE__, __LINE__, 'show', $stu_id, $school_year);
 
         $myts = \MyTextSanitizer::getInstance();
-        $all = self::get($stu_id);
+        $all  = self::get($stu_id);
 
         //以下會產生這些變數： $stu_id, $bs_name, $bs_relationship, $bs_year, $bs_school, $bs_note
         $arr = [];
@@ -147,14 +146,14 @@ class Scs_brother_sister
         $xoopsTpl->assign('brother_sister', $arr);
     }
 
-    //更新scs_brother_sister某一筆資料
-    public static function update($stu_id, $data = [], $check = true)
+    //更新scs_brother_sister::update某一筆資料
+    public static function update($stu_id, $school_year, $data = [], $check = true)
     {
-        global $xoopsDB, $xoopsUser;
+        global $xoopsDB;
 
         //XOOPS表單安全檢查
         if ($check) {
-            Tools::chk_scs_power(__FILE__, __LINE__, 'update', $stu_id);
+            Tools::chk_scs_power(__FILE__, __LINE__, 'update', $stu_id, $school_year);
             Utility::xoops_security_check();
         }
 
@@ -162,7 +161,7 @@ class Scs_brother_sister
 
         foreach ($data as $col => $arr) {
             foreach ($arr as $key => $val) {
-                $$col[$key] = $myts->addSlashes($val);
+                $$col[$key] = addslashes($val);
             }
         }
 
@@ -197,11 +196,11 @@ class Scs_brother_sister
         }
     }
 
-    //刪除scs_brother_sister某筆資料資料
-    public static function destroy($stu_id = '', $bs_relationship = '')
+    //刪除scs_brother_sister::destroy某筆資料資料
+    public static function destroy($stu_id = '', $school_year = '', $bs_relationship = '')
     {
         global $xoopsDB;
-        Tools::chk_scs_power(__FILE__, __LINE__, 'destroy', $stu_id);
+        Tools::chk_scs_power(__FILE__, __LINE__, 'destroy', $stu_id, $school_year);
 
         if (empty($stu_id) or empty($bs_relationship)) {
             return;
@@ -209,7 +208,7 @@ class Scs_brother_sister
 
         $and_bs_relationship = !empty($bs_relationship) ? "and `bs_relationship` = '$bs_relationship'" : '';
 
-        $sql = "insert into " . $xoopsDB->prefix("scs_brother_sister_del") . " select *
+        $sql = "replace into " . $xoopsDB->prefix("scs_brother_sister_del") . " select *
         from " . $xoopsDB->prefix("scs_brother_sister") . " where `stu_id` = '$stu_id' $and_bs_relationship";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
@@ -228,14 +227,14 @@ class Scs_brother_sister
             return;
         }
 
-        $my_rank = 1;
+        $my_rank             = 1;
         $and_bs_relationship = $bs_relationship ? "and `bs_relationship` = '{$bs_relationship}'" : '';
 
         $sql = "select * from `" . $xoopsDB->prefix("scs_brother_sister") . "`
         where `stu_id` = '$stu_id' {$and_bs_relationship} order by bs_year";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $result   = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $data_arr = [];
-        $k = 1;
+        $k        = 1;
         while ($data = $xoopsDB->fetchArray($result)) {
             $data_arr[$k] = $data;
             $k++;
@@ -251,12 +250,12 @@ class Scs_brother_sister
     public static function get_all()
     {
         global $xoopsDB;
-        $sql = "select * from `" . $xoopsDB->prefix("scs_brother_sister") . "`";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql      = "select * from `" . $xoopsDB->prefix("scs_brother_sister") . "`";
+        $result   = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $data_arr = [];
         while ($data = $xoopsDB->fetchArray($result)) {
-            $stu_id = $data['stu_id'];
-            $bs_relationship = $data['bs_relationship'];
+            $stu_id                              = $data['stu_id'];
+            $bs_relationship                     = $data['bs_relationship'];
             $data_arr[$stu_id][$bs_relationship] = $data;
         }
         return $data_arr;

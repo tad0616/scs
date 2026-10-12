@@ -22,7 +22,7 @@ switch ($op) {
         $teachers = Tools::get_school_teachers();
         $all_teachers = [];
         foreach ($teachers as $uid => $teacher) {
-            $all_teachers[] = array("label" => "{$teacher['name']} ({$teacher['uname']})", "value" => $uid);
+            $all_teachers[] = array("badge badge-default" => "{$teacher['name']} ({$teacher['uname']})", "value" => $uid);
         }
         Utility::dd($all_teachers);
         break;

@@ -31,13 +31,13 @@ if (!$_SESSION['counselor'] and !$_SESSION['tutor'] and !$_SESSION['tea_class_ar
 /*-----------功能函數區----------*/
 
 /*-----------變數過濾----------*/
-$op = Request::getString('op');
-$consult_id = Request::getInt('consult_id');
-$files_sn = Request::getInt('files_sn');
-$stu_id = Request::getInt('stu_id');
+$op          = Request::getString('op');
+$consult_id  = Request::getInt('consult_id');
+$files_sn    = Request::getInt('files_sn');
+$stu_id      = Request::getInt('stu_id');
 $consult_uid = Request::getInt('consult_uid');
-$start = Request::getString('start');
-$end = Request::getString('end');
+$start       = Request::getString('start');
+$end         = Request::getString('end');
 
 /*-----------執行動作判斷區----------*/
 switch ($op) {
@@ -111,7 +111,7 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu, false, $interface_icon));
 $xoopsTpl->assign('now_op', $op);
 $xoTheme->addStylesheet(XOOPS_URL . '/modules/scs/css/module.css');
 require_once XOOPS_ROOT_PATH . '/footer.php';

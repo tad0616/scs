@@ -1,7 +1,6 @@
 <?php
 namespace XoopsModules\Scs;
 
-use XoopsModules\Scs\Scs_consult;
 use XoopsModules\Scs\Tools;
 use XoopsModules\Tadtools\DataList;
 use XoopsModules\Tadtools\FormValidator;
@@ -43,15 +42,15 @@ class Scs_consult
         $TadUpFiles = new TadUpFiles("scs");
 
         $and_start = !empty($start) ? "and `consult_date` >= '{$start}'" : '';
-        $and_end = !empty($end) ? "and `consult_date` <= '{$end}'" : '';
+        $and_end   = !empty($end) ? "and `consult_date` <= '{$end}'" : '';
 
         $sql = "select * from `" . $xoopsDB->prefix("scs_consult") . "` where `stu_id`='{$stu_id}' $and_start $and_end";
 
         //Utility::getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
         $PageBar = Utility::getPageBar($sql, 20, 10);
-        $bar = $PageBar['bar'];
-        $sql = $PageBar['sql'];
-        $total = $PageBar['total'];
+        $bar     = $PageBar['bar'];
+        $sql     = $PageBar['sql'];
+        $total   = $PageBar['total'];
         $xoopsTpl->assign('bar', $bar);
         $xoopsTpl->assign('total', $total);
 
@@ -60,24 +59,24 @@ class Scs_consult
         $all_scs_consult = [];
         while ($all = $xoopsDB->fetchArray($result)) {
             //過濾讀出的變數值
-            $all['consult_id'] = (int) $all['consult_id'];
-            $all['stu_id'] = (int) $all['stu_id'];
-            $all['stu_grade'] = (int) $all['stu_grade'];
-            $all['stu_class'] = (int) $all['stu_class'];
-            $all['stu_seat_no'] = (int) $all['stu_seat_no'];
-            $all['consult_date'] = $myts->htmlSpecialChars($all['consult_date']);
-            list($y, $m, $d) = explode('-', $all['consult_date']);
-            $cy = $y - 1911;
-            $all['consult_cdate'] = "{$cy}.{$m}.{$d}";
-            $all['consult_start'] = substr($myts->htmlSpecialChars($all['consult_start']), 0, 5);
-            $all['consult_end'] = substr($myts->htmlSpecialChars($all['consult_end']), 0, 5);
+            $all['consult_id']         = (int) $all['consult_id'];
+            $all['stu_id']             = (int) $all['stu_id'];
+            $all['stu_grade']          = (int) $all['stu_grade'];
+            $all['stu_class']          = (int) $all['stu_class'];
+            $all['stu_seat_no']        = (int) $all['stu_seat_no'];
+            $all['consult_date']       = $myts->htmlSpecialChars($all['consult_date']);
+            list($y, $m, $d)           = explode('-', $all['consult_date']);
+            $cy                        = $y - 1911;
+            $all['consult_cdate']      = "{$cy}.{$m}.{$d}";
+            $all['consult_start']      = substr($myts->htmlSpecialChars($all['consult_start']), 0, 5);
+            $all['consult_end']        = substr($myts->htmlSpecialChars($all['consult_end']), 0, 5);
             $all['consult_motivation'] = $myts->htmlSpecialChars($all['consult_motivation']);
-            $all['consult_kind'] = $myts->htmlSpecialChars($all['consult_kind']);
-            $all['consult_reason'] = $myts->htmlSpecialChars($all['consult_reason']);
-            $all['consult_method'] = $myts->htmlSpecialChars($all['consult_method']);
-            $all['consult_note'] = $myts->displayTarea($all['consult_note'], 0, 1, 0, 1, 1);
-            $all['consult_uid'] = (int) $all['consult_uid'];
-            $all['consult_uid_name'] = \XoopsUser::getUnameFromId($all['consult_uid'], 1);
+            $all['consult_kind']       = $myts->htmlSpecialChars($all['consult_kind']);
+            $all['consult_reason']     = $myts->htmlSpecialChars($all['consult_reason']);
+            $all['consult_method']     = $myts->htmlSpecialChars($all['consult_method']);
+            $all['consult_note']       = $myts->displayTarea($all['consult_note'], 0, 1, 0, 1, 1);
+            $all['consult_uid']        = (int) $all['consult_uid'];
+            $all['consult_uid_name']   = \XoopsUser::getUnameFromId($all['consult_uid'], 1);
 
             $all_scs_consult[] = $all;
         }
@@ -104,14 +103,14 @@ class Scs_consult
         //抓取預設值
         $DBV = !empty($consult_id) ? self::get($consult_id) : [];
 
-        $DBV['consult_date'] = empty($DBV['consult_date']) ? date("Y-m-d") : $DBV['consult_date'];
+        $DBV['consult_date']  = empty($DBV['consult_date']) ? date("Y-m-d") : $DBV['consult_date'];
         $DBV['consult_start'] = empty($DBV['consult_start']) ? date("H:i") : $DBV['consult_start'];
-        $DBV['consult_end'] = empty($DBV['consult_end']) ? '' : $DBV['consult_end'];
+        $DBV['consult_end']   = empty($DBV['consult_end']) ? '' : $DBV['consult_end'];
 
         $xoopsTpl->assign('DBV', $DBV);
 
         $stu_id = !empty($DBV['stu_id']) ? $DBV['stu_id'] : $stu_id;
-        $stu = Scs_students::get($stu_id);
+        $stu    = Scs_students::get($stu_id);
         $xoopsTpl->assign('stu', $stu);
 
         $op = empty($consult_id) ? "scs_consult_store" : "scs_consult_update";
@@ -126,13 +125,13 @@ class Scs_consult
         $up_consult_id_create = $TadUpFiles->upform(true, "up_consult_id", "");
         $xoopsTpl->assign('up_consult_id_create', $up_consult_id_create);
 
-        Tools::get_config_arr('scs_consult', 'consult_motivation');
-        Tools::get_config_arr('scs_consult', 'consult_kind');
-        Tools::get_config_arr('scs_consult', 'consult_method');
+        Tools::get_config_arr('consult_motivation');
+        Tools::get_config_arr('consult_kind');
+        Tools::get_config_arr('consult_method');
 
         //加入Token安全機制
         include_once XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
-        $token = new \XoopsFormHiddenToken();
+        $token      = new \XoopsFormHiddenToken();
         $token_form = $token->render();
         $xoopsTpl->assign("token_form", $token_form);
         $xoopsTpl->assign('action', $_SERVER["PHP_SELF"]);
@@ -151,21 +150,21 @@ class Scs_consult
 
         $myts = \MyTextSanitizer::getInstance();
 
-        $consult_id = (int) $_POST['consult_id'];
-        $stu_id = (int) $_POST['stu_id'];
-        $stu_grade = (int) $_POST['stu_grade'];
-        $stu_class = (int) $_POST['stu_class'];
+        $consult_id  = (int) $_POST['consult_id'];
+        $stu_id      = (int) $_POST['stu_id'];
+        $stu_grade   = (int) $_POST['stu_grade'];
+        $stu_class   = (int) $_POST['stu_class'];
         $stu_seat_no = (int) $_POST['stu_seat_no'];
         Tools::chk_consult_power(__FILE__, __LINE__, 'create', $stu_id);
-        $consult_date = $myts->addSlashes($_POST['consult_date']);
-        $consult_start = $myts->addSlashes($_POST['consult_start']);
-        $consult_end = $myts->addSlashes($_POST['consult_end']);
-        $consult_motivation = $myts->addSlashes($_POST['consult_motivation']);
-        $consult_kind = $myts->addSlashes($_POST['consult_kind']);
-        $consult_reason = $myts->addSlashes($_POST['consult_reason']);
-        $consult_method = $myts->addSlashes($_POST['consult_method']);
-        $consult_note = $myts->addSlashes($_POST['consult_note']);
-        $consult_uid = $xoopsUser->uid();
+        $consult_date       = addslashes($_POST['consult_date']);
+        $consult_start      = addslashes($_POST['consult_start']);
+        $consult_end        = addslashes($_POST['consult_end']);
+        $consult_motivation = addslashes($_POST['consult_motivation']);
+        $consult_kind       = addslashes($_POST['consult_kind']);
+        $consult_reason     = addslashes($_POST['consult_reason']);
+        $consult_method     = addslashes($_POST['consult_method']);
+        $consult_note       = addslashes($_POST['consult_note']);
+        $consult_uid        = $xoopsUser->uid();
 
         $sql = "replace into `" . $xoopsDB->prefix("scs_consult") . "` (
         `stu_id`,
@@ -225,30 +224,30 @@ class Scs_consult
         Tools::chk_consult_power(__FILE__, __LINE__, 'show', $all['stu_id'], $consult_id);
 
         //過濾讀出的變數值
-        $all['consult_id'] = (int) $all['consult_id'];
-        $all['stu_id'] = (int) $all['stu_id'];
-        $all['stu_grade'] = (int) $all['stu_grade'];
-        $all['stu_class'] = (int) $all['stu_class'];
-        $all['stu_seat_no'] = (int) $all['stu_seat_no'];
-        $all['consult_date'] = $myts->htmlSpecialChars($all['consult_date']);
-        list($y, $m, $d) = explode('-', $all['consult_date']);
-        $cy = $y - 1911;
-        $all['consult_cdate'] = "{$cy}.{$m}.{$d}";
-        $all['consult_start'] = $myts->htmlSpecialChars($all['consult_start']);
-        $all['consult_end'] = $myts->htmlSpecialChars($all['consult_end']);
+        $all['consult_id']         = (int) $all['consult_id'];
+        $all['stu_id']             = (int) $all['stu_id'];
+        $all['stu_grade']          = (int) $all['stu_grade'];
+        $all['stu_class']          = (int) $all['stu_class'];
+        $all['stu_seat_no']        = (int) $all['stu_seat_no'];
+        $all['consult_date']       = $myts->htmlSpecialChars($all['consult_date']);
+        list($y, $m, $d)           = explode('-', $all['consult_date']);
+        $cy                        = $y - 1911;
+        $all['consult_cdate']      = "{$cy}.{$m}.{$d}";
+        $all['consult_start']      = $myts->htmlSpecialChars($all['consult_start']);
+        $all['consult_end']        = $myts->htmlSpecialChars($all['consult_end']);
         $all['consult_motivation'] = $myts->htmlSpecialChars($all['consult_motivation']);
-        $all['consult_kind'] = $myts->htmlSpecialChars($all['consult_kind']);
-        $all['consult_reason'] = $myts->htmlSpecialChars($all['consult_reason']);
-        $all['consult_method'] = $myts->htmlSpecialChars($all['consult_method']);
-        $all['consult_note'] = $myts->displayTarea($all['consult_note'], 0, 1, 0, 1, 1);
-        $all['consult_uid'] = (int) $all['consult_uid'];
-        $all['consult_uid_name'] = \XoopsUser::getUnameFromId($all['consult_uid'], 1);
+        $all['consult_kind']       = $myts->htmlSpecialChars($all['consult_kind']);
+        $all['consult_reason']     = $myts->htmlSpecialChars($all['consult_reason']);
+        $all['consult_method']     = $myts->htmlSpecialChars($all['consult_method']);
+        $all['consult_note']       = $myts->displayTarea($all['consult_note'], 0, 1, 0, 1, 1);
+        $all['consult_uid']        = (int) $all['consult_uid'];
+        $all['consult_uid_name']   = \XoopsUser::getUnameFromId($all['consult_uid'], 1);
         if (empty($all['consult_uid_name'])) {
             $all['consult_uid_name'] = \XoopsUser::getUnameFromId($all['consult_uid'], 0);
         }
 
         $stu_id = !empty($all['stu_id']) ? $all['stu_id'] : $stu_id;
-        $stu = Scs_students::get($stu_id);
+        $stu    = Scs_students::get($stu_id);
         $xoopsTpl->assign('stu', $stu);
 
         //以下會產生這些變數： $stu_id, $consult_date, $consult_start, $consult_end, $consult_motivation, $consult_kind, $consult_reason, $consult_method, $consult_note
@@ -279,21 +278,21 @@ class Scs_consult
 
         $myts = \MyTextSanitizer::getInstance();
 
-        $consult_id = (int) $_POST['consult_id'];
-        $stu_id = (int) $_POST['stu_id'];
-        $stu_grade = (int) $_POST['stu_grade'];
-        $stu_class = (int) $_POST['stu_class'];
+        $consult_id  = (int) $_POST['consult_id'];
+        $stu_id      = (int) $_POST['stu_id'];
+        $stu_grade   = (int) $_POST['stu_grade'];
+        $stu_class   = (int) $_POST['stu_class'];
         $stu_seat_no = (int) $_POST['stu_seat_no'];
         Tools::chk_consult_power(__FILE__, __LINE__, 'update', $stu_id, $consult_id);
-        $consult_date = $myts->addSlashes($_POST['consult_date']);
-        $consult_start = $myts->addSlashes($_POST['consult_start']);
-        $consult_end = $myts->addSlashes($_POST['consult_end']);
-        $consult_motivation = $myts->addSlashes($_POST['consult_motivation']);
-        $consult_kind = $myts->addSlashes($_POST['consult_kind']);
-        $consult_reason = $myts->addSlashes($_POST['consult_reason']);
-        $consult_method = $myts->addSlashes($_POST['consult_method']);
-        $consult_note = $myts->addSlashes($_POST['consult_note']);
-        $consult_uid = $xoopsUser->uid();
+        $consult_date       = addslashes($_POST['consult_date']);
+        $consult_start      = addslashes($_POST['consult_start']);
+        $consult_end        = addslashes($_POST['consult_end']);
+        $consult_motivation = addslashes($_POST['consult_motivation']);
+        $consult_kind       = addslashes($_POST['consult_kind']);
+        $consult_reason     = addslashes($_POST['consult_reason']);
+        $consult_method     = addslashes($_POST['consult_method']);
+        $consult_note       = addslashes($_POST['consult_note']);
+        $consult_uid        = $xoopsUser->uid();
 
         $sql = "update `" . $xoopsDB->prefix("scs_consult") . "` set
         `stu_id` = '{$stu_id}',
@@ -330,7 +329,7 @@ class Scs_consult
 
         $and_consult_id = !empty($consult_id) ? "and `consult_id` = '$consult_id'" : '';
 
-        $sql = "insert into " . $xoopsDB->prefix("scs_consult_del") . " select *
+        $sql = "replace into " . $xoopsDB->prefix("scs_consult_del") . " select *
         from " . $xoopsDB->prefix("scs_consult") . " where `stu_id` = '{$stu_id}' $and_consult_id";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
@@ -352,7 +351,7 @@ class Scs_consult
         $sql = "select * from `" . $xoopsDB->prefix("scs_consult") . "`
         where `consult_id` = '{$consult_id}'";
         $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-        $data = $xoopsDB->fetchArray($result);
+        $data   = $xoopsDB->fetchArray($result);
         return $data;
     }
 
@@ -361,27 +360,27 @@ class Scs_consult
     {
         global $xoopsDB;
         $and_consult_uid = !empty($consult_uid) ? "and a.`consult_uid` = '{$consult_uid}'" : '';
-        $and_stu_id = !empty($stu_id) ? "and a.`stu_id` = '{$stu_id}'" : '';
-        $and_start = !empty($start) ? "and a.`consult_date` >= '{$start}'" : '';
-        $and_end = !empty($end) ? "and a.`consult_date` <= '{$end}'" : '';
+        $and_stu_id      = !empty($stu_id) ? "and a.`stu_id` = '{$stu_id}'" : '';
+        $and_start       = !empty($start) ? "and a.`consult_date` >= '{$start}'" : '';
+        $and_end         = !empty($end) ? "and a.`consult_date` <= '{$end}'" : '';
 
         $sql = "select a.*, b.stu_name from `" . $xoopsDB->prefix("scs_consult") . "` as a
         join `" . $xoopsDB->prefix("scs_students") . "` as b on a.stu_id=b.stu_id
         where 1 {$and_consult_uid} {$and_stu_id} {$and_start} {$and_end} order by a.consult_date";
 
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $result   = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $data_arr = [];
         while ($data = $xoopsDB->fetchArray($result)) {
-            list($y, $m, $d) = explode('-', $data['consult_date']);
-            $cy = $y - 1911;
+            list($y, $m, $d)       = explode('-', $data['consult_date']);
+            $cy                    = $y - 1911;
             $data['consult_cdate'] = "{$cy}.{$m}.{$d}";
-            $data['consult_name'] = \XoopsUser::getUnameFromId($data['consult_uid'], 1);
+            $data['consult_name']  = \XoopsUser::getUnameFromId($data['consult_uid'], 1);
             if (empty($data['consult_name'])) {
                 $data['consult_name'] = \XoopsUser::getUnameFromId($data['consult_uid'], 0);
             }
             $data['consult_start'] = substr($data['consult_start'], 0, -3);
-            $data['consult_end'] = substr($data['consult_end'], 0, -3);
-            $consult_id = $data['consult_id'];
+            $data['consult_end']   = substr($data['consult_end'], 0, -3);
+            $consult_id            = $data['consult_id'];
             $data_arr[$consult_id] = $data;
         }
         return $data_arr;
@@ -395,10 +394,10 @@ class Scs_consult
         $sql = "select `col_sn`,`data_name`,`data_value` from `" . $xoopsDB->prefix("scs_data_center") . "`
         where `col_name`='school_year_class' and (`data_name`='counselor' or `data_name`='tutor') order by data_name";
 
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $result   = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $data_arr = [];
         while (list($year, $kind, $uid) = $xoopsDB->fetchRow($result)) {
-            $data_arr[$uid]['uid'] = $uid;
+            $data_arr[$uid]['uid']  = $uid;
             $data_arr[$uid]['year'] = $year;
             $data_arr[$uid]['kind'] = $kind;
             $data_arr[$uid]['name'] = \XoopsUser::getUnameFromId($uid, 1);
@@ -422,7 +421,7 @@ class Scs_consult
         Tools::chk_consult_power(__FILE__, __LINE__, 'counselor_index', '', '', $consult_uid);
 
         $and_start = !empty($start) ? "and a.`consult_date` >= '{$start}'" : '';
-        $and_end = !empty($end) ? "and a.`consult_date` <= '{$end}'" : '';
+        $and_end   = !empty($end) ? "and a.`consult_date` <= '{$end}'" : '';
 
         $sql = "select a.*, b.stu_name from `" . $xoopsDB->prefix("scs_consult") . "` as a
         join `" . $xoopsDB->prefix("scs_students") . "` as b on a.stu_id=b.stu_id
@@ -431,24 +430,24 @@ class Scs_consult
         //Utility::getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
         if ($mode == '') {
             $PageBar = Utility::getPageBar($sql, 20, 10);
-            $bar = $PageBar['bar'];
-            $sql = $PageBar['sql'];
-            $total = $PageBar['total'];
+            $bar     = $PageBar['bar'];
+            $sql     = $PageBar['sql'];
+            $total   = $PageBar['total'];
             $xoopsTpl->assign('bar', $bar);
             $xoopsTpl->assign('total', $total);
         }
 
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $result   = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $data_arr = [];
         while ($consult = $xoopsDB->fetchArray($result)) {
-            list($y, $m, $d) = explode('-', $consult['consult_date']);
-            $cy = $y - 1911;
+            list($y, $m, $d)          = explode('-', $consult['consult_date']);
+            $cy                       = $y - 1911;
             $consult['consult_cdate'] = "{$cy}.{$m}.{$d}";
-            $consult['month'] = $m;
+            $consult['month']         = $m;
             $consult['consult_start'] = substr($consult['consult_start'], 0, -3);
-            $consult['consult_end'] = substr($consult['consult_end'], 0, -3);
-            $consult['consult_week'] = date('w', strtotime($consult['consult_date']));
-            $data_arr[] = $consult;
+            $consult['consult_end']   = substr($consult['consult_end'], 0, -3);
+            $consult['consult_week']  = date('w', strtotime($consult['consult_date']));
+            $data_arr[]               = $consult;
         }
 
         $consult_name = \XoopsUser::getUnameFromId($consult_uid, 1);
@@ -457,9 +456,9 @@ class Scs_consult
         }
 
         if ($mode == "return") {
-            $all['consult_uid'] = $consult_uid;
+            $all['consult_uid']  = $consult_uid;
             $all['consult_name'] = $consult_name;
-            $all['data_arr'] = $data_arr;
+            $all['data_arr']     = $data_arr;
             return $all;
 
         } else {
@@ -478,7 +477,7 @@ class Scs_consult
         }
 
         $and_start = !empty($start) ? "and a.`consult_date` >= '{$start}'" : '';
-        $and_end = !empty($end) ? "and a.`consult_date` <= '{$end}'" : '';
+        $and_end   = !empty($end) ? "and a.`consult_date` <= '{$end}'" : '';
 
         $sql = "select a.*, b.stu_name, b.stu_sex from `" . $xoopsDB->prefix("scs_consult") . "` as a
         join `" . $xoopsDB->prefix("scs_students") . "` as b on a.stu_id=b.stu_id
@@ -488,24 +487,24 @@ class Scs_consult
         //Utility::getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
         if ($mode == '') {
             $PageBar = Utility::getPageBar($sql, 20, 10);
-            $bar = $PageBar['bar'];
-            $sql = $PageBar['sql'];
-            $total = $PageBar['total'];
+            $bar     = $PageBar['bar'];
+            $sql     = $PageBar['sql'];
+            $total   = $PageBar['total'];
             $xoopsTpl->assign('bar', $bar);
             $xoopsTpl->assign('total', $total);
         }
 
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $result   = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $data_arr = $times = [];
         while ($consult = $xoopsDB->fetchArray($result)) {
-            list($y, $m, $d) = explode('-', $consult['consult_date']);
-            $cy = $y - 1911;
+            list($y, $m, $d)          = explode('-', $consult['consult_date']);
+            $cy                       = $y - 1911;
             $consult['consult_cdate'] = "{$cy}.{$m}.{$d}";
-            $consult['month'] = $m;
+            $consult['month']         = $m;
             $consult['consult_start'] = substr($consult['consult_start'], 0, -3);
-            $consult['consult_end'] = substr($consult['consult_end'], 0, -3);
-            $consult['consult_week'] = date('w', strtotime($consult['consult_date']));
-            $stu_id = $consult['stu_id'];
+            $consult['consult_end']   = substr($consult['consult_end'], 0, -3);
+            $consult['consult_week']  = date('w', strtotime($consult['consult_date']));
+            $stu_id                   = $consult['stu_id'];
 
             $data_arr[$m][$stu_id][] = $consult;
             $times[$m][$stu_id]++;
@@ -517,10 +516,10 @@ class Scs_consult
         }
 
         if ($mode == "return") {
-            $all['consult_uid'] = $consult_uid;
+            $all['consult_uid']  = $consult_uid;
             $all['consult_name'] = $consult_name;
-            $all['data_arr'] = $data_arr;
-            $all['max_times'] = max(max($times));
+            $all['data_arr']     = $data_arr;
+            $all['max_times']    = max(max($times));
             return $all;
 
         } else {

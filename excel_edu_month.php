@@ -24,13 +24,13 @@ use XoopsModules\Scs\Tools;
 require_once __DIR__ . '/header.php';
 
 /*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
+$op          = Request::getString('op');
 $consult_uid = Request::getInt('consult_uid');
-$start = Request::getString('start');
-$end = Request::getString('end');
+$start       = Request::getString('start');
+$end         = Request::getString('end');
 
 list($y, $m) = explode('-', $start);
-$y = $y - 1911;
+$y           = $y - 1911;
 
 if (empty($consult_uid)) {
     redirect_header($_SERVER['HTTP_REFERER'], 3, '未指定教師');
@@ -126,7 +126,7 @@ $consult_stu = [];
 foreach ($consult['data_arr'] as $m => $data) {
     foreach ($data as $stu_id => $stu) {
         $stu_grade = $stu[0]['stu_grade'];
-        $stu_sex = $stu[0]['stu_sex'];
+        $stu_sex   = $stu[0]['stu_sex'];
         $consult_stu[$stu_grade][$stu_sex]++;
     }
 }

@@ -24,10 +24,10 @@ use XoopsModules\Scs\Tools;
 require_once __DIR__ . '/header.php';
 
 /*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
+$op          = Request::getString('op');
 $consult_uid = Request::getInt('consult_uid');
-$start = Request::getString('start');
-$end = Request::getString('end');
+$start       = Request::getString('start');
+$end         = Request::getString('end');
 
 if (empty($consult_uid)) {
     redirect_header($_SERVER['HTTP_REFERER'], 3, '未指定教師');
@@ -89,7 +89,7 @@ foreach ($consult['data_arr'] as $m => $data) {
             ->setCellValue("C{$i}", $stu[0]['stu_seat_no'])
             ->setCellValue("D{$i}", $stu[0]['stu_name']);
         $times = sizeof($stu);
-        $n = 4;
+        $n     = 4;
         for ($j = 0; $j <= $consult['max_times']; $j++) {
             $col = num2alpha($n);
             $objActSheet->setCellValue("{$col}{$i}", $stu[$j]['consult_cdate']);

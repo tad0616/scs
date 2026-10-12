@@ -83,14 +83,14 @@
         <td colspan=3>
             <span class="my_label">身高</span>
             <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
-                <{$year}>
+                <{$year|default:''}>
                 <span class="my_value"><{$general.$stage.stu_height}></span>
                 <span class="my_unit">公分</span>
             <{/foreach}>
 
             <span class="my_label">體重</span>
             <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
-                <{$year}>
+                <{$year|default:''}>
                 <span class="my_value"><{$general.$stage.stu_weight}></span>
                 <span class="my_unit">公斤</span>
             <{/foreach}>

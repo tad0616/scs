@@ -27,10 +27,10 @@ require_once __DIR__ . '/header.php';
 require_once XOOPS_ROOT_PATH . '/modules/tadtools/tcpdf/tcpdf.php';
 
 /*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
+$op          = Request::getString('op');
 $consult_uid = Request::getInt('consult_uid');
-$start = Request::getString('start');
-$end = Request::getString('end');
+$start       = Request::getString('start');
+$end         = Request::getString('end');
 
 if (empty($consult_uid)) {
     redirect_header($_SERVER['HTTP_REFERER'], 3, '未指定教師');
@@ -51,7 +51,7 @@ $pdf->setFontSubsetting(true); //產生字型子集（有用到的字才放到�
 $col_w['文件寬'] = 210;
 $col_w['左邊界'] = 8;
 $col_w['右邊界'] = 8;
-$col_h['行高'] = 7;
+$col_h['行高']    = 7;
 
 $pdf->SetTopMargin(10);
 $pdf->SetLeftMargin($col_w['左邊界']);

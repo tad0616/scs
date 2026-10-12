@@ -24,13 +24,13 @@
 <h2 class="scs text-center"><{$student.stu_name}>綜合資料紀錄表</h2>
 
 <div class="alert alert-info">
-    <{includeq file="$xoops_rootpath/modules/scs/templates/sub_year_grade_class_menu.tpl"}>
+    <{include file="$xoops_rootpath/modules/scs/templates/sub_year_grade_class_menu.tpl"}>
 </div>
 
 <!--套用formValidator驗證機制-->
 <form action="<{$smarty.server.PHP_SELF}>" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal">
 
-    <{includeq file="$xoops_rootpath/modules/scs/templates/sub_scs_students_form0.tpl"}>
+    <{include file="$xoops_rootpath/modules/scs/templates/sub_scs_students_form0.tpl"}>
 
     <div id="demoTab">
         <ul class="resp-tabs-list vert">
@@ -45,22 +45,22 @@
         </ul>
 
         <div class="resp-tabs-container vert">
-            <div><{includeq file="$xoops_rootpath/modules/scs/templates/sub_scs_students_form1.tpl"}></div>
-            <div><{includeq file="$xoops_rootpath/modules/scs/templates/sub_scs_students_form2.tpl"}></div>
-            <div><{includeq file="$xoops_rootpath/modules/scs/templates/sub_scs_students_form3.tpl"}></div>
-            <div><{includeq file="$xoops_rootpath/modules/scs/templates/sub_scs_students_form4.tpl"}></div>
-            <div><{includeq file="$xoops_rootpath/modules/scs/templates/sub_scs_students_form5.tpl"}></div>
-            <div><{includeq file="$xoops_rootpath/modules/scs/templates/sub_scs_students_form6.tpl"}></div>
-            <div><{includeq file="$xoops_rootpath/modules/scs/templates/sub_scs_students_form7.tpl"}></div>
-            <div><{includeq file="$xoops_rootpath/modules/scs/templates/sub_scs_students_form8.tpl"}></div>
+            <div><{include file="$xoops_rootpath/modules/scs/templates/sub_scs_students_form1.tpl"}></div>
+            <div><{include file="$xoops_rootpath/modules/scs/templates/sub_scs_students_form2.tpl"}></div>
+            <div><{include file="$xoops_rootpath/modules/scs/templates/sub_scs_students_form3.tpl"}></div>
+            <div><{include file="$xoops_rootpath/modules/scs/templates/sub_scs_students_form4.tpl"}></div>
+            <div><{include file="$xoops_rootpath/modules/scs/templates/sub_scs_students_form5.tpl"}></div>
+            <div><{include file="$xoops_rootpath/modules/scs/templates/sub_scs_students_form6.tpl"}></div>
+            <div><{include file="$xoops_rootpath/modules/scs/templates/sub_scs_students_form7.tpl"}></div>
+            <div><{include file="$xoops_rootpath/modules/scs/templates/sub_scs_students_form8.tpl"}></div>
         </div>
     </div>
 
     <div class="text-center" style="margin:30px auto;">
-        <{$token_form}>
-        <input type="hidden" name="op" value="<{$next_op}>">
-        <input type="hidden" name="stu_id" value="<{$stu_id}>">
-        <input type="hidden" name="school_year" value="<{$school_year}>">
+        <{$token_form|default:''}>
+        <input type="hidden" name="op" value="<{$next_op|default:''}>">
+        <input type="hidden" name="stu_id" value="<{$stu_id|default:''}>">
+        <input type="hidden" name="school_year" value="<{$school_year|default:''}>">
         <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
     </div>
 </form>

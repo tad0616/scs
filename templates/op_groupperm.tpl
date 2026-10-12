@@ -1,2 +1,5 @@
-<{assign var=this_file value=$smarty.template|basename|replace:'db:':''}>
-<{includeq file="$xoops_rootpath/modules/$xoops_dirname/templates/b4.tpl"}>
+<div class="container-fluid" style="margin-bottom: 30px;">
+    <{if $now_op|default:false}>
+        <{include file="$xoops_rootpath/modules/scs/templates/op_`$now_op`.tpl"}>
+    <{/if}>
+</div>

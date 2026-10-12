@@ -1,13 +1,13 @@
-<h2  class="scs">「<{$consult_name}>」個別輔導紀錄統計報表</h2>
+<h2  class="scs">「<{$consult_name|default:''}>」個別輔導紀錄統計報表</h2>
 <div class="alert alert-success">
-    <{includeq file="$xoops_rootpath/modules/scs/templates/sub_consult_date_menu.tpl"}>
+    <{include file="$xoops_rootpath/modules/scs/templates/sub_consult_date_menu.tpl"}>
 </div>
 <{if 'statistics'|have_consult_power:'':'':$uid}>
-    <a href="pdf_consult_all.php?consult_uid=<{$consult_uid}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/pdf.png">期末報表PDF</a>
-    <a href="excel_consult_all.php?consult_uid=<{$consult_uid}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/xls.png">期末報表Excel</a>
-    <a href="pdf_consult_month.php?consult_uid=<{$consult_uid}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/pdf.png">月報表PDF</a>
-    <a href="excel_consult_month.php?consult_uid=<{$consult_uid}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/xls.png">月報表Excel</a>
-    <a href="excel_edu_month.php?consult_uid=<{$consult_uid}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/xls.png">教育部每月輔導統計</a>
+    <a href="pdf_consult_all.php?consult_uid=<{$consult_uid|default:''}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/pdf.png">期末報表PDF</a>
+    <a href="excel_consult_all.php?consult_uid=<{$consult_uid|default:''}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/xls.png">期末報表Excel</a>
+    <a href="pdf_consult_month.php?consult_uid=<{$consult_uid|default:''}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/pdf.png">月報表PDF</a>
+    <a href="excel_consult_month.php?consult_uid=<{$consult_uid|default:''}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/xls.png">月報表Excel</a>
+    <a href="excel_edu_month.php?consult_uid=<{$consult_uid|default:''}>&start=<{$smarty.get.start}>&end=<{$smarty.get.end}>"><img src="images/xls.png">教育部每月輔導統計</a>
 <{/if}>
 <table class="table table-striped table-hover" style="background:white;">
     <thead>
@@ -44,4 +44,4 @@
         <{/foreach}>
     </tbody>
 </table>
-<{$bar}>
+<{$bar|default:''}>

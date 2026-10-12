@@ -12,7 +12,7 @@
                 </tr>
                 <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
                     <tr>
-                        <th class="c3"><{$year}>年級</th>
+                        <th class="c3"><{$year|default:''}>年級</th>
                         <td><span class="my_value"><{$general.$stage.stu_personality}></span></td>
                         <td><span class="my_value"><{$general.$stage.stu_advantage}></span></td>
                         <td><span class="my_value"><{$general.$stage.stu_improve}></span></td>

@@ -33,19 +33,19 @@ class Tools
     {
         global $xoopsUser, $xoopsDB;
         if ($xoopsUser->user_icq() == 'student') {
-            $email = $xoopsUser->email();
-            $name = $xoopsUser->name();
+            $email     = $xoopsUser->email();
+            $name      = $xoopsUser->name();
             $stu_grade = $xoopsUser->user_from();
             if ($stu_grade) {
                 $_SESSION['stu_stage'] = ($stu_grade >= 7) ? '國中' : '國小';
-                $_SESSION['stages'] = ($stu_grade >= 7) ? ['七' => 7, '八' => 8, '九' => 9] : ['一' => 1, '二' => 2, '三' => 3, '四' => 4, '五' => 5, '六' => 6];
+                $_SESSION['stages']    = ($stu_grade >= 7) ? ['七' => 7, '八' => 8, '九' => 9] : ['一' => 1, '二' => 2, '三' => 3, '四' => 4, '五' => 5, '六' => 6];
             }
-            $stu_class = $xoopsUser->user_sig();
+            $stu_class   = $xoopsUser->user_sig();
             $school_year = self::get_school_year();
             if ($email) {
                 $sql = "select `stu_id` from `" . $xoopsDB->prefix("scs_students") . "`
                 where `stu_email`='{$email}'";
-                $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+                $result       = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
                 list($stu_id) = $xoopsDB->fetchRow($result);
             }
 
@@ -55,7 +55,7 @@ class Tools
                 where a.`stu_name`='{$name}' and b.`stu_grade`='{$stu_grade}' and b.`stu_class`='{$stu_class}' and b.`school_year`='{$school_year}'";
                 // die($sql);
                 $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-                $total = $xoopsDB->getRowsNum($result);
+                $total  = $xoopsDB->getRowsNum($result);
                 if ($total > 1) {
                     redirect_header($_SERVER['PHP_SELF'], 3, "{$name} 共有 {$total} 筆同名資料，請設定學生電子郵件（OpenID用的Email）以便精確判斷。");
                 } else {
@@ -117,9 +117,9 @@ class Tools
     {
         global $xoopsDB, $xoopsModule;
 
-        $modhandler = xoops_gethandler('module');
-        $xoopsModule = $modhandler->getByDirname("scs");
-        $config_handler = xoops_gethandler('config');
+        $modhandler        = xoops_gethandler('module');
+        $xoopsModule       = $modhandler->getByDirname("scs");
+        $config_handler    = xoops_gethandler('config');
         $xoopsModuleConfig = $config_handler->getConfigsByCat(0, $xoopsModule->mid());
 
         if (empty($xoopsModuleConfig['school_code'])) {
@@ -128,13 +128,13 @@ class Tools
         }
 
         $teachers = [];
-        $schools = explode(';', $xoopsModuleConfig['school_code']);
+        $schools  = explode(';', $xoopsModuleConfig['school_code']);
         foreach ($schools as $school_code) {
             $sql = "select `uid`,`name`,`uname` from `" . $xoopsDB->prefix("users") . "`
             where `user_intrest`='{$school_code}' and `user_icq`='teacher' order by `name`,`uname`";
             $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
             while (list($uid, $name, $uname) = $xoopsDB->fetchRow($result)) {
-                $teachers[$uid]['name'] = $name;
+                $teachers[$uid]['name']  = $name;
                 $teachers[$uid]['uname'] = $uname;
             }
 
@@ -146,26 +146,26 @@ class Tools
     // 檢查是否有權限
     public static function chk_scs_power($file, $line, $kind = '', $stu_id = '', $school_year = '', $stu_grade = '', $stu_class = '', $mode = '')
     {
+
         //          觀看學生資料    編輯學生資料    刪除學生資料    新增學生資料
         // 管 理 員  全部           全部            全部            全部
         // 輔導主任  全部           全部            全部            全部
         // 專輔教師  全部           不可            不可            不可
         // 班級導師  自己班學生     自己班學生       不可            不可
         // 班級學生  自己           自己(限制時程內) 不可            不可
-
         switch ($kind) {
             case 'index':
-                if ($_SESSION['scs_adm'] or $_SESSION['counselor'] or $_SESSION['tutor']) {
+                if ($_SESSION['scs_adm'] or (!empty($school_year) && (in_array($school_year, (array) $_SESSION['counselor']) or in_array($school_year, (array) $_SESSION['tutor'])))) {
                     return true;
                 } elseif ($_SESSION['tea_class_arr']) {
-                    if (in_array("{$school_year}-{$stu_grade}-{$stu_class}", $_SESSION['tea_class_arr'])) {
+                    if (in_array("{$school_year}-{$stu_grade}-{$stu_class}", (array) $_SESSION['tea_class_arr'])) {
                         return true;
                     }
                 }
                 break;
 
             case 'show':
-                if ($_SESSION['scs_adm'] or $_SESSION['counselor'] or $_SESSION['tutor']) {
+                if ($_SESSION['scs_adm'] or in_array($school_year, (array) $_SESSION['counselor']) or in_array($school_year, (array) $_SESSION['tutor'])) {
                     return true;
                 } elseif ($_SESSION['tea_class_arr']) {
                     $stu = Scs_general::get($stu_id);
@@ -180,7 +180,7 @@ class Tools
                 break;
 
             case 'create':
-                if ($_SESSION['scs_adm'] or $_SESSION['counselor']) {
+                if ($_SESSION['scs_adm'] or in_array($school_year, (array) $_SESSION['counselor'])) {
                     return true;
                 } elseif ($_SESSION['tea_class_arr']) {
                     $stu = Scs_general::get($stu_id);
@@ -195,7 +195,7 @@ class Tools
                 break;
 
             case 'update':
-                if ($_SESSION['scs_adm'] or $_SESSION['counselor']) {
+                if ($_SESSION['scs_adm'] or in_array($school_year, (array) $_SESSION['counselor'])) {
                     return true;
                 } elseif ($_SESSION['tea_class_arr']) {
                     $stu = Scs_general::get($stu_id);
@@ -210,7 +210,7 @@ class Tools
                 break;
 
             case 'destroy':
-                if ($_SESSION['scs_adm'] or $_SESSION['counselor']) {
+                if ($_SESSION['scs_adm'] or in_array($school_year, (array) $_SESSION['counselor'])) {
                     return true;
                 }
                 break;
@@ -274,7 +274,7 @@ class Tools
                         return true;
                     }
                 } elseif ($_SESSION['tea_class_arr']) {
-                    $stu = Scs_general::get($stu_id);
+                    $stu     = Scs_general::get($stu_id);
                     $consult = Scs_consult::get($consult_id);
                     $now_uid = $xoopsUser->uid();
 
@@ -316,7 +316,7 @@ class Tools
                         return true;
                     }
                 } elseif ($_SESSION['tea_class_arr']) {
-                    $stu = Scs_general::get($stu_id);
+                    $stu     = Scs_general::get($stu_id);
                     $consult = Scs_consult::get($consult_id);
                     $now_uid = $xoopsUser->uid();
                     foreach ($stu as $student) {
@@ -374,13 +374,13 @@ class Tools
     {
         global $xoopsTpl;
         $TadDataCenter = new TadDataCenter('scs');
-        $school_year = Tools::get_school_year();
+        $school_year   = Tools::get_school_year();
         $TadDataCenter->set_col('school_year_class', $school_year);
         $setup = $TadDataCenter->getData();
         $xoopsTpl->assign('setup', $setup);
-        $now = time();
-        $start = strtotime($setup['stu_start_sign'][0]);
-        $stop = strtotime($setup['stu_stop_sign'][0]);
+        $now       = time();
+        $start     = strtotime($setup['stu_start_sign'][0]);
+        $stop      = strtotime($setup['stu_stop_sign'][0]);
         $edit_able = ($now >= $start and $now <= $stop) ? true : false;
         $xoopsTpl->assign('edit_able', $edit_able);
         return $edit_able;
@@ -432,17 +432,17 @@ class Tools
         where 1 {$and_stu_id} {$and_stu_grade} {$and_stu_class} order by `stu_grade`, `stu_class`, `stu_class`, `stu_seat_no`";
 
         $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-        $arr = $school_year_to_grade = [];
+        $arr    = $school_year_to_grade    = [];
         while ($data = $xoopsDB->fetchArray($result)) {
-            $g = $data['stu_grade'];
-            $y = $data['school_year'];
-            $arr[$g] = $data;
-            $arr[$g]['favorite_subject'] = explode(';', $data['favorite_subject']);
+            $g                            = $data['stu_grade'];
+            $y                            = $data['school_year'];
+            $arr[$g]                      = $data;
+            $arr[$g]['favorite_subject']  = explode(';', $data['favorite_subject']);
             $arr[$g]['difficult_subject'] = explode(';', $data['difficult_subject']);
-            $arr[$g]['expertise'] = explode(';', $data['expertise']);
-            $arr[$g]['interest'] = explode(';', $data['interest']);
-            $arr[$g]['grade_class'] = "{$y}-{$g}-{$data['stu_class']}";
-            $school_year_to_grade[$y] = $g;
+            $arr[$g]['expertise']         = explode(';', $data['expertise']);
+            $arr[$g]['interest']          = explode(';', $data['interest']);
+            $arr[$g]['grade_class']       = "{$y}-{$g}-{$data['stu_class']}";
+            $school_year_to_grade[$y]     = $g;
         }
 
         $school_year = $def_school_year ? $def_school_year : self::get_school_year();
@@ -452,7 +452,7 @@ class Tools
         $xoopsTpl->assign('school_year_arr', $school_year_arr);
 
         $condition['school_year'] = $school_year;
-        $stu_grade_arr = self::get_general_data_arr('scs_general', 'stu_grade', $condition);
+        $stu_grade_arr            = self::get_general_data_arr('scs_general', 'stu_grade', $condition);
         $xoopsTpl->assign('stu_grade_arr', $stu_grade_arr);
 
         $menu_stu_grade = $school_year_to_grade[$school_year];
@@ -463,7 +463,7 @@ class Tools
             }
 
             $condition['stu_grade'] = $menu_stu_grade;
-            $stu_class_arr = self::get_general_data_arr('scs_general', 'stu_class', $condition);
+            $stu_class_arr          = self::get_general_data_arr('scs_general', 'stu_class', $condition);
             $xoopsTpl->assign('stu_class_arr', $stu_class_arr);
         }
 
@@ -473,14 +473,14 @@ class Tools
             }
 
             $condition['stu_class'] = $arr[$menu_stu_grade]['stu_class'];
-            $stu_arr = Scs_general::get_general_stu_arr($condition);
+            $stu_arr                = Scs_general::get_general_stu_arr($condition);
             $xoopsTpl->assign('stu_arr', $stu_arr);
         }
 
         if ($stu_id) {
             $sql = "select stu_seat_no,school_year,stu_grade,stu_class from `" . $xoopsDB->prefix("scs_general") . "`
             where stu_id ='{$stu_id}'";
-            $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            $result                                                  = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
             list($stu_seat_no, $school_year, $stu_grade, $stu_class) = $xoopsDB->fetchRow($result);
             $xoopsTpl->assign('stu_seat_no', $stu_seat_no);
 
@@ -490,7 +490,7 @@ class Tools
             where a.stu_seat_no > {$stu_seat_no} and a.school_year='{$school_year}' and a.stu_grade='{$stu_grade}' and a.stu_class='{$stu_class}'
             order by a.`stu_seat_no`  LIMIT 0,1";
             $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-            $next = $xoopsDB->fetchArray($result);
+            $next   = $xoopsDB->fetchArray($result);
             $xoopsTpl->assign('next', $next);
 
             // 上一筆
@@ -498,22 +498,23 @@ class Tools
             join `" . $xoopsDB->prefix("scs_students") . "` as b on a.stu_id=b.stu_id
             where a.stu_seat_no < {$stu_seat_no} and a.school_year='{$school_year}' and a.stu_grade='{$stu_grade}' and a.stu_class='{$stu_class}'
             order by a.`stu_seat_no` DESC LIMIT 0,1";
-            $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            $result   = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
             $previous = $xoopsDB->fetchArray($result);
             $xoopsTpl->assign('previous', $previous);
         }
     }
 
     // 將偏好設定轉為陣列
-    public static function get_config_arr($mode = 'assign', $name = '', $col = '')
+    public static function get_config_arr($name = '', $col = '', $mode = 'assign')
     {
         global $xoopsTpl, $xoopsModuleConfig;
 
         $def_arr = explode(';', $xoopsModuleConfig[$name]);
-        $col = empty($col) ? $name : $col;
+        // $col = empty($col) ? $name : $col;
         // $db_arr = self::get_general_data_arr($table, $col);
         // $all_arr = array_merge($def_arr, $db_arr);
         $arr = array_unique($def_arr);
+
         if ($mode == 'return') {
             return $arr;
         } else {
@@ -522,9 +523,13 @@ class Tools
     }
 
     //轉為民國
-    public static function tw_birthday($birthday = '')
+    public static function tw_birthday($birthday = '', $stu_id)
     {
         list($y, $m, $d) = explode('-', $birthday);
+        if (empty($y) || \is_numeric($y) === false) {
+            return;
+        }
+
         $y = $y - 1911;
         return "{$y}-{$m}-{$d}";
     }
@@ -533,16 +538,19 @@ class Tools
     public static function get_general_data_arr($table = '', $col = 'school_year', $condition = [])
     {
         global $xoopsDB;
-        $arr = $where_condition = [];
-        $where = "";
+        $arr   = $where_condition   = $params   = [];
+        $types = '';
+        $where = '';
         if ($condition) {
             foreach ($condition as $k => $v) {
-                $where_condition[] = "`{$k}`='{$v}'";
+                $where_condition[] = "`{$k}`=?";
+                $types .= is_int($v) ? 'i' : 's';
+                $params[] = $v;
             }
-            $where = "where " . implode(' and ', $where_condition);
+            $where = 'WHERE ' . implode(' AND ', $where_condition);
         }
-        $sql = "select `{$col}` from `" . $xoopsDB->prefix($table) . "` $where group by `{$col}` order by `{$col}`";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql    = 'SELECT `' . $col . '` FROM `' . $xoopsDB->prefix($table) . "` {$where} GROUP BY `" . $col . '` ORDER BY `' . $col . '`';
+        $result = $condition ? Utility::query($sql, $types, $params) : Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         while (list($data) = $xoopsDB->fetchRow($result)) {
             if (empty($data)) {
                 continue;
@@ -559,6 +567,36 @@ class Tools
         }
         return $arr;
     }
+
+    // public static function get_general_data_arr($table = '', $col = 'school_year', $condition = [])
+    // {
+    //     global $xoopsDB;
+    //     $arr   = $where_condition   = [];
+    //     $where = "";
+    //     if ($condition) {
+    //         foreach ($condition as $k => $v) {
+    //             $where_condition[] = "`{$k}`='{$v}'";
+    //         }
+    //         $where = "where " . implode(' and ', $where_condition);
+    //     }
+    //     $sql    = "select `{$col}` from `" . $xoopsDB->prefix($table) . "` $where group by `{$col}` order by `{$col}`";
+    //     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    //     while (list($data) = $xoopsDB->fetchRow($result)) {
+    //         if (empty($data)) {
+    //             continue;
+    //         }
+    //         if (strpos($data, ';') !== false) {
+    //             $opt_arr = explode(';', $data);
+    //             foreach ($opt_arr as $opt) {
+    //                 $arr[] = $opt;
+    //             }
+    //         } else {
+    //             $arr[] = $data;
+    //         }
+
+    //     }
+    //     return $arr;
+    // }
 
     public static function array_key_last($array)
     {

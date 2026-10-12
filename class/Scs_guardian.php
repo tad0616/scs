@@ -1,7 +1,6 @@
 <?php
 namespace XoopsModules\Scs;
 
-use XoopsModules\Scs\Scs_guardian;
 use XoopsModules\Scs\Tools;
 use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
@@ -36,9 +35,9 @@ class Scs_guardian
 
         //Utility::getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
         $PageBar = Utility::getPageBar($sql, 20, 10);
-        $bar = $PageBar['bar'];
-        $sql = $PageBar['sql'];
-        $total = $PageBar['total'];
+        $bar     = $PageBar['bar'];
+        $sql     = $PageBar['sql'];
+        $total   = $PageBar['total'];
         $xoopsTpl->assign('bar', $bar);
         $xoopsTpl->assign('total', $total);
 
@@ -47,12 +46,12 @@ class Scs_guardian
         $all_scs_guardian = [];
         while ($all = $xoopsDB->fetchArray($result)) {
             //過濾讀出的變數值
-            $all['stu_id'] = (int) $all['stu_id'];
-            $all['guardian_name'] = $myts->htmlSpecialChars($all['guardian_name']);
-            $all['guardian_sex'] = $myts->htmlSpecialChars($all['guardian_sex']);
+            $all['stu_id']         = (int) $all['stu_id'];
+            $all['guardian_name']  = $myts->htmlSpecialChars($all['guardian_name']);
+            $all['guardian_sex']   = $myts->htmlSpecialChars($all['guardian_sex']);
             $all['guardian_title'] = $myts->htmlSpecialChars($all['guardian_title']);
-            $all['guardian_tel'] = $myts->htmlSpecialChars($all['guardian_tel']);
-            $all['guardian_addr'] = $myts->htmlSpecialChars($all['guardian_addr']);
+            $all['guardian_tel']   = $myts->htmlSpecialChars($all['guardian_tel']);
+            $all['guardian_addr']  = $myts->htmlSpecialChars($all['guardian_addr']);
 
             $all_scs_guardian[] = $all;
         }
@@ -67,58 +66,58 @@ class Scs_guardian
     }
 
     //scs_guardian編輯表單
-    public static function create($stu_id = '')
+    public static function create($stu_id = '', $school_year = '')
     {
-        global $xoopsDB, $xoopsTpl, $xoopsUser;
-        Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id);
+        global $xoopsTpl;
+        Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id, $school_year);
 
         //抓取預設值
         $DBV = !empty($stu_id) ? self::get($stu_id) : [];
         $xoopsTpl->assign('guardian', $DBV);
 
-        Tools::get_config_arr('scs_guardian', 'guardian_title');
+        Tools::get_config_arr('guardian_title');
 
     }
 
-    //新增資料到scs_guardian中
-    public static function store($stu_id, $data = [], $check = true)
-    {
-        global $xoopsDB, $xoopsUser;
+    // //新增資料到scs_guardian中
+    // public static function store($stu_id, $data = [], $check = true)
+    // {
+    //     global $xoopsDB, $xoopsUser;
 
-        //XOOPS表單安全檢查
-        if ($check) {
-            Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id);
-            Utility::xoops_security_check();
-        }
+    //     //XOOPS表單安全檢查
+    //     if ($check) {
+    //         Tools::chk_scs_power(__FILE__, __LINE__, 'create', $stu_id);
+    //         Utility::xoops_security_check();
+    //     }
 
-        $myts = \MyTextSanitizer::getInstance();
+    //     $myts = \MyTextSanitizer::getInstance();
 
-        $guardian_name = $myts->addSlashes($data['guardian_name']);
-        $guardian_sex = $myts->addSlashes($data['guardian_sex']);
-        $guardian_title = $myts->addSlashes($data['guardian_title']);
-        $guardian_tel = $myts->addSlashes($data['guardian_tel']);
-        $guardian_addr = $myts->addSlashes($data['guardian_addr']);
+    //     $guardian_name  = addslashes($data['guardian_name']);
+    //     $guardian_sex   = addslashes($data['guardian_sex']);
+    //     $guardian_title = addslashes($data['guardian_title']);
+    //     $guardian_tel   = addslashes($data['guardian_tel']);
+    //     $guardian_addr  = addslashes($data['guardian_addr']);
 
-        $sql = "replace into `" . $xoopsDB->prefix("scs_guardian") . "` (
-            `stu_id`,
-            `guardian_name`,
-            `guardian_sex`,
-            `guardian_title`,
-            `guardian_tel`,
-            `guardian_addr`
-        ) values(
-            '{$stu_id}',
-            '{$guardian_name}',
-            '{$guardian_sex}',
-            '{$guardian_title}',
-            '{$guardian_tel}',
-            '{$guardian_addr}'
-        )";
-        $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-    }
+    //     $sql = "replace into `" . $xoopsDB->prefix("scs_guardian") . "` (
+    //         `stu_id`,
+    //         `guardian_name`,
+    //         `guardian_sex`,
+    //         `guardian_title`,
+    //         `guardian_tel`,
+    //         `guardian_addr`
+    //     ) values(
+    //         '{$stu_id}',
+    //         '{$guardian_name}',
+    //         '{$guardian_sex}',
+    //         '{$guardian_title}',
+    //         '{$guardian_tel}',
+    //         '{$guardian_addr}'
+    //     )";
+    //     $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    // }
 
     //以流水號秀出某筆scs_guardian資料內容
-    public static function show($stu_id = '')
+    public static function show($stu_id = '', $school_year = '')
     {
         global $xoopsDB, $xoopsTpl;
 
@@ -127,7 +126,7 @@ class Scs_guardian
         } else {
             $stu_id = (int) $stu_id;
         }
-        Tools::chk_scs_power(__FILE__, __LINE__, 'show', $stu_id);
+        Tools::chk_scs_power(__FILE__, __LINE__, 'show', $stu_id, $school_year);
 
         $myts = \MyTextSanitizer::getInstance();
 
@@ -148,23 +147,23 @@ class Scs_guardian
     }
 
     //更新scs_guardian某一筆資料
-    public static function update($stu_id = '', $data = [], $check = true, $pass_empty = true)
+    public static function update($stu_id = '', $school_year = '', $data = [], $check = true, $pass_empty = true)
     {
         global $xoopsDB, $xoopsUser;
 
         //XOOPS表單安全檢查
         if ($check) {
-            Tools::chk_scs_power(__FILE__, __LINE__, 'update', $stu_id);
+            Tools::chk_scs_power(__FILE__, __LINE__, 'update', $stu_id, $school_year);
             Utility::xoops_security_check();
         }
 
-        $myts = \MyTextSanitizer::getInstance();
+        $myts        = \MyTextSanitizer::getInstance();
         $update_item = [];
         foreach ($data as $col => $val) {
             if (empty($val) and $pass_empty) {
                 continue;
             }
-            $$col = $val = $myts->addSlashes($val);
+            $$col          = $val          = addslashes($val);
             $update_item[] = "`$col` = '{$val}'";
         }
         $update_sql = implode(', ', $update_item);
@@ -192,16 +191,16 @@ class Scs_guardian
     }
 
     //刪除scs_guardian某筆資料資料
-    public static function destroy($stu_id = '')
+    public static function destroy($stu_id = '', $school_year = '')
     {
         global $xoopsDB;
-        Tools::chk_scs_power(__FILE__, __LINE__, 'destroy', $stu_id);
+        Tools::chk_scs_power(__FILE__, __LINE__, 'destroy', $stu_id, $school_year);
 
         if (empty($stu_id)) {
             return;
         }
 
-        $sql = "insert into " . $xoopsDB->prefix("scs_guardian_del") . " select *
+        $sql = "replace into " . $xoopsDB->prefix("scs_guardian_del") . " select *
         from " . $xoopsDB->prefix("scs_guardian") . " where `stu_id` = '$stu_id'";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
@@ -223,7 +222,7 @@ class Scs_guardian
         $sql = "select * from `" . $xoopsDB->prefix("scs_guardian") . "`
         where `stu_id` = '{$stu_id}'";
         $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-        $data = $xoopsDB->fetchArray($result);
+        $data   = $xoopsDB->fetchArray($result);
         return $data;
     }
 
@@ -231,11 +230,11 @@ class Scs_guardian
     public static function get_all()
     {
         global $xoopsDB;
-        $sql = "select * from `" . $xoopsDB->prefix("scs_guardian") . "`";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql      = "select * from `" . $xoopsDB->prefix("scs_guardian") . "`";
+        $result   = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $data_arr = [];
         while ($data = $xoopsDB->fetchArray($result)) {
-            $stu_id = $data['stu_id'];
+            $stu_id            = $data['stu_id'];
             $data_arr[$stu_id] = $data;
         }
         return $data_arr;

@@ -1,12 +1,12 @@
 <h2 class="scs">「<{$stu.stu_name}>」個別輔導紀錄列表</h2>
 
 <div class="alert alert-info">
-    <{includeq file="$xoops_rootpath/modules/scs/templates/sub_year_grade_class_menu.tpl"}>
+    <{include file="$xoops_rootpath/modules/scs/templates/sub_year_grade_class_menu.tpl"}>
 </div>
 <div class="alert alert-success">
-    <{includeq file="$xoops_rootpath/modules/scs/templates/sub_consult_date_menu.tpl"}>
+    <{include file="$xoops_rootpath/modules/scs/templates/sub_consult_date_menu.tpl"}>
 </div>
-<{if $all_scs_consult}>
+<{if $all_scs_consult|default:false}>
 
     <div id="scs_consult_save_msg"></div>
 
@@ -48,7 +48,7 @@
 
         <tbody id="scs_consult_sort">
             <{foreach from=$all_scs_consult item=data}>
-                <{assign var=can_view value='show'|have_consult_power:$stu_id:$data.consult_id}>
+                <{assign var="can_view" value='show'|have_consult_power:$stu_id:$data.consult_id}>
                 <tr id="tr_<{$data.consult_id}>">
 
                         <!--會談日期-->
@@ -72,7 +72,7 @@
 
                         <!--主要原因-->
                         <td>
-                            <{if $can_view}>
+                            <{if $can_view|default:false}>
                                 <a href="<{$xoops_url}>/modules/scs/consult.php?stu_id=<{$data.stu_id}>&consult_id=<{$data.consult_id}>">
                                 <{$data.consult_reason}>
                                 </a>
@@ -89,7 +89,7 @@
 
                         <!--輔導者-->
                         <td>
-                            <{if $can_view}>
+                            <{if $can_view|default:false}>
                                 <a href="consult.php?consult_uid=<{$data.consult_uid}>"><{$data.consult_uid_name}></a>
                             <{else}>
                                 <{$data.consult_uid_name}>
@@ -97,7 +97,7 @@
                         </td>
                         <td nowrap>
                         <{if 'destroy'|have_consult_power:$data.stu_id:$data.consult_id}>
-                            <a href="javascript:scs_consult_destroy_func(<{$data.consult_id}>);" class="btn btn-sm btn-danger" title="<{$smarty.const._TAD_DEL}>"><i class="fa fa-trash-o"></i></a>
+                            <a href="javascript:scs_consult_destroy_func(<{$data.consult_id}>);" class="btn btn-sm btn-danger" title="<{$smarty.const._TAD_DEL}>"><i class="fa fa-trash"></i></a>
                         <{/if}>
                         <{if 'update'|have_consult_power:$data.stu_id:$data.consult_id}>
                             <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_edit&consult_id=<{$data.consult_id}>&stu_id=<{$data.stu_id}>" class="btn btn-sm btn-warning" title="<{$smarty.const._TAD_EDIT}>"><i class="fa fa-pencil"></i></a>
@@ -108,11 +108,11 @@
             <{/foreach}>
         </tbody>
     </table>
-    <{$bar}>
+    <{$bar|default:''}>
 <{else}>
     <div class="jumbotron text-center">
         <{if 'create'|have_consult_power:$stu_id}>
-            <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_create&stu_id=<{$stu_id}>" class="btn btn-primary">
+            <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_create&stu_id=<{$stu_id|default:''}>" class="btn btn-primary">
             <i class="fa fa-plus"></i> 新增輔導紀錄
             </a>
         <{else}>

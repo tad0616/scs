@@ -95,7 +95,7 @@
     <tr>
         <td class="c2">14.兄弟姊妹</td>
         <td class="z" colspan=3>
-            <{if $brother_sister}>
+            <{if $brother_sister|default:false}>
                 <table>
                 <tr>
                     <th>稱謂</th>
@@ -127,7 +127,7 @@
             <table class="no">
                 <tr>
                     <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
-                        <th class="s"><{$year}></th>
+                        <th class="s"><{$year|default:''}></th>
                         <td class="sv<{if $stage<=6}>6<{else}>3<{/if}>"><span class="my_value"><{$general.$stage.parental_relationship}></span></td>
                     <{/foreach}>
                 </tr>
@@ -140,7 +140,7 @@
             <table class="no">
                 <tr>
                     <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
-                        <th class="s"><{$year}></th>
+                        <th class="s"><{$year|default:''}></th>
                         <td class="sv<{if $stage<=6}>6<{else}>3<{/if}>"><span class="my_value"><{$general.$stage.family_atmosphere}></span></td>
                     <{/foreach}>
                 </tr>
@@ -153,7 +153,7 @@
             <table class="no">
                 <tr>
                     <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
-                        <th class="s"><{$year}></th>
+                        <th class="s"><{$year|default:''}></th>
                         <td class="sv<{if $stage<=6}>6<{else}>3<{/if}>">
                             <span class="my_label">父：</span>
                             <span class="my_value"><{$general.$stage.father_discipline}></span>
@@ -172,7 +172,7 @@
             <table class="no">
                 <tr>
                     <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
-                        <th class="s"><{$year}></th>
+                        <th class="s"><{$year|default:''}></th>
                         <td class="sv<{if $stage<=6}>6<{else}>3<{/if}>"><span class="my_value"><{$general.$stage.environment}></span></td>
                     <{/foreach}>
                 </tr>
@@ -185,7 +185,7 @@
             <table class="no">
                 <tr>
                     <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
-                        <th class="s"><{$year}></th>
+                        <th class="s"><{$year|default:''}></th>
                         <td class="sv<{if $stage<=6}>6<{else}>3<{/if}>"><span class="my_value"><{$general.$stage.accommodation}></span></td>
                     <{/foreach}>
                 </tr>
@@ -198,7 +198,7 @@
             <table class="no">
                 <tr>
                     <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
-                        <th class="s"><{$year}></th>
+                        <th class="s"><{$year|default:''}></th>
                         <td class="sv<{if $stage<=6}>6<{else}>3<{/if}>"><span class="my_value"><{$general.$stage.economic}></span></td>
                     <{/foreach}>
                 </tr>
@@ -211,7 +211,7 @@
             <table class="no">
                 <tr>
                     <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
-                        <th class="s"><{$year}></th>
+                        <th class="s"><{$year|default:''}></th>
                         <td class="sv<{if $stage<=6}>6<{else}>3<{/if}>">
                             <span class="my_value"><{$general.$stage.money}></span><span class="my_unit">元</span>
                             我覺得<span class="my_value"><{$general.$stage.feel}></span>

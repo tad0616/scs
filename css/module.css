@@ -1,6 +1,3 @@
-@import url("https://schoolweb.tn.edu.tw/uploads/fonts/woff2.css");
-@import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC|Noto+Serif+TC&display=swap");
-
 table.frame {
     width: auto;
     padding: 0px;
@@ -200,7 +197,7 @@ h2.scs{
     padding:6px; /* 離標題邊框距離 */
     text-align:left; /* 文字靠左 */
     font-weight:normal; /* 不要粗體 */
-    font-family: HanWangMingBlack, jf-openhuninn, 'Noto Sans TC', Mamelon; /* 字型 */
+    font-family: HanWangMingBlack, JfOpenhuninn, 'Noto Sans TC', Mamelon; /* 字型 */
     background: -webkit-linear-gradient(rgb(3, 86, 163), rgb(0, 3, 3)); /* 漸層顏色 */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

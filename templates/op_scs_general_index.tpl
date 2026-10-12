@@ -1,20 +1,20 @@
-<{if $all_scs_general}>
+<{if $all_scs_general|default:false}>
     <h2  class="scs">
-    <{$school_year}>學年度
-    <{if $stu_grade}>
-        <{$stu_grade}>年
+    <{$school_year|default:''}>學年度
+    <{if $stu_grade|default:false}>
+        <{$stu_grade|default:''}>年
     <{/if}>
-    <{if $stu_class}>
-        <{$stu_class}>班
+    <{if $stu_class|default:false}>
+        <{$stu_class|default:''}>班
     <{/if}>
-    所有學生（共 <{$total}> 人）
+    所有學生（共 <{$total|default:''}> 人）
     </h2>
 
     <div class="alert alert-info">
-        <{includeq file="$xoops_rootpath/modules/scs/templates/sub_year_grade_class_menu.tpl"}>
+        <{include file="$xoops_rootpath/modules/scs/templates/sub_year_grade_class_menu.tpl"}>
     </div>
 
-    <table class="table table-striped table-hover table-condensed table-bordered" style="background:white;">
+    <table class="table table-striped table-hover table-sm table-condensed table-bordered" style="background:white;">
         <thead>
             <tr class="info">
 
@@ -112,7 +112,7 @@
                         <{if 'index'|have_consult_power:$data.stu_id:$data.school_year:$data.stu_grade:$data.stu_class}>
                             <a href="<{$xoops_url}>/modules/scs/consult.php?op=scs_consult_index&stu_id=<{$data.stu_id}>" class="btn btn-sm btn-primary" title="<{$data.stu_name}>的個別輔導" data-toggle="tooltip"><i class="fa fa-heart" aria-hidden="true"></i></a>
                         <{/if}>
-                        <{if 'update'|have_scs_power:$data.stu_id}>
+                        <{if 'update'|have_scs_power:$data.stu_id:$data.school_year}>
                             <a href="<{$xoops_url}>/modules/scs/index.php?op=scs_students_edit&school_year=<{$data.school_year}>&stu_id=<{$data.stu_id}>" class="btn btn-sm btn-warning" title="編輯「<{$data.stu_name}>」綜合資料紀錄表" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
                         <{/if}>
                     </td>
@@ -131,9 +131,9 @@
         </div>
     <{/if}>
 
-    <{$bar}>
+    <{$bar|default:''}>
 <{else}>
-    <h2  class="scs">無任何資料</h2>
+    <h2  class="scs"><{$school_year|default:''}>學年度無任何資料</h2>
     <div class="jumbotron text-center">
         請先至臺南市學籍系統匯出所有學生資料，並於<a href="admin/main.php">後台進行匯入</a>。
         <{if 'create'|have_scs_power}>

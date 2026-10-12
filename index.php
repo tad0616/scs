@@ -35,31 +35,32 @@ require_once XOOPS_ROOT_PATH . '/header.php';
 if (!$xoopsUser) {
     redirect_header(XOOPS_URL, 3, '無權限');
 }
+Utility::test($_SESSION, 'session', 'dd');
 /*-----------功能函數區----------*/
 
 /*-----------變數過濾----------*/
-$op = Request::getString('op');
-$stu_id = !empty($_SESSION['stu_id']) ? (int) $_SESSION['stu_id'] : Request::getInt('stu_id');
-$school_year = Request::getInt('school_year');
-$parent_kind = Request::getString('parent_kind');
-$bs_relationship = Request::getString('bs_relationship');
-$files_sn = Request::getInt('files_sn');
-$stu_id_parent_kind = Request::getString('stu_id_parent_kind');
-$stu_id_school_year = Request::getString('stu_id_school_year');
+$op                     = Request::getString('op');
+$stu_id                 = !empty($_SESSION['stu_id']) ? (int) $_SESSION['stu_id'] : Request::getInt('stu_id');
+$school_year            = Request::getInt('school_year');
+$parent_kind            = Request::getString('parent_kind');
+$bs_relationship        = Request::getString('bs_relationship');
+$files_sn               = Request::getInt('files_sn');
+$stu_id_parent_kind     = Request::getString('stu_id_parent_kind');
+$stu_id_school_year     = Request::getString('stu_id_school_year');
 $stu_id_bs_relationship = Request::getString('stu_id_bs_relationship');
-$stu_grade = Request::getInt('stu_grade');
+$stu_grade              = Request::getInt('stu_grade');
 if ($stu_grade) {
     $_SESSION['stu_stage'] = ($stu_grade >= 7) ? '國中' : '國小';
-    $_SESSION['stages'] = ($stu_grade >= 7) ? ['七' => 7, '八' => 8, '九' => 9] : ['一' => 1, '二' => 2, '三' => 3, '四' => 4, '五' => 5, '六' => 6];
+    $_SESSION['stages']    = ($stu_grade >= 7) ? ['七' => 7, '八' => 8, '九' => 9] : ['一' => 1, '二' => 2, '三' => 3, '四' => 4, '五' => 5, '六' => 6];
 }
 
-$stu_class = Request::getInt('stu_class');
-$scs_students = Request::getArray('scs_students');
-$scs_general = Request::getArray('scs_general');
-$scs_parents = Request::getArray('scs_parents');
-$scs_guardian = Request::getArray('scs_guardian');
+$stu_class          = Request::getInt('stu_class');
+$scs_students       = Request::getArray('scs_students');
+$scs_general        = Request::getArray('scs_general');
+$scs_parents        = Request::getArray('scs_parents');
+$scs_guardian       = Request::getArray('scs_guardian');
 $scs_brother_sister = Request::getArray('scs_brother_sister');
-$class = Request::getString('class');
+$class              = Request::getString('class');
 
 if ($class and strpos($class, '-') !== false) {
     list($school_year, $stu_grade, $stu_class) = explode('-', $class);
@@ -70,11 +71,11 @@ switch ($op) {
 
     //刪除資料
     case 'scs_students_destroy':
-        Scs_brother_sister::destroy($stu_id);
-        Scs_guardian::destroy($stu_id);
-        Scs_parents::destroy($stu_id);
-        Scs_general::destroy($stu_id);
-        Scs_students::destroy($stu_id);
+        Scs_brother_sister::destroy($stu_id, $school_year);
+        Scs_guardian::destroy($stu_id, $school_year);
+        Scs_parents::destroy($stu_id, $school_year);
+        Scs_general::destroy($stu_id, $school_year);
+        Scs_students::destroy($stu_id, $school_year);
         Scs_consult::destroy($stu_id);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
@@ -83,12 +84,12 @@ switch ($op) {
     case 'scs_students_store':
     case 'scs_students_update':
         Utility::xoops_security_check();
-        $stu_id = Scs_students::update($stu_id, $scs_students, false, false);
+        $stu_id = Scs_students::update($stu_id, $school_year, $scs_students, false, false);
         if ($stu_id) {
-            Scs_general::update($stu_id, $scs_general, false, false);
-            Scs_parents::update($stu_id, $scs_parents, false, false);
-            Scs_guardian::update($stu_id, $scs_guardian, false, false);
-            Scs_brother_sister::update($stu_id, $scs_brother_sister, false);
+            Scs_general::update($stu_id, $school_year, $scs_general, false, false);
+            Scs_parents::update($stu_id, $school_year, $scs_parents, false, false);
+            Scs_guardian::update($stu_id, $school_year, $scs_guardian, false, false);
+            Scs_brother_sister::update($stu_id, $school_year, $scs_brother_sister, false);
             header("location: {$_SERVER['PHP_SELF']}?stu_id=$stu_id");
             exit;
         } else {
@@ -104,22 +105,22 @@ switch ($op) {
             if (!$edit_able) {
                 redirect_header($_SERVER['PHP_SELF'], 3, '尚未開放填寫');
             }
-            $readonly = 'readonly';
-            $edit_grade = [1 => 'readonly', 'readonly', 'readonly', 'readonly', 'readonly', 'readonly', 'readonly', 'readonly', 'readonly'];
-            $school_year = Tools::get_school_year();
-            $year_arr = Scs_general::get($stu_id, '', true);
-            $grade = $year_arr[$school_year];
+            $readonly           = 'readonly';
+            $edit_grade         = [1 => 'readonly', 'readonly', 'readonly', 'readonly', 'readonly', 'readonly', 'readonly', 'readonly', 'readonly'];
+            $school_year        = Tools::get_school_year();
+            $year_arr           = Scs_general::get($stu_id, '', true);
+            $grade              = $year_arr[$school_year];
             $edit_grade[$grade] = '';
         }
         $xoopsTpl->assign('readonly', $readonly);
         $xoopsTpl->assign('edit_grade', $edit_grade);
-
-        Scs_students::create($stu_id);
-        Scs_general::create($stu_id);
-        Scs_parents::create($stu_id);
-        Scs_guardian::create($stu_id);
-        Scs_brother_sister::create($stu_id);
+        Scs_students::create($stu_id, $school_year);
+        Scs_general::create($stu_id, $school_year);
+        Scs_parents::create($stu_id, $school_year);
+        Scs_guardian::create($stu_id, $school_year);
+        Scs_brother_sister::create($stu_id, $school_year);
         Tools::menu_option($stu_id, $school_year);
+        Utility::test($_SESSION, 'session', 'dd');
 
         $EasyResponsiveTabs = new EasyResponsiveTabs('#demoTab');
         $EasyResponsiveTabs->rander();
@@ -135,21 +136,21 @@ switch ($op) {
             if (!empty($_SESSION['scs_adm']) or !empty($_SESSION['counselor']) or !empty($_SESSION['tutor'])) {
                 $school_year = $school_year ? $school_year : Tools::get_school_year();
             } elseif (!empty($_SESSION['tea_class_arr'])) {
-                $school_year = Tools::get_school_year();
+                $school_year                               = Tools::get_school_year();
                 list($school_year, $stu_grade, $stu_class) = explode('-', $_SESSION['tea_class_arr'][$school_year]);
 
                 $_SESSION['stu_stage'] = ($stu_grade >= 7) ? '國中' : '國小';
-                $_SESSION['stages'] = ($stu_grade >= 7) ? ['七' => 7, '八' => 8, '九' => 9] : ['一' => 1, '二' => 2, '三' => 3, '四' => 4, '五' => 5, '六' => 6];
-                $stu_arr = Scs_general::get($stu_id);
-                if (!in_array($stu_arr[$stu_grade]['grade_class'], $_SESSION['tea_class_arr'])) {
+                $_SESSION['stages']    = ($stu_grade >= 7) ? ['七' => 7, '八' => 8, '九' => 9] : ['一' => 1, '二' => 2, '三' => 3, '四' => 4, '五' => 5, '六' => 6];
+                $stu_arr               = Scs_general::get($stu_id);
+                if (!in_array($stu_arr[$stu_grade]['grade_class'], (array) $_SESSION['tea_class_arr'])) {
                     redirect_header($_SERVER['PHP_SELF'], 3, "該學生並非您任教的學生，故無法管理。");
                 }
             }
-            Scs_general::show($stu_id);
-            Scs_students::show($stu_id);
-            Scs_parents::show($stu_id);
-            Scs_guardian::show($stu_id);
-            Scs_brother_sister::show($stu_id);
+            Scs_general::show($stu_id, $school_year);
+            Scs_students::show($stu_id, $school_year);
+            Scs_parents::show($stu_id, $school_year);
+            Scs_guardian::show($stu_id, $school_year);
+            Scs_brother_sister::show($stu_id, $school_year);
             Tools::menu_option($stu_id, $school_year);
 
             $op = 'scs_students_show';
@@ -157,7 +158,7 @@ switch ($op) {
             if (!empty($_SESSION['scs_adm']) or !empty($_SESSION['counselor']) or !empty($_SESSION['tutor'])) {
                 $school_year = $school_year ? $school_year : Tools::get_school_year();
             } elseif (!empty($_SESSION['tea_class_arr'])) {
-                $school_year = Tools::get_school_year();
+                $school_year                               = Tools::get_school_year();
                 list($school_year, $stu_grade, $stu_class) = explode('-', $_SESSION['tea_class_arr'][$school_year]);
             }
             Scs_general::index($school_year, $stu_grade, $stu_class);
@@ -170,7 +171,7 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu, false, $interface_icon));
 $xoopsTpl->assign('now_op', $op);
 $xoTheme->addStylesheet(XOOPS_URL . '/modules/scs/css/module.css');
 $xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/css/my-input.css');

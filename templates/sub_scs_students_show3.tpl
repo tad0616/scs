@@ -7,10 +7,10 @@
             <table class="no">
                 <tr>
                     <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
-                        <th class="s"><{$year}></th>
+                        <th class="s"><{$year|default:''}></th>
                         <td class="sv<{if $stage<=6}>6<{else}>3<{/if}>">
                             <{foreach from=$general.$stage.favorite_subject item=favorite_subject}>
-                                <span class="my_value"><{$favorite_subject}></span>
+                                <span class="my_value"><{$favorite_subject|default:''}></span>
                             <{/foreach}>
                         </td>
                     <{/foreach}>
@@ -24,10 +24,10 @@
             <table class="no">
                 <tr>
                     <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
-                        <th class="s"><{$year}></th>
+                        <th class="s"><{$year|default:''}></th>
                         <td class="sv<{if $stage<=6}>6<{else}>3<{/if}>">
                             <{foreach from=$general.$stage.difficult_subject item=difficult_subject}>
-                                <span class="my_value"><{$difficult_subject}></span>
+                                <span class="my_value"><{$difficult_subject|default:''}></span>
                             <{/foreach}>
                         </td>
                     <{/foreach}>
@@ -41,10 +41,10 @@
             <table class="no">
                 <tr>
                     <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
-                        <th class="s"><{$year}></th>
+                        <th class="s"><{$year|default:''}></th>
                         <td class="sv<{if $stage<=6}>6<{else}>3<{/if}>">
                             <{foreach from=$general.$stage.expertise item=expertise}>
-                                <span class="my_value"><{$expertise}></span>
+                                <span class="my_value"><{$expertise|default:''}></span>
                             <{/foreach}>
                         </td>
                     <{/foreach}>
@@ -58,10 +58,10 @@
             <table class="no">
                 <tr>
                     <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
-                        <th class="s"><{$year}></th>
+                        <th class="s"><{$year|default:''}></th>
                         <td class="sv<{if $stage<=6}>6<{else}>3<{/if}>">
                             <{foreach from=$general.$stage.interest item=interest}>
-                                <span class="my_value"><{$interest}></span>
+                                <span class="my_value"><{$interest|default:''}></span>
                             <{/foreach}>
                         </td>
                     <{/foreach}>
@@ -75,7 +75,7 @@
             <table class="no">
                 <tr>
                     <{foreach from=$smarty.session.stages key=year item=stage name=stages}>
-                        <th class="s"><{$year}></th>
+                        <th class="s"><{$year|default:''}></th>
                         <td class="sv<{if $stage<=6}>6<{else}>3<{/if}>">
                             <span class="my_label">社團：</span>
                             <span class="my_value"><{$general.$stage.club}></span>

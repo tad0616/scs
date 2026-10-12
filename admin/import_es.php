@@ -44,12 +44,12 @@ function scs_import_excel_es($school_year = '', $semester = '', $mode = 'scs_imp
     $stu_blood_arr = explode(';', $xoopsModuleConfig['stu_blood']);
 
     require XOOPS_ROOT_PATH . '/modules/tadtools/vendor/phpoffice/phpexcel/Classes/PHPExcel/IOFactory.php';
-    $reader = \PHPExcel_IOFactory::createReader('Excel2007');
+    $reader   = \PHPExcel_IOFactory::createReader('Excel2007');
     $PHPExcel = $reader->load($_FILES['userfile']['tmp_name']); // 檔案名稱
 
-    $sheet = $PHPExcel->getSheet(0); // 讀取第一個工作表(編號從 0 開始)
-    $highestRow = $sheet->getHighestRow(); // 取得總列數
-    $colString = $sheet->getHighestDataColumn();
+    $sheet         = $PHPExcel->getSheet(0); // 讀取第一個工作表(編號從 0 開始)
+    $highestRow    = $sheet->getHighestRow(); // 取得總列數
+    $colString     = $sheet->getHighestDataColumn();
     $highestColumn = \PHPExcel_Cell::columnIndexFromString($colString);
 
     $myts = MyTextSanitizer::getInstance();
@@ -57,21 +57,21 @@ function scs_import_excel_es($school_year = '', $semester = '', $mode = 'scs_imp
     for ($row = 3; $row <= $highestRow; $row++) {
         //讀取一列中的每一格
         for ($col = 0; $col < $highestColumn; $col++) {
-            $cell = $sheet->getCellByColumnAndRow($col, $row);
-            $val = $myts->addSlashes(get_value_of_cell($cell));
+            $cell             = $sheet->getCellByColumnAndRow($col, $row);
+            $val              = addslashes(get_value_of_cell($cell));
             $data[$row][$col] = $val;
             switch ($col) {
                 case '3':
                     // 年級
                     if (empty($students[1]['scs_general']['stu_grade'])) {
                         $students[1]['scs_general']['school_year'] = '學年度';
-                        $students[1]['scs_general']['fill_date'] = '填寫日';
-                        $students[1]['scs_general']['stu_grade'] = '年級';
+                        $students[1]['scs_general']['fill_date']   = '填寫日';
+                        $students[1]['scs_general']['stu_grade']   = '年級';
                     }
-                    $grade = $val;
+                    $grade                                                = $val;
                     $students[$row]['scs_general']['school_year'][$grade] = $school_year;
-                    $students[$row]['scs_general']['fill_date'][$grade] = '';
-                    $students[$row]['scs_general']['stu_grade'][$val] = $val;
+                    $students[$row]['scs_general']['fill_date'][$grade]   = '';
+                    $students[$row]['scs_general']['stu_grade'][$val]     = $val;
                     break;
                 case '4':
                     // 班級
@@ -127,7 +127,7 @@ function scs_import_excel_es($school_year = '', $semester = '', $mode = 'scs_imp
                     if (empty($students[1]['scs_students']['stu_blood'])) {
                         $students[1]['scs_students']['stu_blood'] = '血型';
                     }
-                    $val = in_array($val, $stu_blood_arr) ? $val : '';
+                    $val                                         = in_array($val, (array) $stu_blood_arr) ? $val : '';
                     $students[$row]['scs_students']['stu_blood'] = $val;
                     break;
                 case '16':
@@ -135,7 +135,7 @@ function scs_import_excel_es($school_year = '', $semester = '', $mode = 'scs_imp
                     if (empty($students[1]['scs_students']['stu_birth_place'])) {
                         $students[1]['scs_students']['stu_birth_place'] = '出生地';
                     }
-                    $val = str_replace('台', '臺', $val);
+                    $val                                               = str_replace('台', '臺', $val);
                     $students[$row]['scs_students']['stu_birth_place'] = $val;
                     break;
                 // case '26':
@@ -173,11 +173,11 @@ function scs_import_excel_es($school_year = '', $semester = '', $mode = 'scs_imp
                 case '20':
                     // 戶籍區
                     if (empty($students[1]['scs_students']['stu_residence_city'])) {
-                        $students[1]['scs_students']['stu_residence_zip'] = '郵遞區號';
+                        $students[1]['scs_students']['stu_residence_zip']  = '郵遞區號';
                         $students[1]['scs_students']['stu_residence_city'] = '戶籍鄉鎮市區';
                     }
 
-                    $students[$row]['scs_students']['stu_residence_zip'] = $zip_arr[$val];
+                    $students[$row]['scs_students']['stu_residence_zip']  = $zip_arr[$val];
                     $students[$row]['scs_students']['stu_residence_city'] = $val;
                     break;
                 case '21':
@@ -198,20 +198,20 @@ function scs_import_excel_es($school_year = '', $semester = '', $mode = 'scs_imp
                 case '24':
                     // 連絡縣市
                     if (empty($students[1]['scs_students']['stu_county'])) {
-                        $students[1]['scs_students']['stu_county'] = '通訊縣市';
+                        $students[1]['scs_students']['stu_county']        = '通訊縣市';
                         $students[1]['scs_students']['emergency_contact'] = '緊急聯絡人地址';
-                        $students[1]['scs_guardian']['guardian_addr'] = '監護人地址';
+                        $students[1]['scs_guardian']['guardian_addr']     = '監護人地址';
                     }
                     // $students[$row]['scs_students']['stu_zip'] = '';
-                    $students[$row]['scs_students']['stu_county'] = $val;
+                    $students[$row]['scs_students']['stu_county']                = $val;
                     $students[$row]['scs_students']['emergency_contact']['addr'] = $val;
-                    $students[$row]['scs_guardian']['guardian_addr'] = $val;
+                    $students[$row]['scs_guardian']['guardian_addr']             = $val;
                     break;
                 case '25':
                     // 連絡區
                     if (empty($students[1]['scs_students']['stu_city'])) {
                         $students[1]['scs_students']['stu_city'] = '通訊鄉鎮市區';
-                        $students[1]['scs_students']['stu_zip'] = '通訊郵遞區號';
+                        $students[1]['scs_students']['stu_zip']  = '通訊郵遞區號';
                     }
                     $students[$row]['scs_students']['stu_city'] .= $val;
                     $students[$row]['scs_students']['stu_zip'] = $zip_arr[$val];
@@ -321,10 +321,10 @@ function scs_import_excel_es($school_year = '', $semester = '', $mode = 'scs_imp
                     // 監護人關係
                     if (empty($students[1]['scs_guardian']['guardian_title'])) {
                         $students[1]['scs_guardian']['guardian_title'] = '監護人關係';
-                        $students[1]['scs_guardian']['guardian_sex'] = '監護人性別';
+                        $students[1]['scs_guardian']['guardian_sex']   = '監護人性別';
                     }
                     $students[$row]['scs_guardian']['guardian_title'] = $val;
-                    $students[$row]['scs_guardian']['guardian_sex'] = strpos($val, '父') !== false ? '男' : '女';
+                    $students[$row]['scs_guardian']['guardian_sex']   = strpos($val, '父') !== false ? '男' : '女';
                     break;
                 case '45':
                     // 緊急連絡人
@@ -346,7 +346,7 @@ function scs_import_excel_es($school_year = '', $semester = '', $mode = 'scs_imp
                         $val = "0{$val}";
                     }
                     $students[$row]['scs_parents']['父']['parent_company_tel'] = $val;
-                    $students[$row]['scs_students']['stu_tel1'] = $val;
+                    $students[$row]['scs_students']['stu_tel1']                 = $val;
 
                     break;
                 case '52':
@@ -373,7 +373,7 @@ function scs_import_excel_es($school_year = '', $semester = '', $mode = 'scs_imp
                         $val = "0{$val}";
                     }
                     $students[$row]['scs_parents']['父']['parent_phone'] = $val;
-                    $students[$row]['scs_students']['stu_tel2'] = $val;
+                    $students[$row]['scs_students']['stu_tel2']           = $val;
                     break;
                 // case '56':
                 //     // 家長1電子郵件
@@ -426,7 +426,7 @@ function scs_import_excel_es($school_year = '', $semester = '', $mode = 'scs_imp
                             $val = "0{$val}";
                         }
                         $students[$row]['scs_students']['emergency_contact']['tel'] = $val;
-                        $students[$row]['scs_students']['stu_tel1'] = $val;
+                        $students[$row]['scs_students']['stu_tel1']                 = $val;
                     }
                     break;
                 case '61':
@@ -449,7 +449,7 @@ function scs_import_excel_es($school_year = '', $semester = '', $mode = 'scs_imp
                             $val = "0{$val}";
                         }
                         $students[$row]['scs_students']['emergency_contact']['tel'] = $val;
-                        $students[$row]['scs_students']['stu_tel2'] = $val;
+                        $students[$row]['scs_students']['stu_tel2']                 = $val;
                     }
                     break;
                 case '63':
@@ -464,7 +464,7 @@ function scs_import_excel_es($school_year = '', $semester = '', $mode = 'scs_imp
     }
 
     if ($mode == 'scs_import_to_db_es') {
-        scs_import_to_db_es($students);
+        scs_import_to_db_es($students, $school_year);
 
     } else {
         $xoopsTpl->assign('school_year', $school_year);
@@ -493,7 +493,7 @@ function get_value_of_cell($cell = "")
     return $value;
 }
 
-function scs_import_to_db_es($students = [])
+function scs_import_to_db_es($students = [], $school_year)
 {
     $i = 0;
 
@@ -519,17 +519,16 @@ function scs_import_to_db_es($students = [])
         $stu = Scs_students::get('', $stud['stu_pid']);
 
         $stu_id = $stu['stu_id'];
-        $stu_id = Scs_students::update($stu_id, $stud, false);
-
+        $stu_id = Scs_students::update($stu_id, $school_year, $stud, false);
         if ($stu_id > 0) {
             // 學生學年度資料
-            Scs_general::update($stu_id, $student['scs_general'], false);
+            Scs_general::update($stu_id, $school_year, $student['scs_general'], false);
 
             // 學生家長資料
-            Scs_parents::update($stu_id, $student['scs_parents'], false);
+            Scs_parents::update($stu_id, $school_year, $student['scs_parents'], false);
 
             // 學生監護人資料
-            Scs_guardian::update($stu_id, $student['scs_guardian'], false);
+            Scs_guardian::update($stu_id, $school_year, $student['scs_guardian'], false);
             $i++;
         }
     }
@@ -537,11 +536,11 @@ function scs_import_to_db_es($students = [])
 }
 
 /*-----------變數過濾----------*/
-$op = Request::getString('op');
-$students = Request::getArray('students');
+$op          = Request::getString('op');
+$students    = Request::getArray('students');
 $school_year = Request::getInt('school_year');
-$semester = Request::getInt('semester');
-$mode = Request::getString('mode');
+$semester    = Request::getInt('semester');
+$mode        = Request::getString('mode');
 
 /*-----------執行動作判斷區----------*/
 switch ($op) {
@@ -551,7 +550,7 @@ switch ($op) {
         break;
 
     case 'scs_import_to_db_es':
-        scs_import_to_db_es($students);
+        scs_import_to_db_es($students, $school_year);
         exit;
 
     default:
